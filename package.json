@@ -28,6 +28,9 @@
   ],
   "cds": {
     "requires": {
+      "incidents-app": {
+        "model": "@capire/incidents"
+      },
       "[production]": {
         "db": {
           "kind": "hana-cloud"
