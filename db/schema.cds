@@ -54,4 +54,3 @@ entity Conversations : cuid, managed {
 
 type EMailAddress : String;
 type PhoneNumber  : String;
-type City         : String;
