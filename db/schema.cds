@@ -11,16 +11,7 @@ entity Customers : cuid, managed {
   lastName      : String;
   email         : EMailAddress;
   phone         : PhoneNumber;
-  creditCardNo  : String(16) @assert.format: '^[1-9]\d{15}$';
-  addresses     : Composition of many Addresses on addresses.customer = $self;
   incidents     : Association to many Incidents on incidents.customer = $self;
-}
-
-entity Addresses : cuid, managed {
-  customer      : Association to Customers;
-  city          : City;
-  postCode      : String;
-  streetAddress : String;
 }
 
 /**
@@ -63,4 +54,3 @@ entity Conversations : cuid, managed {
 
 type EMailAddress : String;
 type PhoneNumber  : String;
-type City         : String;
