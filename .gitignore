@@ -9,6 +9,9 @@ node_modules/
 target/
 dist/
 
+# NPM
+.npmrc
+
 # Web IDE, App Studio
 .che/
 .gen/
@@ -30,11 +33,9 @@ mta_archives/
 # .vscode
 # .idea
 
-
 # SAPUI5
 app/*/dist
 resources/
 
 # VitePress
 _docs/.vitepress/cache
-.npmrc
