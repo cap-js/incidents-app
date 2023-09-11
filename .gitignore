@@ -37,3 +37,4 @@ resources/
 
 # VitePress
 _docs/.vitepress/cache
+.npmrc
