@@ -29,11 +29,11 @@ Both add comments to a conversation.
 1. Clone the Incident Management application repository:
 
 ```sh
-git clone https://github.tools.sap/cap/incidents-mgmt
-cd incidents-mgmt
+git clone https://github.com/cap-js/incidents-app
+cd incidents-app
 ```
 
-Navigate to the project root folder and edit the value of `name` in `package.json` file to `incidents-mgmt`
+Navigate to the project root folder and edit the value of `name` in `package.json` file to `incidents-app`
 
 ```sh
 npm i
