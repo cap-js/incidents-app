@@ -11,7 +11,8 @@ entity Customers : cuid, managed {
   lastName      : String;
   email         : EMailAddress;
   phone         : PhoneNumber;
-  incidents     : Association to many Incidents on incidents.customer = $self;
+  incidents     : Composition of many Incidents
+                    on incidents.customer = $self;
 }
 
 /**
@@ -22,7 +23,8 @@ entity Incidents : cuid, managed {
   title         : String @title: 'Title';
   urgency       : Association to Urgency;
   status        : Association to Status;
-  conversations : Composition of many Conversations on conversations.incidents = $self;
+  conversations : Composition of many Conversations
+                    on conversations.incidents = $self;
 }
 
 entity Status : CodeList {
@@ -47,7 +49,7 @@ entity Urgency : CodeList {
 
 entity Conversations : cuid, managed {
   incidents : Association to Incidents;
-  timestamp : DateTime;
+  timestamp : DateTime @cds.on.insert: $now;
   author    : String @cds.on.insert: $user;
   message   : String;
 }

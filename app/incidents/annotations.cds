@@ -37,11 +37,6 @@ annotate service.Incidents with @(
             },
                  {
                 $Type : 'UI.DataField',
-                Value : ID,
-                Label : 'ID',
-            },
-            {
-                $Type : 'UI.DataField',
                 Value : customer_ID,
                 Label : '{i18n>Customer}',
             },
@@ -165,7 +160,7 @@ annotate service.Conversations with @(
         },{
             $Type : 'UI.DataField',
             Value : timestamp,
-            Label : '{i18n>Timestamp}',
+            Label : '{i18n>ConversationDate}',
         },{
             $Type : 'UI.DataField',
             Value : message,

@@ -43,7 +43,7 @@ describe('Draft Choreography APIs', () => {
       `/odata/v4/processors/Incidents(ID=${draftId},IsActiveEntity=false)/ProcessorsService.draftActivate`
     );
     expect(response.status).to.eql(201);
-    expect(response.data.urgency.code).to.eql('H');
+    expect(response.data.urgency_code).to.eql('H');
   });
 
   it('+ Test the incident status', async () => {
