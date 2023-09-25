@@ -61,7 +61,9 @@ npm t
  4. When you are prompted to authenticate, use the following credentials:
  
     - Username: `incident.support@tester.sap.com`
-    - Password: `initial` 
+    - Password: `initial`
+   
+    Alternatively, `bob` or `alice` can be used as well. They both hold the required `support` role to execute the app.
     
     **Note:** if you get the 403 Forbidden Error and the popup doesn't show, try to open a browsen in an incognito mode or clear the browser cache.
 
@@ -73,7 +75,7 @@ Follow these steps to deploy the application in the resepective runtime:
 - [Deploy incident management app to SAP BTP Cloud Foundry Runtime](https://pages.github.tools.sap/cap/golden-path/deploy/to-cf)
 - [Deploy incident management app to SAP BTP Kyma Runtime](https://pages.github.tools.sap/cap/golden-path/deploy/to-k8s)
 
-## Golden Path Guidance for SAP BTP
+## SAP BTP Developer Guide
 
 The Incident Management application is used as a reference for the SAP BTP Developer guidance. The SAP BTP Developer Guide provides a curated learning journey and best practices for Pro Code developers. The tutorials will walk you through selected guides of the guide with the goal to build and deploy a full-stack application.
 
