@@ -2,12 +2,12 @@
 
 ## Overview
 
-Welcome to the Incident Management reference sample application for CAP and development recommendations provided by Golden Path.  
+Welcome to the Incident Management reference sample application for CAP and development recommendations provided by the SAP BTP Developer Guide.  
 This sample application has already been shown at these events:
 
-- [TechEd keynote demo 2019](https://github.wdf.sap.corp/teched2019-extensions/teched2019-keynote)
+- TechEd keynote demo 2019
 - [TechEd hands-on sessions 2022](https://github.com/SAP-samples/teched2022-AD264/wiki)
-- [Demo in d-com Keynote 2023](https://github.tools.sap/D053371/dcom23-incident-mgmt)
+- at the recap conference 2023
 
 ## Business Scenario
 
@@ -75,6 +75,6 @@ Follow these steps to deploy the application in the resepective runtime:
 
 ## Golden Path Guidance for SAP BTP
 
-The Incident Management application is used as a reference for the Golden Path guidance. The Golden Path guidance provides a curated learning journey and best practices for Pro Code developers. The Golden Path Beginner's tutorial walks you through selected guides of the Golden Path documentation with the goal to build and deploy a full-stack application. Refer to the [Golden Path Beginner's Tutorial](https://pages.github.tools.sap/cap/golden-path/bootstrap/beginner-tutorial) for more information.
+The Incident Management application is used as a reference for the SAP BTP Developer guidance. The SAP BTP Developer Guide provides a curated learning journey and best practices for Pro Code developers. The tutorials will walk you through selected guides of the guide with the goal to build and deploy a full-stack application.
 
 
