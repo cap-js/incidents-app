@@ -2,12 +2,12 @@
 
 ## Overview
 
-Welcome to the Incident Management reference sample application for CAP and development recommendations provided by Golden Path.  
+Welcome to the Incident Management reference sample application for CAP and development recommendations provided by the SAP BTP Developer Guide.  
 This sample application has already been shown at these events:
 
-- [TechEd keynote demo 2019](https://github.wdf.sap.corp/teched2019-extensions/teched2019-keynote)
+- TechEd keynote demo 2019
 - [TechEd hands-on sessions 2022](https://github.com/SAP-samples/teched2022-AD264/wiki)
-- [Demo in d-com Keynote 2023](https://github.tools.sap/D053371/dcom23-incident-mgmt)
+- at the recap conference 2023
 
 ## Business Scenario
 
@@ -61,7 +61,9 @@ npm t
  4. When you are prompted to authenticate, use the following credentials:
  
     - Username: `incident.support@tester.sap.com`
-    - Password: `initial` 
+    - Password: `initial`
+   
+    Alternatively, `bob` or `alice` can be used as well. They both hold the required `support` role to execute the app.
     
     **Note:** if you get the 403 Forbidden Error and the popup doesn't show, try to open a browsen in an incognito mode or clear the browser cache.
 
@@ -73,8 +75,8 @@ Follow these steps to deploy the application in the resepective runtime:
 - [Deploy incident management app to SAP BTP Cloud Foundry Runtime](https://pages.github.tools.sap/cap/golden-path/deploy/to-cf)
 - [Deploy incident management app to SAP BTP Kyma Runtime](https://pages.github.tools.sap/cap/golden-path/deploy/to-k8s)
 
-## Golden Path Guidance for SAP BTP
+## SAP BTP Developer Guide
 
-The Incident Management application is used as a reference for the Golden Path guidance. The Golden Path guidance provides a curated learning journey and best practices for Pro Code developers. The Golden Path Beginner's tutorial walks you through selected guides of the Golden Path documentation with the goal to build and deploy a full-stack application. Refer to the [Golden Path Beginner's Tutorial](https://pages.github.tools.sap/cap/golden-path/bootstrap/beginner-tutorial) for more information.
+The Incident Management application is used as a reference for the SAP BTP Developer guidance. The SAP BTP Developer Guide provides a curated learning journey and best practices for Pro Code developers. The tutorials will walk you through selected guides of the guide with the goal to build and deploy a full-stack application.
 
 
