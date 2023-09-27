@@ -11,8 +11,7 @@ entity Customers : cuid, managed {
   lastName      : String;
   email         : EMailAddress;
   phone         : PhoneNumber;
-  incidents     : Composition of many Incidents
-                    on incidents.customer = $self;
+  incidents     : Association to many Incidents on incidents.customer = $self;
 }
 
 /**
