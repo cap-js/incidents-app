@@ -7,7 +7,7 @@
 |**Generation Platform**<br>Visual Studio Code|
 |**Template Used**<br>List Report Page V4|
 |**Service Type**<br>Local Cap|
-|**Service URL**<br>http://localhost:4004/processors/
+|**Service URL**<br>http://localhost:4004/processor/
 |**Module Name**<br>incidents|
 |**Application Title**<br>Incident-Management|
 |**Namespace**<br>ns|

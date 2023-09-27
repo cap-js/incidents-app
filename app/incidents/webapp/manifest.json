@@ -29,7 +29,7 @@
         },
         "dataSources": {
             "mainService": {
-                "uri": "/odata/v4/processors/",
+                "uri": "/odata/v4/processor/",
                 "type": "OData",
                 "settings": {
                     "annotations": [],
