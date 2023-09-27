@@ -4,8 +4,7 @@ class ProcessorsService extends cds.ApplicationService {
   /** Registering custom event handlers */
   init() {
     this.before("UPDATE", "Incidents", (req) => this.onUpdate(req));
-    this.after("READ", "Incidents", (data) => this.changeUrgencyDueToSubject(data));
-
+    this.before("CREATE", "Incidents", (req) => this.changeUrgencyDueToSubject(req.data));
     return super.init();
   }
 
@@ -14,7 +13,7 @@ class ProcessorsService extends cds.ApplicationService {
       const incidents = Array.isArray(data) ? data : [data];
       incidents.forEach((incident) => {
         if (incident.title?.toLowerCase().includes("urgent")) {
-          incident.urgency = { code: "H", descr: "high" };
+          incident.urgency = { code: "H", descr: "High" };
         }
       });
     }

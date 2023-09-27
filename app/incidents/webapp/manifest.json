@@ -17,16 +17,16 @@
         },
         "crossNavigation": {
             "inbounds": {
-              "intent1": {
-                "signature": {
-                  "parameters": {},
-                  "additionalParameters": "allowed"
-                },
-                "semanticObject": "Incidents",
-                "action": "display"
-              }
+                "intent1": {
+                    "signature": {
+                        "parameters": {},
+                        "additionalParameters": "allowed"
+                    },
+                    "semanticObject": "Incidents",
+                    "action": "display"
+                }
             }
-          },
+        },
         "dataSources": {
             "mainService": {
                 "uri": "/odata/v4/processors/",
@@ -106,11 +106,6 @@
                     "pattern": "Incidents({key}):?query:",
                     "name": "IncidentsObjectPage",
                     "target": "IncidentsObjectPage"
-                },
-                {
-                    "pattern": "Incidents({key})/conversations({key2}):?query:",
-                    "name": "ConversationsObjectPage",
-                    "target": "ConversationsObjectPage"
                 }
             ],
             "targets": {
@@ -148,13 +143,7 @@
                         "settings": {
                             "editableHeaderContent": false,
                             "entitySet": "Incidents",
-                            "navigation": {
-                                "conversations": {
-                                    "detail": {
-                                        "route": "ConversationsObjectPage"
-                                    }
-                                }
-                            },
+                            "navigation": {},
                             "controlConfiguration": {
                                 "conversations/@com.sap.vocabularies.UI.v1.LineItem#i18nConversations": {
                                     "tableSettings": {
@@ -165,17 +154,6 @@
                                     }
                                 }
                             }
-                        }
-                    }
-                },
-                "ConversationsObjectPage": {
-                    "type": "Component",
-                    "id": "ConversationsObjectPage",
-                    "name": "sap.fe.templates.ObjectPage",
-                    "options": {
-                        "settings": {
-                            "editableHeaderContent": false,
-                            "entitySet": "Conversations"
                         }
                     }
                 }
