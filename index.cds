@@ -1,2 +1,2 @@
-using from './srv/processors-service';
+using from './srv/processor-service';
 using from './app/incidents/annotations';
