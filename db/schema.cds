@@ -46,10 +46,10 @@ entity Urgency : CodeList {
       };
 }
 
-entity Conversations : cuid, managed {
+entity Conversations : cuid {
   incidents : Association to Incidents;
-  timestamp : DateTime @cds.on.insert: $now;
-  author    : String @cds.on.insert: $user;
+  timestamp : type of managed:createdAt;
+  author    : type of managed:createdBy;
   message   : String;
 }
 
