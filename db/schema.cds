@@ -22,8 +22,8 @@ entity Incidents : cuid, managed {
   title         : String @title: 'Title';
   urgency       : Association to Urgency;
   status        : Association to Status;
-  conversations : Composition of many Conversations
-                    on conversations.incidents = $self;
+  conversation : Composition of many Comments
+                    on conversation.incidents = $self;
 }
 
 entity Status : CodeList {
@@ -46,7 +46,7 @@ entity Urgency : CodeList {
       };
 }
 
-entity Conversations : cuid, managed {
+entity Comments : cuid {
   incidents : Association to Incidents;
   timestamp : DateTime @cds.on.insert: $now;
   author    : String @cds.on.insert: $user;

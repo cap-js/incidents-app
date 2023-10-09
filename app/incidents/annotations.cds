@@ -63,9 +63,9 @@ annotate service.Incidents with @(
         },
         {
             $Type : 'UI.ReferenceFacet',
-            Label : '{i18n>Conversations}',
+            Label : '{i18n>Conversation}',
             ID : 'i18nConversations',
-            Target : 'conversations/@UI.LineItem#i18nConversations',
+            Target : 'conversation/@UI.LineItem#i18nConversation',
         },
     ]
 );
@@ -151,7 +151,7 @@ annotate service.Customers with {
         ![@UI.TextArrangement] : #TextOnly,
     }
 };
-annotate service.Conversations with @(
+annotate service.Comments with @(
     UI.LineItem #i18nConversations : [
         {
             $Type : 'UI.DataField',
