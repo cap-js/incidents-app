@@ -145,12 +145,7 @@ annotate service.Incidents with {
         },
         Common.ValueListWithFixedValues : false
 )};
-annotate service.Customers with {
-    ID @Common.Text : {
-        $value : name,
-        ![@UI.TextArrangement] : #TextOnly,
-    }
-};
+
 annotate service.Conversations with @(
     UI.LineItem #i18nConversations : [
         {
