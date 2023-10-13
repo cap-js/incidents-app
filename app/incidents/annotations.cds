@@ -75,6 +75,10 @@ annotate service.Incidents with @(
         status_code,
     ]
 );
+
+annotate  sap.capire.incidents.Incidents with @Common.Label: '{i18n>Incidents}';
+annotate  sap.capire.incidents.Conversations with @Common.Label: '{i18n>Conversations}';
+
 annotate service.Incidents with {
     status @Common.Label : '{i18n>Status}'
 };
