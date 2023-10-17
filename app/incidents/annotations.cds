@@ -63,9 +63,8 @@ annotate service.Incidents with @(
         },
         {
             $Type : 'UI.ReferenceFacet',
-            Label : '{i18n>Conversations}',
-            ID : 'i18nConversations',
-            Target : 'conversations/@UI.LineItem#i18nConversations',
+            Label : '{i18n>Conversation}',
+            Target : 'conversation/@UI.LineItem',
         },
     ]
 );
@@ -146,8 +145,8 @@ annotate service.Incidents with {
         Common.ValueListWithFixedValues : false
 )};
 
-annotate service.Conversations with @(
-    UI.LineItem #i18nConversations : [
+annotate service.Incidents.conversation with @(
+    UI.LineItem : [
         {
             $Type : 'UI.DataField',
             Value : author,

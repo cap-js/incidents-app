@@ -1,0 +1,15 @@
+
+
+### Get all incidents
+GET http://localhost:4004/odata/v4/processor/Incidents
+Authorization: Basic alice:wonderland
+
+
+### Get all incidents with conversation
+GET http://localhost:4004/odata/v4/processor/Incidents?$expand=conversation
+Authorization: Basic alice:wonderland
+
+
+### Get all incidents with conversation
+GET http://localhost:4004/odata/v4/processor/Incidents_conversation
+Authorization: Basic alice:wonderland
