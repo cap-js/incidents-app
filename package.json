@@ -51,7 +51,7 @@
               "roles": ["support"]
             },
             "alice": {
-              "roles": ["support"]
+              "roles": ["support", "admin"]
             },
             "bob": {
               "roles": ["support"]
