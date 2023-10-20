@@ -63,7 +63,7 @@ npm t
     - Username: `incident.support@tester.sap.com`
     - Password: `initial`
    
-    Alternatively, `bob` or `alice` can be used as well. They both hold the required `support` role to execute the app. Additionally, `alice` is `admin`.
+    Alternatively, `bob` or `alice` can be used as well. They both hold the required `support` role to execute the app. In preparation for extensions, `alice` is additionally an `admin`.
     
     **Note:** if you get the 403 Forbidden Error and the popup doesn't show, try to open a browsen in an incognito mode or clear the browser cache.
 
