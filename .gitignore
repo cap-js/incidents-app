@@ -11,6 +11,7 @@ dist/
 
 # NPM
 .npmrc
+package-lock.json
 
 # Web IDE, App Studio
 .che/
