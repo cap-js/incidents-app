@@ -11,8 +11,17 @@ entity Customers : cuid, managed {
   lastName      : String;
   email         : EMailAddress;
   phone         : PhoneNumber;
+  creditCardNo  : String(16) @assert.format: '^[1-9]\d{15}$';
+  addresses     : Composition of many Addresses on addresses.customer = $self;
   incidents     : Association to many Incidents on incidents.customer = $self;
 }
+entity Addresses : cuid, managed {
+  customer      : Association to Customers;
+  city          : String;
+  postCode      : String;
+  streetAddress : String;
+}
+
 
 /**
  * Incidents created by Customers.
@@ -22,8 +31,7 @@ entity Incidents : cuid, managed {
   title         : String @title: 'Title';
   urgency       : Association to Urgency;
   status        : Association to Status;
-  conversations : Composition of many Conversations
-                    on conversations.incidents = $self;
+  conversations : Composition of many Conversations on conversations.incidents = $self;
 }
 
 entity Status : CodeList {
