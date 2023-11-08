@@ -12,7 +12,7 @@
 |**Application Title**<br>Incident-Management|
 |**Namespace**<br>ns|
 |**UI5 Theme**<br>sap_horizon|
-|**UI5 Version**<br>1.115.0|
+|**UI5 Version**<br>1.120.0|
 |**Enable Code Assist Libraries**<br>False|
 |**Enable TypeScript**<br>False|
 |**Add Eslint configuration**<br>False|
