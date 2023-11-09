@@ -72,8 +72,8 @@ npm t
 The code base in this repository can be deployed in both SAP BTP, Cloud Foundry runtime and SAP BTP, Kyma runtime.
 Follow these steps to deploy the application in the resepective runtime:
 
-- [Deploy incident management app to SAP BTP Cloud Foundry Runtime](https://pages.github.tools.sap/cap/golden-path/deploy/to-cf)
-- [Deploy incident management app to SAP BTP Kyma Runtime](https://pages.github.tools.sap/cap/golden-path/deploy/to-k8s)
+- [Deploy incident management app to SAP BTP Cloud Foundry Runtime](https://help.sap.com/docs/btp/btp-developers-guide/deploy-cap#deploy-in-cloud-foundry-runtime)
+- [Deploy incident management app to SAP BTP Kyma Runtime](https://help.sap.com/docs/btp/btp-developers-guide/deploy-cap#deploy-in-kyma-runtime)
 
 ## SAP BTP Developer Guide
 
