@@ -6,10 +6,7 @@ namespace sap.capire.incidents;
  * Customers using products sold by our company.
  * Customers can create support Incidents.
  */
-entity Customers : cuid, managed {
-  firstName     : String;
-  lastName      : String;
-  email         : EMailAddress;
+entity Customers : Users, managed {
   phone         : PhoneNumber;
   creditCardNo  : String(16) @assert.format: '^[1-9]\d{15}$';
   addresses     : Composition of many Addresses on addresses.customer = $self;
@@ -21,6 +18,11 @@ entity Addresses : cuid, managed {
   postCode      : String;
   streetAddress : String;
 }
+
+/**
+ * Supporters are users given the 'support' role.
+ */
+entity Supporters : Users, managed {}
 
 
 /**
@@ -59,6 +61,12 @@ entity Conversations : cuid, managed {
   timestamp : DateTime @cds.on.insert: $now;
   author    : String @cds.on.insert: $user;
   message   : String;
+}
+
+aspect Users {
+  key email     : EMailAddress;
+  firstName     : String;
+  lastName      : String;
 }
 
 type EMailAddress : String;
