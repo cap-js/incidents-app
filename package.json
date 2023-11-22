@@ -21,7 +21,7 @@
   "scripts": {
     "watch": "cds watch",
     "start": "cds-serve",
-    "test": "npx jest --silent"
+    "test": "npx cucumber-js test"
   },
   "private": true,
   "sapux": [
