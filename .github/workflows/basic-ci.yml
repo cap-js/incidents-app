@@ -2,8 +2,9 @@ name: "Basic CI"
 
 on:
   push:
-    branches: [ "main", "add_cucumber" ]
+    branches: [ main ]
   pull_request:
+    branches: [ main ]
 
 jobs:
   basic-bdd-tests:
