@@ -9,7 +9,7 @@
     "passport": "^0"
   },
   "devDependencies": {
-    "@cap-js-community/cds-cucumber": "^0.3.2",
+    "@cap-js-community/cds-cucumber": "^0.3",
     "@cap-js/sqlite": "^1.0.1",
     "@sap/ux-specification": "^1.108.4",
     "axios": "^1.4.0",
