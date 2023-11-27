@@ -3,7 +3,6 @@ using from '../../db/schema';
 
 annotate service.Customers with @title : '{i18n>Customer}';
 annotate service.Incidents with @title : '{i18n>Incident}';
-annotate service.Conversations with @title: '{i18n>Conversations}';
 
 annotate service.Incidents with @(
     UI.LineItem : [
@@ -150,22 +149,6 @@ annotate service.Incidents with {
         Common.ValueListWithFixedValues : false
 )};
 
-annotate service.Conversations with @(
-    UI.LineItem #i18nConversations : [
-        {
-            $Type : 'UI.DataField',
-            Value : author,
-            Label : '{i18n>Author}',
-        },{
-            $Type : 'UI.DataField',
-            Value : timestamp,
-            Label : '{i18n>ConversationDate}',
-        },{
-            $Type : 'UI.DataField',
-            Value : message,
-            Label : '{i18n>Message}',
-        },]
-);
 annotate service.Incidents with {
     status @Common.Text : status.descr
 };
