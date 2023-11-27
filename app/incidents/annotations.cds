@@ -67,9 +67,9 @@ annotate service.Incidents with @(
         },
         {
             $Type : 'UI.ReferenceFacet',
-            Label : '{i18n>Conversations}',
-            ID : 'i18nConversations',
-            Target : 'conversations/@UI.LineItem#i18nConversations',
+            Label : '{i18n>Conversation}',
+            ID : 'i18nConversation',
+            Target : 'conversation/@UI.LineItem#i18nConversation1',
         },
     ]
 );
@@ -178,3 +178,24 @@ annotate service.Incidents with {
         ![@UI.TextArrangement] : #TextOnly,
     }
 };
+annotate ProcessorService.Incidents.conversation with @(
+    UI.LineItem #i18nConversation : [
+    ]
+);
+annotate service.Incidents.conversation with @(
+    UI.LineItem #i18nConversation1 : [
+        {
+            $Type : 'UI.DataField',
+            Value : author,
+            Label : '{i18n>Author}',
+        },
+        {
+            $Type : 'UI.DataField',
+            Value : timestamp,
+            Label : '{i18n>ConversationDate}',
+        },{
+            $Type : 'UI.DataField',
+            Value : message,
+            Label : '{i18n>Message}',
+        },]
+);
