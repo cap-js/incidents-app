@@ -3,7 +3,6 @@ using from '../../db/schema';
 
 annotate service.Customers with @title : '{i18n>Customer}';
 annotate service.Incidents with @title : '{i18n>Incident}';
-annotate service.Conversations with @title: '{i18n>Conversations}';
 
 annotate service.Incidents with @(
     UI.LineItem : [
@@ -67,9 +66,9 @@ annotate service.Incidents with @(
         },
         {
             $Type : 'UI.ReferenceFacet',
-            Label : '{i18n>Conversations}',
-            ID : 'i18nConversations',
-            Target : 'conversations/@UI.LineItem#i18nConversations',
+            Label : '{i18n>Conversation}',
+            ID : 'i18nConversation',
+            Target : 'conversation/@UI.LineItem#i18nConversation1',
         },
     ]
 );
@@ -150,22 +149,6 @@ annotate service.Incidents with {
         Common.ValueListWithFixedValues : false
 )};
 
-annotate service.Conversations with @(
-    UI.LineItem #i18nConversations : [
-        {
-            $Type : 'UI.DataField',
-            Value : author,
-            Label : '{i18n>Author}',
-        },{
-            $Type : 'UI.DataField',
-            Value : timestamp,
-            Label : '{i18n>ConversationDate}',
-        },{
-            $Type : 'UI.DataField',
-            Value : message,
-            Label : '{i18n>Message}',
-        },]
-);
 annotate service.Incidents with {
     status @Common.Text : status.descr
 };
@@ -178,3 +161,24 @@ annotate service.Incidents with {
         ![@UI.TextArrangement] : #TextOnly,
     }
 };
+annotate ProcessorService.Incidents.conversation with @(
+    UI.LineItem #i18nConversation : [
+    ]
+);
+annotate service.Incidents.conversation with @(
+    UI.LineItem #i18nConversation1 : [
+        {
+            $Type : 'UI.DataField',
+            Value : author,
+            Label : '{i18n>Author}',
+        },
+        {
+            $Type : 'UI.DataField',
+            Value : timestamp,
+            Label : '{i18n>ConversationDate}',
+        },{
+            $Type : 'UI.DataField',
+            Value : message,
+            Label : '{i18n>Message}',
+        },]
+);
