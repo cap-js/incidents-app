@@ -9,6 +9,11 @@ on:
   pull_request:
     branches: [ "main" ]
 
+# Allow parallel jobs on `main` to test each commit. For PRs, only run on the latest commit.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
 jobs:
   build:
 
