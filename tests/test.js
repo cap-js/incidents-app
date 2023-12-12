@@ -118,6 +118,11 @@ describe('Draft Choreography APIs', () => {
     })
   })
 
+  it('- Delete the Draft', async () => {
+    const response = await DELETE(`/odata/v4/processor/Incidents(ID=${draftId},IsActiveEntity=false)`)
+    expect(response.status).to.eql(204)
+  })
+
   it('- Delete the Incident', async () => {
     const response = await DELETE(`/odata/v4/processor/Incidents(ID=${draftId},IsActiveEntity=true)`)
     expect(response.status).to.eql(204)
