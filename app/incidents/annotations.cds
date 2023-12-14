@@ -3,6 +3,7 @@ using from '../../db/schema';
 
 annotate service.Customers with @title : '{i18n>Customer}';
 annotate service.Incidents with @title : '{i18n>Incident}';
+annotate service.Incidents with @odata.draft.enabled;
 
 annotate service.Incidents with @(
     UI.LineItem : [

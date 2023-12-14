@@ -1,0 +1,20 @@
+@host = http://localhost:4004
+
+#####
+#
+# ProcessorService
+#
+
+### Access granted to alice due to existing policy
+GET {{host}}/odata/v4/processor/Incidents
+Authorization: Basic alice:wonderland
+
+### Access denied to bob due to missing policy
+GET {{host}}/odata/v4/processor/Incidents
+Authorization: Basic bob:builder
+
+
+### Troubleshooting
+# During `cds w samples/ams`, `@sap/ams-dev` generates DCL from `@restrict`/ `@requires` in *.cds into folder `samples/ams/ams`.
+# If this doesn't happen, your cds-dk may be in a location that `@sap/ams` doesn't expect (fix underway).
+# Temporary workaround: In the repo root, execute `npm i --no-save @sap/cds-dk` and run the sample via `npx cds w samples/ams`.
