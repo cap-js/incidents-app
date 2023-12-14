@@ -1,0 +1,3 @@
+default:
+  requireModule:
+    - "@cap-js-community/cds-cucumber"
