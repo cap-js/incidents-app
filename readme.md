@@ -12,13 +12,9 @@ The incidents are allways created on behalf of pre-registered customers by suppo
 
 
 
-## Prerequisites
-
-You prepared for CAP development as documented in capire's *[Getting Started > Jumpstart](https://cap.cloud.sap/docs/get-started/jumpstart)* page.
-
-
-
 ## Setup
+
+Assumed you prepared for CAP development as documented in capire's *[Getting Started > Jumpstart](https://cap.cloud.sap/docs/get-started/jumpstart)* page, ...
 
 Clone the repository and install dependencies:
 
