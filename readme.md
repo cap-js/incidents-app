@@ -14,7 +14,7 @@ The incidents are allways created on behalf of pre-registered customers by suppo
 
 ## Prerequisites
 
-You prepared for local development with CAP as documented in capire's *[Getting Started > Jumpstart](https://cap.cloud.sap/docs/get-started/jumpstart)* page.
+You prepared for CAP development as documented in capire's *[Getting Started > Jumpstart](https://cap.cloud.sap/docs/get-started/jumpstart)* page.
 
 
 
@@ -40,9 +40,8 @@ Run the application locally:
 ```sh
 cds watch
 ```
-Then open http://localhost:4004
-
-When prompted to authenticate, use `alice` as username (no password required).
+Then open http://localhost:4004 and navigate to [/incidents/webapp](http://localhost:4004/incidents/webapp/index.html). <br>
+(login as `alice`, no password required).
 
 <details>
     <summary> Troubleshooting </summary>
