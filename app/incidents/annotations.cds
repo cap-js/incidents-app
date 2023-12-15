@@ -162,11 +162,8 @@ annotate service.Incidents with {
         ![@UI.TextArrangement] : #TextOnly,
     }
 };
-annotate ProcessorService.Incidents.conversation with @(
-    UI.LineItem #i18nConversation : [
-    ]
-);
 annotate service.Incidents.conversation with @(
+    title : '{i18n>Conversation}',
     UI.LineItem #i18nConversation1 : [
         {
             $Type : 'UI.DataField',

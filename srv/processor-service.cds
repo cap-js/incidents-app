@@ -4,7 +4,7 @@ service ProcessorService @(requires:'support') {
 
   entity Incidents as projection on my.Incidents;
 
-  @readonly entity Customers as projection on my.Customers { *,
+  entity Customers @readonly as projection on my.Customers { *,
     firstName || ' ' || lastName as name: String
   };
 
