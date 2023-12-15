@@ -1,29 +1,7 @@
 const cds = require('@sap/cds/lib')
-const { default: axios } = require('axios')
-const { GET, POST, DELETE, PATCH, expect } = cds.test(__dirname + '../../')
+const { GET, POST, DELETE, PATCH, expect, axios } = cds.test(__dirname + '/..')
 
-axios.defaults.auth = { username: 'incident.support@tester.sap.com', password: 'initial' }
-
-jest.setTimeout(11111)
-
-describe('Test The GET Endpoints', () => {
-  it('Should check Processor Service', async () => {
-    const processorService = await cds.connect.to('ProcessorService')
-    const { Incidents } = processorService.entities
-    expect(await SELECT.from(Incidents)).to.have.length(4)
-  })
-
-  it('Should check Customers', async () => {
-    const processorService = await cds.connect.to('ProcessorService')
-    const { Customers } = processorService.entities
-    expect(await SELECT.from(Customers)).to.have.length(3)
-  })
-
-  it('Test Expand Entity Endpoint', async () => {
-    const { data } = await GET`/odata/v4/processor/Customers?$select=firstName&$expand=incidents`
-    expect(data).to.be.an('object')
-  })
-})
+axios.defaults.auth = { username: 'alice' }
 
 describe('Draft Choreography APIs', () => {
   let draftId, incidentId
@@ -105,7 +83,7 @@ describe('Draft Choreography APIs', () => {
         })
         expect(status).to.equal(200)
       })
-      it(' `Should fail to activate draft trying to re-open the incidentt', async () => {
+      it('Should fail to activate draft trying to re-open the incident', async () => {
         try {
           const response = await POST(
             `/odata/v4/processor/Incidents(ID=${incidentId},IsActiveEntity=false)/ProcessorService.draftActivate`

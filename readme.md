@@ -48,6 +48,8 @@ Then open http://localhost:4004 and navigate to [/incidents/webapp](http://local
 
 ## Test
 
+Run enclosed tests with:
+
 ```sh
 npm test
 ```
