@@ -11,6 +11,9 @@
     "dummy": 0
   },
   "dependencies": {
+    "@cap-js/audit-logging": "^0.4.0",
+    "@cap-js/change-tracking": "^1.0.3",
+    "@cap-js/notifications": "^0.1.0",
     "@sap/cds": ">=7",
     "express": "^4"
   },
@@ -27,21 +30,14 @@
     "start": "cds-serve",
     "test": "npx jest --silent"
   },
-  "private": true,
   "sapux": [
     "app/incidents"
   ],
   "cds": {
     "requires": {
-      "[development]": {
-        "auth": {
+      "auth": {
+        "[development]": {
           "users": {
-            "incident.support@tester.sap.com": {
-              "password": "initial",
-              "roles": [
-                "support"
-              ]
-            },
             "alice": {
               "roles": [
                 "support",
@@ -57,5 +53,6 @@
         }
       }
     }
-  }
+  },
+  "private": true
 }
