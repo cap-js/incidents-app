@@ -1,2 +1,2 @@
 // Dummy proxy to have the cds files here without errors
-using from '../processor-service';
+using from '../../srv/services';

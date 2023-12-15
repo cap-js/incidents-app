@@ -1,4 +1,4 @@
-using { ProcessorService } from './processor-service';
+using { ProcessorService } from './services';
 
 annotate ProcessorService.Incidents
 with {

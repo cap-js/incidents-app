@@ -28,7 +28,7 @@ class ProcessorService extends cds.ApplicationService {
   }
 }
 
-module.exports = ProcessorService
+module.exports = { ProcessorService }
 
 
 // ------------------------------------------------------------------------------------------------------------------------------------------------------------
