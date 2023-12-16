@@ -11,7 +11,7 @@
     "dummy": 0
   },
   "dependencies": {
-v c    "@sap/cds": ">=7",
+    "@sap/cds": ">=7",
     "express": "^4"
   },
   "devDependencies": {
