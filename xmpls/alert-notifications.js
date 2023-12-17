@@ -1,3 +1,4 @@
+const cds = require('@sap/cds')
 /**
  * Here we add handlers to the incidents app's ProcessorService
  * programatically send alert notifications.

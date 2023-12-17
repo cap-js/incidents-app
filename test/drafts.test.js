@@ -85,7 +85,7 @@ describe('Draft Choreography APIs', () => {
       })
       it('Should fail to activate draft trying to re-open the incident', async () => {
         try {
-          const response = await POST(
+          await POST(
             `/odata/v4/processor/Incidents(ID=${incidentId},IsActiveEntity=false)/ProcessorService.draftActivate`
           )
         } catch (error) {
