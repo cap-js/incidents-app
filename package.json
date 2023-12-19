@@ -5,16 +5,13 @@
     "@cap-js/audit-logging": "*",
     "@cap-js/change-tracking": "*",
     "@cap-js/notifications": "*",
+    "@cap-js/attachments": "*",
     "@cap-js/telemetry": "*",
     "@sap/ams": "*",
     "@sap/ams-dev": "*",
     "dummy": 0
   },
   "dependencies": {
-    "@cap-js/attachments": "^1.0.0",
-    "@cap-js/audit-logging": "^0.5.2",
-    "@cap-js/change-tracking": "^1.0.3",
-    "@cap-js/notifications": "^0.1.0",
     "@sap/cds": ">=7",
     "express": "^4"
   },
