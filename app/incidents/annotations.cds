@@ -1,8 +1,9 @@
-using ProcessorService as service from '../../srv/processor-service';
+using ProcessorService as service from '../../srv/services';
 using from '../../db/schema';
 
 annotate service.Customers with @title : '{i18n>Customer}';
 annotate service.Incidents with @title : '{i18n>Incident}';
+annotate service.Incidents with @odata.draft.enabled;
 
 annotate service.Incidents with @(
     UI.LineItem : [
@@ -161,11 +162,8 @@ annotate service.Incidents with {
         ![@UI.TextArrangement] : #TextOnly,
     }
 };
-annotate ProcessorService.Incidents.conversation with @(
-    UI.LineItem #i18nConversation : [
-    ]
-);
 annotate service.Incidents.conversation with @(
+    title : '{i18n>Conversation}',
     UI.LineItem #i18nConversation1 : [
         {
             $Type : 'UI.DataField',
