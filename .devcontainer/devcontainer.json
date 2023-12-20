@@ -1,0 +1,22 @@
+{
+  "name": "CAP Incident Management Reference App Dev Container",
+  "build": {
+    "dockerfile": "Dockerfile",
+    "args": { "VARIANT": "18" }
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "mechatroner.rainbow-csv",
+        "dbaeumer.vscode-eslint",
+        "sapse.vscode-cds",
+        "sapse.vsc-extension-odata-csdl-modeler",
+        "sapse.vscode-wing-cds-editor-vsc",
+        "saposs.xml-toolkit",
+        "humao.rest-client"
+      ]
+    }
+  },
+  "forwardPorts": [ 4004 ],
+  "remoteUser": "node"
+}
