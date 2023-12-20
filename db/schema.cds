@@ -9,7 +9,7 @@ namespace sap.capire.incidents;
 entity Customers : cuid, managed {
   firstName      : String;
   lastName       : String;
-  // name          : String = firstName || ' ' || lastName;
+  name           : String = firstName ||' '|| lastName;
   email          : EMailAddress;
   phone          : PhoneNumber;
   creditCardNo   : String(16) @assert.format: '^[1-9]\d{15}$';
