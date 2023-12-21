@@ -1,14 +1,12 @@
 # Incident Management
 
-Welcome to the Incident Management reference sample application for CAP and development recommendations provided by the SAP BTP Developer Guide.  
+Welcome to the Incident Management reference sample application for CAP and development recommendations provided by the SAP BTP Developer Guide.
 
 ## Domain Model
 
-The application allows customers to create incidents, processed by support team members. Both add comments to a conversation.
+The application support team members to create and process incidents on behalf of registered customers. The basic domain model is depicted below.
 
-![domain drawio](https://github.com/SAP-samples/cap-sample-incidents-mgmt/assets/12186013/a1de9cf1-1346-427d-b5a2-55a14428e8f5)
-
-The incidents are allways created on behalf of pre-registered customers by support personell, i.e., call center employees.
+![domain drawio](xmpls/schema.drawio.svg)
 
 
 
