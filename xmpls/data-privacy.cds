@@ -1,6 +1,6 @@
 using { sap.capire.incidents as my } from './services';
 
-annotate my.Customers with @PersonalData   : {
+annotate my.Customers with @PersonalData : {
   EntitySemantics: 'DataSubject',
   DataSubjectRole: 'Customer'
 } {
