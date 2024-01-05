@@ -28,6 +28,9 @@
     "start": "cds-serve",
     "test": "npx jest --silent"
   },
+  "jest": {
+    "modulePathIgnorePatterns": ["<rootDir>/xmpls/"]
+  },
   "sapux": [
     "app/incidents"
   ],
