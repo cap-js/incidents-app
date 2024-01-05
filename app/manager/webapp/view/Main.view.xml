@@ -1,0 +1,73 @@
+<mvc:View controllerName="ns.manager.controller.Main"
+    xmlns:mvc="sap.ui.core.mvc" displayBlock="true"
+    xmlns="sap.m"
+    xmlns:vbm="sap.ui.vbm"
+	xmlns:commons="sap.ui.commons"
+    >
+    <Page id="page" title="{i18n>title}">
+        <content>
+            <!-- <vbm:AnalyticMap id="vbi" width="100%" xmlns:l="sap.ui.layout"
+				height="100%" initialPosition="0;10;0">
+				<vbm:resources>
+					<vbm:Resource name="PinGreen.png"
+						src="test-resources/sap/ui/vbm/demokit/media/images/Green_Pin.png">
+					</vbm:Resource>
+					<vbm:Resource name="PinGrey.png"
+						src="test-resources/sap/ui/vbm/demokit/media/images/Grey_Pin.png">
+					</vbm:Resource>
+					<vbm:Resource name="PinOrange.png"
+						src="test-resources/sap/ui/vbm/demokit/media/images/Orange_Pin.png">
+					</vbm:Resource>
+					<vbm:Resource name="PinRed.png"
+						src="test-resources/sap/ui/vbm/demokit/media/images/Red_Pin.png">
+					</vbm:Resource>
+				</vbm:resources>
+				<vbm:vos>
+					<vbm:Spots items="{path: 'spotModel>/Spots'}">
+						<vbm:Spot position="{spotModel>pos}" tooltip="{spotModel>tooltip}" type="{spotModel>type}"
+							text="{spotModel>text}" labelText="{spotModel>label}" click="navToSpotStatus" />
+					</vbm:Spots>
+
+					<vbm:Spots id="eSpot" />
+				</vbm:vos>
+			</vbm:AnalyticMap> -->
+
+			<vbm:GeoMap id="Map" width="100%" height="100%" mapConfiguration='{
+                    "MapProvider": [{
+                            "name": "Openstreetmap",
+                            "copyright": "&lt;b&gt;&lt;a href=\"http://www.openstreetmap.org/copyright\"&gt;© openstreetmap&lt;/a&gt;&lt;/b&gt;",
+                            "Source": [{
+                                "id": "s1",
+                                "url": "http://a.tile.openstreetmap.org/{LOD}/{X}/{Y}.png"
+                            }, {
+                                "id": "s2",
+                                "url": "http://b.tile.openstreetmap.org/{LOD}/{X}/{Y}.png"
+                            }, {
+                                "id": "s3",
+                                "url": "http://c.tile.openstreetmap.org/{LOD}/{X}/{Y}.png"
+                        }]
+                    }],
+                    "MapLayerStacks": [{
+                        "name": "DEFAULT",
+                        "MapLayer": {
+                            "name": "layer1",
+                            "refMapProvider": "Openstreetmap",
+                            "opacity": "1",
+                            "colBkgnd": "RGB(255,255,255)"
+                        }
+                    }]
+                }' refMapLayerStack="DEFAULT" initialZoom="1" initialPosition="8.6433518;49.3038134;0">
+                <!-- <vbm:Spots id="MapSpots" items="{/Airports}">
+                    <vbm:Spot labelPos="5" position='{path: "Location", targetType: "any", mode : "OneTime", formatter: ".formatPosition"}'
+                        tooltip="{Name}" labelType="Default" labelText="{Name}"
+                        labelArrow="true">
+                    </vbm:Spot>
+                </vbm:Spots> -->
+                <vbm:Spots items="{path: 'spotModel>/Spots'}">
+						<vbm:Spot position="{spotModel>pos}" tooltip="{spotModel>tooltip}" type="{spotModel>type}"
+							text="{path: '/QuickViewIncidents/$count'}" labelText="{spotModel>label}" click="navToSpotStatus" />
+					</vbm:Spots>
+            </vbm:GeoMap>
+        </content>
+    </Page>
+</mvc:View>

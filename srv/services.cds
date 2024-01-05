@@ -15,3 +15,19 @@ service AdminService @(requires:'admin') {
   entity Customers as projection on my.Customers;
   entity Incidents as projection on my.Incidents;
 }
+
+service ManagerService {
+  entity Incidents as projection on my.Incidents;
+  entity QuickViewIncidents as select from my.Incidents, my.Incidents.conversation {
+    key Incidents.ID,
+    title,
+    customer.name as customer,
+    customer.email as email,
+    status.descr as status,
+    urgency.code as urgency,
+    createdAt,
+    count(Incidents.conversation.message) as comments: Integer
+
+  } where Incidents.conversation.ID = conversation.ID
+    group by Incidents.ID
+}

@@ -1,0 +1,18 @@
+{
+  "Spots": [
+    {
+      "pos": "8.641622;49.293696;0",
+      "tooltip": "Walldorf",
+      "type": "Error",
+      "label": "ACME, Walldorf",
+      "index": "1"
+    },
+    {
+      "pos": "77.714421;12.977788;0",
+      "tooltip": "Bangalore",
+      "type": "Error",
+      "label": "ACME, Bangalore",
+      "index": "2"
+    }
+  ]
+}
