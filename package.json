@@ -26,7 +26,9 @@
   "scripts": {
     "watch": "cds watch",
     "start": "cds-serve",
-    "test": "npx jest --silent"
+    "test": "npx jest --silent",
+    "add-change-tracking": "npm i @cap-js/change-tracking && cp xmpls/change-tracking.cds ./srv",
+    "reset": "echo 'run git reset --hard to reset the repository to the state of the main branch'"
   },
   "sapux": [
     "app/incidents"
