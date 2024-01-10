@@ -25,7 +25,7 @@
                 </items>
                 <content>
                     <f:GridList id="incidentList"
-                                items="{path: '/IncidentsQView', sorter: {path:'status', group: true, descending: true}}"
+                                items="{path: '/Incidents', sorter: {path:'status', group: true, descending: true}}"
                                 noDataText="No incidents">
                                 <f:customLayout>
                                     <cssgrid:GridBoxLayout xmlns:cssgrid="sap.ui.layout.cssgrid" boxesPerRowConfig="XL7 L4 M3 S1" />
