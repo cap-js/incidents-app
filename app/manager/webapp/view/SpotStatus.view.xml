@@ -25,14 +25,13 @@
                 </items>
                 <content>
                     <f:GridList id="incidentList"
-                                items="{path: '/QuickViewIncidents', sorter: {path:'status', group: true, descending: true}}"
-                                noDataText="No incidents"
-                                >
+                                items="{path: '/IncidentsQView', sorter: {path:'status', group: true, descending: true}}"
+                                noDataText="No incidents">
                                 <f:customLayout>
                                     <cssgrid:GridBoxLayout xmlns:cssgrid="sap.ui.layout.cssgrid" boxesPerRowConfig="XL7 L4 M3 S1" />
                                 </f:customLayout>
                         <f:items>
-                            <f:GridListItem type="Active" press=".navToSensorStatus" highlight="{path: 'urgency', formatter:'util.formatHighlightColor'}">
+                            <f:GridListItem type="Active" highlight="{path: 'urgency', formatter:'util.formatHighlightColor'}">
                                 <HBox justifyContent="SpaceBetween"
                                     class="sapUiSmallMargin">
                                     <VBox>
@@ -40,28 +39,19 @@
                                             text="{title}"
                                             wrapping="true"
                                         />
-                                            <!-- <ObjectStatus
-                                            
-                                            class="sapUiSmallMarginBottom"
-                                            title="Customer"
-                                            text="{incidents>customer_ID}"/> -->
                                             <Label text="{customer}" wrapping="true" />
                                             <Label text="{status}" wrapping="true" visible="false"/>
                                         <ObjectNumber
                                            
                                             unit="{path: 'createdAt', formatter: 'util.formatDaysAgo'}"/>
                                     </VBox>
-                                    <!-- <core:Icon
-                                        src="sap-icon://activity-items"
-                                        size="1.5rem"
-                                        /> -->
+
                                         <Button
                                             id="BadgedButton"
                                             class="sapUiTinyMarginBeginEnd"
                                             icon="sap-icon://comment"
                                             type="Default"
-                                            enabled="false"
-                                        >
+                                            enabled="false">
                                             <customData>
                                                 <BadgeCustomData
                                                     key="badge"

@@ -35,7 +35,7 @@
 
                 <vbm:Spots items="{path: 'spotModel>/Spots'}">
 						<vbm:Spot position="{spotModel>pos}" tooltip="{spotModel>tooltip}" type="{spotModel>type}"
-							text="{path: '/QuickViewIncidents/$count'}" labelText="{spotModel>label}" click="navToSpotStatus" />
+							text="{path: '/IncidentsQView/$count'}" labelText="{spotModel>label}" click="navToSpotStatus" />
 					</vbm:Spots>
             </vbm:GeoMap>
         </content>

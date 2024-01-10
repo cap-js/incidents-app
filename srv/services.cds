@@ -18,7 +18,7 @@ service AdminService @(requires:'admin') {
 
 service ManagerService {
   entity Incidents as projection on my.Incidents;
-  entity QuickViewIncidents as select from my.Incidents, my.Incidents.conversation {
+  entity IncidentsQView as select from my.Incidents, my.Incidents.conversation {
     key Incidents.ID,
     title,
     customer.name as customer,

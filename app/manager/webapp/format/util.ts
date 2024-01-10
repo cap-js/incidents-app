@@ -7,26 +7,19 @@ export enum Urgency {
 }
 
 export function formatHighlightColor(urgency: Urgency): MessageType {
-    // if (temperature < Threshold.Medium) {
-    //     return "#0984e3";
-    // } else if (temperature >= Threshold.Medium && temperature < Threshold.High) {
-    //     return IconColor.Critical;
-    // } else {
-    //     return IconColor.Negative;
-    // }
-    
-    if(urgency == Urgency.High)  return MessageType.Error;
-    else if(urgency === Urgency.Medium) return MessageType.Warning;
-    return MessageType.Information; 
-    
+
+    if (urgency === Urgency.High) return MessageType.Error;
+    else if (urgency === Urgency.Medium) return MessageType.Warning;
+    return MessageType.Information;
+
 }
 
 
 export function formatDaysAgo(createdAt: Date): String {
-   const today = new Date()
-   const since = new Date(createdAt)
-   const diff = Math.abs(since.getTime() - today.getTime());
-   const diffD = Math.ceil(diff / (1000 * 60 * 60 * 24));
-   if(diffD <=1) return `${diffD} day ago` 
-   return `${diffD} days ago` 
+    const today = new Date()
+    const since = new Date(createdAt)
+    const diff = Math.abs(since.getTime() - today.getTime());
+    const diffD = Math.ceil(diff / (1000 * 60 * 60 * 24));
+    if (diffD <= 1) return `${diffD} day ago`
+    return `${diffD} days ago`
 }
