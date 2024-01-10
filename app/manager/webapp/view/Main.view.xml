@@ -57,12 +57,7 @@
                         }
                     }]
                 }' refMapLayerStack="DEFAULT" initialZoom="1" initialPosition="8.6433518;49.3038134;0">
-                <!-- <vbm:Spots id="MapSpots" items="{/Airports}">
-                    <vbm:Spot labelPos="5" position='{path: "Location", targetType: "any", mode : "OneTime", formatter: ".formatPosition"}'
-                        tooltip="{Name}" labelType="Default" labelText="{Name}"
-                        labelArrow="true">
-                    </vbm:Spot>
-                </vbm:Spots> -->
+
                 <vbm:Spots items="{path: 'spotModel>/Spots'}">
 						<vbm:Spot position="{spotModel>pos}" tooltip="{spotModel>tooltip}" type="{spotModel>type}"
 							text="{path: '/QuickViewIncidents/$count'}" labelText="{spotModel>label}" click="navToSpotStatus" />
