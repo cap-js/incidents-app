@@ -6,31 +6,6 @@
     >
     <Page id="page" title="{i18n>title}">
         <content>
-            <!-- <vbm:AnalyticMap id="vbi" width="100%" xmlns:l="sap.ui.layout"
-				height="100%" initialPosition="0;10;0">
-				<vbm:resources>
-					<vbm:Resource name="PinGreen.png"
-						src="test-resources/sap/ui/vbm/demokit/media/images/Green_Pin.png">
-					</vbm:Resource>
-					<vbm:Resource name="PinGrey.png"
-						src="test-resources/sap/ui/vbm/demokit/media/images/Grey_Pin.png">
-					</vbm:Resource>
-					<vbm:Resource name="PinOrange.png"
-						src="test-resources/sap/ui/vbm/demokit/media/images/Orange_Pin.png">
-					</vbm:Resource>
-					<vbm:Resource name="PinRed.png"
-						src="test-resources/sap/ui/vbm/demokit/media/images/Red_Pin.png">
-					</vbm:Resource>
-				</vbm:resources>
-				<vbm:vos>
-					<vbm:Spots items="{path: 'spotModel>/Spots'}">
-						<vbm:Spot position="{spotModel>pos}" tooltip="{spotModel>tooltip}" type="{spotModel>type}"
-							text="{spotModel>text}" labelText="{spotModel>label}" click="navToSpotStatus" />
-					</vbm:Spots>
-
-					<vbm:Spots id="eSpot" />
-				</vbm:vos>
-			</vbm:AnalyticMap> -->
 
 			<vbm:GeoMap id="Map" width="100%" height="100%" mapConfiguration='{
                     "MapProvider": [{
