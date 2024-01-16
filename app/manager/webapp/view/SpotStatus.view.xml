@@ -28,7 +28,7 @@
                                 items="{path: '/Incidents', sorter: {path:'status', group: true, descending: true}}"
                                 noDataText="No incidents">
                                 <f:customLayout>
-                                    <cssgrid:GridBoxLayout xmlns:cssgrid="sap.ui.layout.cssgrid" boxesPerRowConfig="XL7 L4 M3 S1" />
+                                    <grid:GridBoxLayout xmlns:cssgrid="sap.ui.layout.cssgrid" boxesPerRowConfig="XL7 L4 M3 S1" />
                                 </f:customLayout>
                         <f:items>
                             <f:GridListItem type="Active" highlight="{path: 'urgency', formatter:'util.formatHighlightColor'}">

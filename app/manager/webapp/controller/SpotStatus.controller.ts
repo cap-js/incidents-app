@@ -19,13 +19,13 @@ export default class SpotStatus extends Controller {
     onFilterSelect(event: IconTabBar$SelectEvent): void {
 
         const listBinding = this.getView()?.byId("incidentList")?.getBinding("items") as ListBinding;
-        const key = (event.getParameter("key") as string);
+        const key = event.getParameter("key");
 
-        if (key === "L") {
+        if (key === Urgency.Low) {
             this.statusFilters = [new Filter("urgency", FilterOperator.EQ, Urgency.Low, false)];
-        } else if (key === "M") {
+        } else if (key === Urgency.Medium) {
             this.statusFilters = [new Filter("urgency", FilterOperator.EQ, Urgency.Medium, false)];
-        } else if (key === "H") {
+        } else if (key === Urgency.High) {
             this.statusFilters = [new Filter("urgency", FilterOperator.EQ, Urgency.High, false)];
         } else {
             this.statusFilters = [];
@@ -35,7 +35,7 @@ export default class SpotStatus extends Controller {
     }
 
     navToMain() {
-        (this.getOwnerComponent() as UIComponent).getRouter().navTo("RouteMain");
+        UIComponent.getRouterFor(this).navTo("RouteMain");
     }
 
 }
