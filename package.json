@@ -30,6 +30,7 @@
     "add-change-tracking": "npm i @cap-js/change-tracking && cp xmpls/change-tracking.cds ./srv",
     "add-telemetry": "npm i @cap-js/telemetry",
     "add-attachments": "npm i @cap-js/attachments && cp xmpls/attachments.cds ./srv",
+    "add-notifications": "npm i @cap-js/notifications && cp xmpls/alert-notifications.js ./srv && cp xmpls/notification-types.json ./srv",
     "reset": "read -p 'This will irreversibly reset your working directory including ALL files in this git repo. Continue?' -n 1 -r && echo && if [[ $REPLY =~ ^[Yy]$ ]]; then git clean -fd && git reset --hard && npm i; fi"
   },
   "sapux": [
