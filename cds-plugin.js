@@ -1,6 +1,4 @@
-const cds = require('@sap/cds')
-
-// Add routes to UIs from imported packages
+const cds = require("@sap/cds");
 cds.once('bootstrap', (app) => {
-  app.serve('/incidents').from('@capire/incidents', 'app/incidents/webapp')
+  app.serve('/incidents/app').from(__dirname,'/app/incidents/webapp')
 })

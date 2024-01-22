@@ -1,0 +1,18 @@
+# @host = https://<org>-<space>-calesi-telemetry-srv.cfapps.<landscape>.hana.ondemand.com
+@host = http://localhost:4004
+
+#####
+#
+# ProcessorService
+#
+
+GET {{host}}/odata/v4/processor/Incidents
+Authorization: Basic alice:wonderland
+
+#####
+#
+# AdminService
+#
+
+GET {{host}}/odata/v4/admin/Customers
+Authorization: Basic alice:wonderland
