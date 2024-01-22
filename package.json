@@ -28,7 +28,7 @@
     "start": "cds-serve",
     "test": "npx jest --silent",
     "add-change-tracking": "npm i @cap-js/change-tracking && cp xmpls/change-tracking.cds ./srv",
-    "reset": "echo 'run git reset --hard to reset the repository to the state of the main branch'"
+    "reset": "read -p 'This will irreversibly reset your working directory including ALL files in this git repo. Continue?' -n 1 -r && echo && if [[ $REPLY =~ ^[Yy]$ ]]; then git clean -fd && git reset --hard && npm i; fi"
   },
   "sapux": [
     "app/incidents"
