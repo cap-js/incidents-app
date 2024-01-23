@@ -21,12 +21,14 @@
     "axios": "^1.4.0",
     "chai": "^4.3.7",
     "chai-as-promised": "^7.1.1",
-    "chai-subset": "^1.6.0"
+    "chai-subset": "^1.6.0",
+    "cds-plugin-ui5": "^0.6.13"
   },
   "scripts": {
     "watch": "cds watch",
     "start": "cds-serve",
-    "test": "npx jest --silent"
+    "test": "npx jest --silent",
+    "watch-manager": "cds watch --open ns.manager/index.html?sap-ui-xx-viewCache=false --livereload false"
   },
   "sapux": [
     "app/incidents"
@@ -52,5 +54,8 @@
       }
     }
   },
-  "private": true
+  "private": true,
+  "workspaces": [
+    "app/*"
+  ]
 }

@@ -1,0 +1,73 @@
+<mvc:View
+    displayBlock="true"
+    controllerName="ns.manager.controller.SpotStatus"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:f="sap.f"
+    xmlns:grid="sap.ui.layout.cssgrid"
+    xmlns:core="sap.ui.core"
+    core:require="{
+        util: 'ns/manager/format/util'
+    }"
+    xmlns="sap.m">
+    <Page
+        id="SpotStatusPage"
+        title="{i18n>titleSpotStatus}"
+        showNavButton="true"
+        navButtonPress=".navToMain">
+        <content>
+            <IconTabBar id="iconTabBar" select=".onFilterSelect" class="sapUiResponsiveContentPadding">
+                <items>
+                    <IconTabFilter showAll="true" text="{i18n>msgFilterAll}" key="All"/>
+                    <IconTabSeparator/>
+                    <IconTabFilter icon="sap-icon://arrow-down" iconColor="Default" text="{i18n>msgFilterLow}" key="L"/>
+                    <IconTabFilter icon="sap-icon://system-exit-2" iconColor="Critical" text="{i18n>msgFilterMedium}" key="M"/>
+                    <IconTabFilter icon="sap-icon://warning" iconColor="Negative" text="{i18n>msgFilterHigh}" key="H"/>
+                </items>
+                <content>
+                    <f:GridList id="incidentList"
+                                items="{path: '/Incidents', sorter: {path:'status', group: true, descending: true}}"
+                                noDataText="No incidents">
+                                <f:customLayout>
+                                    <cssgrid:GridBoxLayout xmlns:cssgrid="sap.ui.layout.cssgrid" boxesPerRowConfig="XL7 L4 M3 S1" />
+                                </f:customLayout>
+                        <f:items>
+                            <f:GridListItem type="Active" highlight="{path: 'urgency', formatter:'util.formatHighlightColor'}">
+                                <HBox justifyContent="SpaceBetween"
+                                    class="sapUiSmallMargin">
+                                    <VBox>
+                                        <Title
+                                            text="{title}"
+                                            wrapping="true"
+                                        />
+                                            <Label text="{customer}" wrapping="true" />
+                                            <Label text="{status}" wrapping="true" visible="false"/>
+                                        <ObjectNumber
+                                           
+                                            unit="{path: 'createdAt', formatter: 'util.formatDaysAgo'}"/>
+                                    </VBox>
+
+                                        <Button
+                                            id="BadgedButton"
+                                            class="sapUiTinyMarginBeginEnd"
+                                            icon="sap-icon://comment"
+                                            type="Default"
+                                            enabled="false">
+                                            <customData>
+                                                <BadgeCustomData
+                                                    key="badge"
+                                                    value="{comments}"
+                                                    visible="true"/>
+                                            </customData>
+                                        </Button>
+                                </HBox>
+                            </f:GridListItem>
+                        </f:items>
+                        <f:noData>
+                            <IllustratedMessage enableVerticalResponsiveness="true" illustrationType="sapIllus-EmptyList"/>
+                        </f:noData>
+                    </f:GridList>
+                </content>
+            </IconTabBar>
+        </content>
+    </Page>
+</mvc:View>

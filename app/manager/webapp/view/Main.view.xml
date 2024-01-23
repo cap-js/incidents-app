@@ -1,0 +1,43 @@
+<mvc:View controllerName="ns.manager.controller.Main"
+    xmlns:mvc="sap.ui.core.mvc" displayBlock="true"
+    xmlns="sap.m"
+    xmlns:vbm="sap.ui.vbm"
+	xmlns:commons="sap.ui.commons"
+    >
+    <Page id="page" title="{i18n>title}">
+        <content>
+
+			<vbm:GeoMap id="Map" width="100%" height="100%" mapConfiguration='{
+                    "MapProvider": [{
+                            "name": "Openstreetmap",
+                            "copyright": "&lt;b&gt;&lt;a href=\"http://www.openstreetmap.org/copyright\"&gt;© openstreetmap&lt;/a&gt;&lt;/b&gt;",
+                            "Source": [{
+                                "id": "s1",
+                                "url": "http://a.tile.openstreetmap.org/{LOD}/{X}/{Y}.png"
+                            }, {
+                                "id": "s2",
+                                "url": "http://b.tile.openstreetmap.org/{LOD}/{X}/{Y}.png"
+                            }, {
+                                "id": "s3",
+                                "url": "http://c.tile.openstreetmap.org/{LOD}/{X}/{Y}.png"
+                        }]
+                    }],
+                    "MapLayerStacks": [{
+                        "name": "DEFAULT",
+                        "MapLayer": {
+                            "name": "layer1",
+                            "refMapProvider": "Openstreetmap",
+                            "opacity": "1",
+                            "colBkgnd": "RGB(255,255,255)"
+                        }
+                    }]
+                }' refMapLayerStack="DEFAULT" initialZoom="1" initialPosition="8.6433518;49.3038134;0">
+
+                <vbm:Spots items="{path: 'spotModel>/Spots'}">
+						<vbm:Spot position="{spotModel>pos}" tooltip="{spotModel>tooltip}" type="{spotModel>type}"
+							text="{path: '/Incidents/$count'}" labelText="{spotModel>label}" click="navToSpotStatus" />
+					</vbm:Spots>
+            </vbm:GeoMap>
+        </content>
+    </Page>
+</mvc:View>
