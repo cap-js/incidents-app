@@ -12,7 +12,6 @@
     "dummy": 0
   },
   "dependencies": {
-    "@cap-js/attachments": "file:attachments",
     "@sap/cds": ">=7",
     "express": "^4"
   },
