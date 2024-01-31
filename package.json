@@ -29,6 +29,7 @@
     "test": "npx jest --silent",
     "add-change-tracking": "npm add @cap-js/change-tracking && cp xmpls/change-tracking.cds ./srv",
     "add-telemetry": "npm add @cap-js/telemetry",
+    "clone-and-add-attachments": "git clone https://github.com/cap-js/attachments.git && npm add ./attachments && npm run add-attachments",
     "add-attachments": "npm add @cap-js/attachments && cp -r xmpls/attachments .",
     "add-notifications": "npm add @cap-js/notifications && cp xmpls/alert-notifications.js ./srv && cp xmpls/notification-types.json ./srv",
     "add-audit-log": "npm add @cap-js/audit-logging && cp xmpls/data-privacy.cds ./srv",
