@@ -12,6 +12,7 @@
     "dummy": 0
   },
   "dependencies": {
+    "@cap-js/attachments": "file:attachments",
     "@sap/cds": ">=7",
     "express": "^4"
   },
@@ -30,7 +31,7 @@
     "add-change-tracking": "npm add @cap-js/change-tracking && cp xmpls/change-tracking.cds ./srv",
     "add-telemetry": "npm add @cap-js/telemetry",
     "clone-and-add-attachments": "git clone https://github.com/cap-js/attachments.git && npm add ./attachments && npm run add-attachments",
-    "add-attachments": "cp -r xmpls/attachments .",
+    "add-attachments": "cp -r xmpls/attachments/ ./",
     "add-notifications": "npm add @cap-js/notifications && cp xmpls/alert-notifications.js ./srv && cp xmpls/notification-types.json ./srv",
     "add-audit-log": "npm add @cap-js/audit-logging && cp xmpls/data-privacy.cds ./srv",
     "reset": "read -p 'This will irreversibly reset your working directory including ALL files in this git repo. Continue?' -n 1 -r && echo && if [[ $REPLY =~ ^[Yy]$ ]]; then git clean -fd && git reset --hard && npm i; fi"
