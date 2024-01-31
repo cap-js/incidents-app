@@ -1,5 +1,5 @@
 
-using { sap.capire.incidents as my } from '@capire/incidents/db/schema';
+using { sap.capire.incidents as my } from './schema';
 using { Image, Attachments } from '@cap-js/attachments';
 
 extend my.Incidents with {
