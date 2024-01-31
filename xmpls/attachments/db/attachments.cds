@@ -1,7 +1,11 @@
 
-using { sap.capire.incidents.Incidents } from '../app/services';
-using { Attachments } from '@cap-js/attachments';
+using { sap.capire.incidents as my } from '@capire/incidents/db/schema';
+using { Image, Attachments } from '@cap-js/attachments';
 
-extend Incidents with {
-  attachments: Composition of many Attachments
+extend my.Incidents with {
+  attachments: Composition of many Attachments;
+}
+
+extend my.Customers with {
+  avatar: Image;
 }
