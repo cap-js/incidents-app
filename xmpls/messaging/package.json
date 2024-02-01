@@ -53,12 +53,6 @@
                 "auth": {
                     "kind": "mocked",
                     "users": {
-                        "incident.support@tester.sap.com": {
-                            "password": "initial",
-                            "roles": [
-                                "support"
-                            ]
-                        },
                         "alice": {
                             "roles": [
                                 "support"

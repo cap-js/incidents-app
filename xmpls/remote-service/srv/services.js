@@ -8,6 +8,7 @@ class ProcessorService extends cds.ApplicationService {
     this.on('READ', 'Customers', (req) => this.onCustomerRead(req));
     this.on(['CREATE','UPDATE'], 'Incidents', (req, next) => this.onCustomerCache(req, next));
     this.S4bupa = await cds.connect.to('API_BUSINESS_PARTNER');
+    this.remoteService = await cds.connect.to('RemoteService');
     return super.init();
   }
 
@@ -15,7 +16,7 @@ class ProcessorService extends cds.ApplicationService {
     const { Customers } = this.entities;
     const newCustomerId = req.data.customer_ID;
     const result = await next();
-    const { BusinessPartner } = this.entities;
+    const { BusinessPartner } = this.remoteService.entities;
     if (newCustomerId && (newCustomerId !== "") && ((req.event == "CREATE") || (req.event == "UPDATE"))) {
       console.log('>> CREATE or UPDATE customer!');
 
@@ -94,4 +95,4 @@ class ProcessorService extends cds.ApplicationService {
       return req.reject(`Can't modify a closed incident`);
   }
 }
-module.exports = ProcessorService;
+module.exports = { ProcessorService }

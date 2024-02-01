@@ -12,6 +12,7 @@ class ProcessorService extends cds.ApplicationService {
     this.on('READ', 'Customers', (req) => this.onCustomerRead(req));
     this.on(['CREATE','UPDATE'], 'Incidents', (req, next) => this.onCustomerCache(req, next));
     this.S4bupa = await cds.connect.to('API_BUSINESS_PARTNER');
+    this.remoteService = await cds.connect.to("RemoteService");
 
     // Added Handlers for Eventing on top of remote service sample
     this.messaging = await cds.connect.to('messaging');
@@ -20,7 +21,8 @@ class ProcessorService extends cds.ApplicationService {
   }
 
   async onBusinessPartnerChanged(event, data){
-    const {Customers, BusinessPartnerAddress, EmailAddress} = this.entities;
+    const {Customers} = this.entities;
+    const {BusinessPartnerAddress} = this.remoteService.entities;
     console.log('<< received', event, data)
     const Id = data.BusinessPartner;
     const customer =  await this.S4bupa.run(SELECT.one(BusinessPartnerAddress, address => {
@@ -39,7 +41,7 @@ class ProcessorService extends cds.ApplicationService {
     const { Customers } = this.entities;
     const newCustomerId = req.data.customer_ID;
     const result = await next();
-    const { BusinessPartner } = this.entities;
+    const { BusinessPartner } = this.remoteService.entities;
     if (newCustomerId && (newCustomerId !== "") && ((req.event == "CREATE") || (req.event == "UPDATE"))) {
       console.log('>> CREATE or UPDATE customer!');
 
@@ -74,7 +76,7 @@ class ProcessorService extends cds.ApplicationService {
     const top = parseInt(req._queryOptions?.$top) || 100;
     const skip = parseInt(req._queryOptions?.$skip) || 0;
   
-    const { BusinessPartner } = this.entities;
+    const { BusinessPartner } = this.remoteService.entities;
 
     // Expands are required as the runtime does not support path expressions for remote services
     let result = await this.S4bupa.run(SELECT.from(BusinessPartner, bp => {
@@ -118,4 +120,4 @@ class ProcessorService extends cds.ApplicationService {
       return req.reject(`Can't modify a closed incident`)
   }
 }
-module.exports = ProcessorService
+module.exports = { ProcessorService }

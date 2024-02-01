@@ -7,6 +7,7 @@ namespace sap.capire.incidents;
  * Customers can create support Incidents.
  */
 entity Customers : cuid, managed {
+  key ID         : String;
   firstName      : String;
   lastName       : String;
   name           : String = firstName ||' '|| lastName;
