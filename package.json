@@ -35,6 +35,9 @@
     "add-audit-log": "npm add @cap-js/audit-logging && cp xmpls/data-privacy.cds ./srv",
     "reset": "read -p 'This will irreversibly reset your working directory including ALL files in this git repo. Continue?' -n 1 -r && echo && if [[ $REPLY =~ ^[Yy]$ ]]; then git clean -fd && git reset --hard && npm i; fi"
   },
+  "jest": {
+    "modulePathIgnorePatterns": ["<rootDir>/xmpls/"]
+  },
   "sapux": [
     "app/incidents"
   ],

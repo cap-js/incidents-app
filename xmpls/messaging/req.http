@@ -1,0 +1,21 @@
+### Change Email Address
+
+PATCH  http://localhost:4004/odata/v4/api-business-partner/A_BusinessPartner('1004155')
+Content-Type: application/json
+
+{
+    "to_BusinessPartnerAddress": [
+        {
+            "BusinessPartner": "1004155",
+            "AddressID": "123",
+            "to_EmailAddress": [{
+                "AddressID": "123",
+                "Person": "Williams",
+                "OrdinalNumber": "123",
+                "EmailAddress": "newemail@demo.com"
+
+            }
+            ]
+        }
+    ]
+}
