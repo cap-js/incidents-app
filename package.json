@@ -27,7 +27,7 @@
     "watch": "cds watch",
     "start": "cds-serve",
     "test": "npx jest --silent",
-    "add-change-tracking": "npm add @cap-js/change-tracking && cp xmpls/change-tracking.cds ./srv && cp xmpls/change-tracking.test.js ./srv",
+    "add-change-tracking": "npm add @cap-js/change-tracking && cp xmpls/change-tracking.cds ./srv && cp xmpls/change-tracking.test.js ./test",
     "add-telemetry": "npm add @cap-js/telemetry",
     "add-attachments": "npm add @cap-js/attachments && cp xmpls/attachments.cds ./srv && cp -r xmpls/content ./db/data/content",
     "clone-add-attachments": "git clone https://github.com/cap-js/attachments.git && cp -r attachments/xmpl/db . && cp -r attachments/xmpl/app . && npm add https://github.com/cap-js/attachments.git",
