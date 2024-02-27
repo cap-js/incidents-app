@@ -30,8 +30,8 @@ class ProcessorService extends cds.ApplicationService {
       address.email(emails => {
         emails('*')})
       }).where({BusinessPartner: Id}));
-    customer.email = customer.email[0]?.email
     if(customer){
+      customer.email = customer.email[0]?.email
       const result= await cds.run(UPDATE(Customers).where({ID: customer.ID}).set({email:customer.email}));
       console.log("result",result);
     }
