@@ -1,5 +1,5 @@
 const cds = require('@sap/cds/lib')
-const { GET, expect, axios } = cds.test(__dirname + '/..')
+const { GET, expect, axios } = cds.test(__dirname + '/..', '--with-mocks')
 
 axios.defaults.auth = { username: 'alice' }
 

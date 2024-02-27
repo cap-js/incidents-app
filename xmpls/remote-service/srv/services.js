@@ -51,7 +51,7 @@ class ProcessorService extends cds.ApplicationService {
     const top = parseInt(req._queryOptions?.$top) || 100;
     const skip = parseInt(req._queryOptions?.$skip) || 0;
   
-    const { BusinessPartner } = this.entities;
+    const { BusinessPartner } = this.remoteService.entities;
 
     // Expands are required as the runtime does not support path expressions for remote services
     let result = await this.S4bupa.run(SELECT.from(BusinessPartner, bp => {
