@@ -9,9 +9,8 @@ service ProcessorService @(requires:'support') {
 }
 
 /**
- * Service used by administrators to manage customers and incidents.
+ * Service used by administrators to manage customers.
  */
 service AdminService @(requires:'admin') {
   entity Customers as projection on my.Customers;
-  entity Incidents as projection on my.Incidents;
 }
