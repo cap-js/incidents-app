@@ -1,5 +1,12 @@
 const cds = require('@sap/cds/lib')
 module.exports = async function () {
+  
+  // this ensures customers are in the db
+  cds.once('served', async () => {
+    const { 'sap.capire.incidents.Customers': Customers } = cds.model.entities
+    await UPDATE (Customers) .set ('avatar_ID = ID')
+  })
+
   const attachments = await cds.connect.to('attachments')
   const { join } = cds.utils.path
   const { createReadStream } = cds.utils.fs
@@ -28,6 +35,5 @@ module.exports = async function () {
     content: createReadStream (join(__dirname, 'content', filename)),
   })))
 
-  const { 'sap.capire.incidents.Customers': Customers } = cds.model.entities
-  await UPDATE (Customers) .set ('avatar_ID = ID')
+
 }
