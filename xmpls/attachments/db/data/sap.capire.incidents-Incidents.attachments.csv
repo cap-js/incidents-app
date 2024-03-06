@@ -1,6 +1,0 @@
-up__ID                               ,content ,filename                  ,mimeType                 ,note           ,createdAt                ,createdBy
-3b23bb4b-4ac7-4a24-ac02-aa10cabd842c ,file:   ,INVERTER FAULT REPORT.pdf ,application/pdf          ,               ,2023-10-10T18:53:26.751Z ,alice
-3b23bb4b-4ac7-4a24-ac02-aa10cabd842c ,file:   ,Inverter-error-logs.txt   ,text/plain               ,Raw error logs ,2023-10-11T19:52:26.751Z ,alice
-3a4ede72-244a-4f5f-8efa-b17e032d01ee ,file:   ,No_Current.xlsx           ,application/vnd.ms-excel ,               ,2023-10-09T18:50:20.751Z ,alice
-3ccf474c-3881-44b7-99fb-59a2a4668418 ,file:   ,strange-noise.csv         ,text/csv                 ,               ,2023-10-18T18:55:26.751Z ,alice
-3583f982-d7df-4aad-ab26-301d4a157cd7 ,file:   ,Broken Solar Panel.jpg    ,image/jpeg               ,               ,2023-10-01T15:53:26.751Z ,alice
