@@ -34,8 +34,8 @@
         "clone-add-attachments": "git clone https://github.com/cap-js/attachments.git && cp -r attachments/xmpl/db . && cp -r attachments/xmpl/app . && npm add https://github.com/cap-js/attachments.git",
         "add-notifications": "npm add @cap-js/notifications && cp xmpls/alert-notifications.js ./srv && cp xmpls/notification-types.json ./srv",
         "add-audit-log": "npm add @cap-js/audit-logging && cp xmpls/data-privacy.cds ./srv && cp xmpls/audit-log.test.js ./test",
-        "add-remote-service": "cp -r xmpls/remote-service/ .",
-        "add-messaging": "cp -r xmpls/messaging/ .",
+        "add-remote-service": "cp -r xmpls/remote-service/* .",
+        "add-messaging": "cp -r xmpls/messaging/* .",
         "add-all-xmpls": "npm run add-remote-service && npm run add-messaging && npm run add-change-tracking && npm run add-audit-log",
         "reset": "read -p 'This will irreversibly reset your working directory including ALL files in this git repo. Continue?' -n 1 -r && echo && if [[ $REPLY =~ ^[Yy]$ ]]; then git clean -fd && git reset --hard && npm i; fi"
     },

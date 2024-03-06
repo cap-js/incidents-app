@@ -27,3 +27,8 @@ jobs:
         node-version: ${{ matrix.node-version }}
     - run: npm i
     - run: npm test
+
+  push:
+    name: Push to CDS Test branch
+    uses: ./.github/workflows/create-test-branch.yml
+    if: github.event_name == 'push'
