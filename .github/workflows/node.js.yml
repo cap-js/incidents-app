@@ -31,4 +31,5 @@ jobs:
   push:
     name: Push to CDS Test branch
     uses: ./.github/workflows/create-test-branch.yml
+    secrets: inherit
     if: github.event_name == 'push'
