@@ -11,6 +11,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          token: ${{ secrets.TECH_USER_TOKEN }}
 
       - name: Copy xmpls
         run: npm run add-all-xmpls
