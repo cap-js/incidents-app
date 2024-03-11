@@ -12,6 +12,7 @@
     "dummy": 0
   },
   "dependencies": {
+    "@cap-js/change-tracking": "^1.0.5",
     "@sap/cds": ">=7",
     "@sap/cds-mtxs": "^1.9",
     "express": "^4"
@@ -25,7 +26,6 @@
     "chai-subset": "^1.6.0"
   },
   "scripts": {
-    "watch": "cds watch",
     "start": "cds-serve",
     "test": "npx jest --silent",
     "add-change-tracking": "npm add @cap-js/change-tracking && cp xmpls/change-tracking.cds ./srv && cp xmpls/change-tracking.test.js ./test",
@@ -53,13 +53,15 @@
         "[development]": {
           "users": {
             "alice": {
+              "tenant": "t1",
               "roles": [
                 "support",
                 "admin",
-                "cds.Subscriber"
+                "cds.Subscriber",
+                "cds.ExtensionDeveloper"
               ]
             },
-            "bob": {
+            "bob": { "tenant" : "t1",
               "roles": [
                 "support"
               ]
@@ -67,9 +69,12 @@
           }
         }
       },
-      "[local-multitenancy]": {
-        "multitenancy": true
-      }
+      "[production]": {
+        "multitenancy": true,
+        "extensibility": true
+      },
+      "multitenancy": true,
+      "extensibility": true
     },
     "profile": "with-mtx-sidecar"
   },
