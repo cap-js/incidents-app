@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@sap/cds": ">=7",
+    "@sap/cds-mtxs": "^1.9",
     "express": "^4"
   },
   "devDependencies": {
@@ -39,7 +40,9 @@
     "reset": "read -p 'This will irreversibly reset your working directory including ALL files in this git repo. Continue?' -n 1 -r && echo && if [[ $REPLY =~ ^[Yy]$ ]]; then git clean -fd && git reset --hard && npm i; fi"
   },
   "jest": {
-    "modulePathIgnorePatterns": ["<rootDir>/xmpls/"]
+    "modulePathIgnorePatterns": [
+      "<rootDir>/xmpls/"
+    ]
   },
   "sapux": [
     "app/incidents"
@@ -52,7 +55,8 @@
             "alice": {
               "roles": [
                 "support",
-                "admin"
+                "admin",
+                "cds.Subscriber"
               ]
             },
             "bob": {
@@ -62,8 +66,12 @@
             }
           }
         }
+      },
+      "[local-multitenancy]": {
+        "multitenancy": true
       }
-    }
+    },
+    "profile": "with-mtx-sidecar"
   },
   "private": true
 }
