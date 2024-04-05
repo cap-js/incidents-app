@@ -12,6 +12,7 @@
     "dummy": 0
   },
   "dependencies": {
+    "@cap-js/attachments": "*",
     "@sap/cds": ">=7",
     "express": "^4"
   },
@@ -29,7 +30,7 @@
     "test": "npx jest --silent",
     "add-change-tracking": "npm add @cap-js/change-tracking && cp xmpls/change-tracking.cds ./srv && cp xmpls/change-tracking.test.js ./test",
     "add-telemetry": "npm add @cap-js/telemetry",
-    "add-attachments": "npm add @cap-js/attachments && cp -r xmpls/attachments/ ./",
+    "add-attachments": "npm add @cap-js/attachments && cp -r xmpls/attachments.cds ./db",
     "add-notifications": "npm add @cap-js/notifications && cp xmpls/alert-notifications.js ./srv && cp xmpls/notification-types.json ./srv",
     "add-audit-log": "npm add @cap-js/audit-logging && cp xmpls/data-privacy.cds ./srv && cp xmpls/audit-log.test.js ./test",
     "add-remote-service": "cp -r xmpls/remote-service/* .",
