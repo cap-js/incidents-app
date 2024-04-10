@@ -1,0 +1,137 @@
+serviceInstances:
+  destination:
+    name: incidents-destination
+    serviceOfferingName: destination
+    servicePlanName: lite
+    parameters:
+      HTML5Runtime_enabled: true
+  xsuaa:
+    name: incidents-uaa
+    serviceOfferingName: xsuaa
+    servicePlanName: broker
+    parameters:
+      xsappname: incidents
+      tenant-mode: shared
+      oauth2-configuration:
+        credential-types:
+          - binding-secret
+        redirect-uris: []
+  saas-registry:
+    name: incidents-saas-registry
+    serviceOfferingName: saas-registry
+    servicePlanName: application
+    parameters:
+      plan: general
+      xsappname: incidents
+      appName: incidents
+      displayName: (incidents)
+      description: (A simple CAP project.)
+      appUrls:
+        callbackTimeoutMillis: 300000
+        onSubscriptionAsync: true
+        onUnSubscriptionAsync: true
+      category: CAP
+  service-manager:
+    name: incidents-service-manager
+    serviceOfferingName: service-manager
+    servicePlanName: container
+    parameters: {}
+
+serviceBindings:
+  destination:
+    name: incidents-destination-bind
+    serviceInstanceName: incidents-destination
+    secretName: incidents-destination-bind-secret
+    secretKey: credentials
+    parameters: {}
+  xsuaa:
+    name: incidents-uaa-bind
+    serviceInstanceName: incidents-uaa
+    secretName: incidents-uaa-bind-secret
+    secretKey: credentials
+    parameters: {}
+  saas-registry:
+    name: incidents-saas-registry-bind
+    serviceInstanceName: incidents-saas-registry
+    secretName: incidents-saas-registry-bind-secret
+    secretKey: credentials
+    parameters: {}
+  service-manager:
+    name: incidents-service-manager-bind
+    serviceInstanceName: incidents-service-manager
+    secretName: incidents-service-manager-bind-secret
+    secretKey: credentials
+    parameters: {}
+
+app:
+  domains:
+    primary: null
+    secondary: []
+  istioIngressGatewayLabels:
+    istio: ingressgateway
+    app: istio-ingressgateway
+
+btp:
+  globalAccountId: null
+  provider:
+    subdomain: null
+    tenantId: null
+
+imagePullSecrets: []
+
+workloads:
+  app-router:
+    name: app-router
+    labels:
+      sme.sap.com/app-type: incidents
+    consumedBTPServices:
+      - incidents-uaa-bind
+      - incidents-destination-bind
+      - incidents-saas-registry-bind
+    deploymentDefinition:
+      type: Router
+      image: null
+      ports:
+        - name: router-port
+          port: 5000
+  server:
+    name: server
+    labels:
+      sme.sap.com/app-type: incidents
+    consumedBTPServices:
+      - incidents-uaa-bind
+      - incidents-saas-registry-bind
+      - incidents-service-manager-bind
+    deploymentDefinition:
+      type: CAP
+      image: null
+  tenant-job:
+    name: tenant-job
+    labels:
+      sme.sap.com/app-type: incidents
+    consumedBTPServices:
+    - incidents-uaa-bind
+    - incidents-service-manager-bind
+    - incidents-saas-registry-bind
+    jobDefinition:
+      type: TenantOperation
+      image: null
+  custom-op:
+    name: custom-op
+    labels:
+      sme.sap.com/app-type: incidents
+    consumedBTPServices:
+    - incidents-uaa-bind
+    jobDefinition:
+      type: CustomTenantOperation
+      image: "docker/whalesay"
+      command: ["cowsay", "$(CAPOP_TENANT_OPERATION)", "tenant", "$(CAPOP_TENANT_SUBDOMAIN)"]
+
+tenantOperations:
+  provisioning:
+  - workloadName: custom-op
+  - workloadName: tenant-job
+  upgrade:
+  - workloadName: custom-op
+  - workloadName: tenant-job
+  - workloadName: custom-op

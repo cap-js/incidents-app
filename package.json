@@ -13,7 +13,10 @@
   },
   "dependencies": {
     "@sap/cds": ">=7",
-    "express": "^4"
+    "@sap/cds-mtxs": "^1.9",
+    "@sap/xssec": "^3",
+    "express": "^4",
+    "@sap/cds-hana": "^2"
   },
   "devDependencies": {
     "@cap-js/sqlite": "^1.0.1",
@@ -21,7 +24,8 @@
     "axios": "^1.4.0",
     "chai": "^4.3.7",
     "chai-as-promised": "^7.1.1",
-    "chai-subset": "^1.6.0"
+    "chai-subset": "^1.6.0",
+    "@cap-js/cap-operator-plugin": "git+https://github.com/cap-js/cap-operator-plugin#main"
   },
   "scripts": {
     "watch": "cds watch",
@@ -39,7 +43,9 @@
     "reset": "read -p 'This will irreversibly reset your working directory including ALL files in this git repo. Continue?' -n 1 -r && echo && if [[ $REPLY =~ ^[Yy]$ ]]; then git clean -fd && git reset --hard && npm i; fi"
   },
   "jest": {
-    "modulePathIgnorePatterns": ["<rootDir>/xmpls/"]
+    "modulePathIgnorePatterns": [
+      "<rootDir>/xmpls/"
+    ]
   },
   "sapux": [
     "app/incidents"
@@ -47,6 +53,11 @@
   "cds": {
     "requires": {
       "auth": {
+        "[production]":
+        {
+          "kind": "xsuaa",
+          "strategy": "JWT"
+        },
         "[development]": {
           "users": {
             "alice": {
@@ -62,8 +73,12 @@
             }
           }
         }
-      }
-    }
+      },
+      "destinations": true,
+      "multitenancy": true,
+      "db": "hana"
+    },
+    "profile": "with-mtx-sidecar"
   },
   "private": true
 }

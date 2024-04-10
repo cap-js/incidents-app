@@ -1,0 +1,63 @@
+serviceInstances:
+  saas-registry:
+    parameters:
+      appUrls:
+        getDependencies: "https://<<SubdomainOfProviderSubaccount>>.incidentapp.<<SHOOT_DOMAIN>>/callback/v1.0/dependencies"
+        # NOTE: this should forward the call to the operators subscription server
+        # In case of kyma clusters, it will be https://cap-op.<<SHOOT_DOMAIN>>/provision/tenants/{tenantId}
+        onSubscription: "https://cap-operator.<<SHOOT_DOMAIN>>/provision/tenants/{tenantId}"
+
+  xsuaa:
+    parameters:
+      oauth2-configuration:
+        redirect-uris:
+        - "https://*incidentapp.<<SHOOT_DOMAIN>>/**"
+        - "https://*iasalt.<<SHOOT_DOMAIN>>/**"
+
+app:
+    domains:
+        # -- primary domain to expose application routes (usually a subdomain of the cluster domain). Ensure this is under 62 chars.
+        primary: incidentapp.<<SHOOT_DOMAIN>>
+        # -- Customer specific domains for which dns entries are created (these can be stable and transferred between clusters)
+        secondary:
+        - iasalt.<<SHOOT_DOMAIN>>
+    # -- Labels used to identify the istio ingress-gateway component and its corresponding namespace. Ensure that they match the value under
+    # -- label section of deployment istio-ingressgateway in the corresponding istio namespace. If not adopt accordingly
+    istioIngressGatewayLabels:
+        istio: ingressgateway
+        app: istio-ingressgateway
+
+btp:
+    # -- BTP Global account identifier where the application is hosted
+    globalAccountId: <<GlobalAccountId>> # mandatory let helm fail if not provided
+    provider:
+        # -- Subdomain of the provider sub-account where application services are created
+        subdomain: <<SubdomainOfProviderSubaccount>> # mandatory let helm fail if not provided
+        # -- Tenant identifier for the provider sub-account (usually a guid)
+        tenantId: <<TenantIdentifierforProviderSubaccount>> # mandatory let helm fail if not provided
+
+imagePullSecrets:
+  - regcred
+
+workloads:
+  server:
+    deploymentDefinition:
+      env:
+      - name: CDS_ENV
+        value: production
+      - name: CDS_CONFIG
+        value: '{"requires":{"cds.xt.DeploymentService":{"hdi": { "create": {"database_id": "<<HanaInstanceId>>"} }}}}'
+
+  app-router:
+    deploymentDefinition:
+      env:
+      - name: TENANT_HOST_PATTERN
+        value: ^(.*).(incidentapp.<<SHOOT_DOMAIN>>|iasalt.<<SHOOT_DOMAIN>>)
+
+  tenant-job:
+    jobDefinition:
+      env:
+      - name: CDS_ENV
+        value: production
+      - name: CDS_CONFIG
+        value: '{"requires":{"cds.xt.DeploymentService":{"hdi": { "create": {"database_id": "<<HanaInstanceId>>"} }}}}'
