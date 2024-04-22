@@ -14,8 +14,10 @@ jobs:
           token: ${{ secrets.TECH_USER_TOKEN }}
 
       - name: Copy xmpls
-        run: npm run add-all-xmpls
-
+        run: |
+          npm run add-all-xmpls
+          rm -rf xmpls
+          
       - name: Test
         run: |
           npm i
