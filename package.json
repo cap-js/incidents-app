@@ -12,6 +12,7 @@
     "dummy": 0
   },
   "dependencies": {
+    "@cap-js/attachments-sdm": "file:cap-js-attachments-sdm-1.0.0.tgz",
     "@sap/cds": ">=7",
     "express": "^4"
   },
@@ -38,7 +39,9 @@
     "reset": "read -p 'This will irreversibly reset your working directory including ALL files in this git repo. Continue?' -n 1 -r && echo && if [[ $REPLY =~ ^[Yy]$ ]]; then git clean -fd && git reset --hard && npm i; fi"
   },
   "jest": {
-    "modulePathIgnorePatterns": ["<rootDir>/xmpls/"]
+    "modulePathIgnorePatterns": [
+      "<rootDir>/xmpls/"
+    ]
   },
   "sapux": [
     "app/incidents"
@@ -60,6 +63,17 @@
               ]
             }
           }
+        }
+      },
+      "attachments-sdm": {
+        "settings": {
+          "repositoryId": "92d994ad-3069-4cee-8279-1fe5835a64c5"
+        }
+      },
+      "db": {
+        "kind": "sqlite",
+        "credentials": {
+          "url": "db.sqlite"
         }
       }
     }
