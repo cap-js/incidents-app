@@ -1,7 +1,7 @@
 {
     "_version": "1.49.0",
     "sap.app": {
-        "id": "ns.incidents",
+        "id": "ns.attachments",
         "type": "application",
         "i18n": "i18n/i18n.properties",
         "applicationVersion": {
@@ -29,11 +29,9 @@
         },
         "dataSources": {
             "mainService": {
-                "uri": "/odata/v4/processor/",
+                "uri": "odata/v4/processor/",
                 "type": "OData",
                 "settings": {
-                    "annotations": [],
-                    "localUri": "localService/metadata.xml",
                     "odataVersion": "4.0"
                 }
             }
@@ -74,7 +72,7 @@
             "i18n": {
                 "type": "sap.ui.model.resource.ResourceModel",
                 "settings": {
-                    "bundleName": "ns.incidents.i18n.i18n"
+                    "bundleName": "ns.attachments.i18n.i18n"
                 }
             },
             "": {
@@ -168,5 +166,9 @@
     "sap.fiori": {
         "registrationIds": [],
         "archeType": "transactional"
+    },
+    "sap.cloud": {
+        "public": true,
+        "service": "incidents.mgmt"
     }
 }

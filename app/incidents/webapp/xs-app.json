@@ -1,9 +1,14 @@
 {
+  "welcomeFile": "/index.html",
   "authenticationMethod": "route",
-  "logout": {
-    "logoutEndpoint": "/do/logout"
-  },
   "routes": [
+    {
+      "source": "^/odata/(.*)$",
+      "target": "/odata/$1",
+      "destination": "attachments-srv",
+      "authenticationType": "xsuaa",
+      "csrfProtection": false
+    },
     {
       "source": "^(.*)$",
       "target": "$1",

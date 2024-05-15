@@ -13,7 +13,9 @@
   },
   "dependencies": {
     "@sap/cds": ">=7",
-    "express": "^4"
+    "express": "^4",
+    "@sap/xssec": "^3",
+    "@sap/cds-hana": "^2"
   },
   "devDependencies": {
     "@cap-js/sqlite": "^1.0.1",
@@ -61,6 +63,10 @@
             }
           }
         }
+      },
+      "[production]": {
+        "auth": "xsuaa",
+        "db": "hana"
       }
     }
   },
