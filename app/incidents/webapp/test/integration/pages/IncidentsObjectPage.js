@@ -10,7 +10,7 @@ sap.ui.define(['sap/fe/test/ObjectPage'], function(ObjectPage) {
         {
             appId: 'ns.incidents',
             componentId: 'IncidentsObjectPage',
-            entitySet: 'Incidents'
+            contextPath: '/Incidents'
         },
         CustomPageDefinitions
     );

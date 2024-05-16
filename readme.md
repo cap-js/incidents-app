@@ -1,58 +1,25 @@
-# Incident Management
+# Getting Started
 
-Welcome to the Incident Management reference sample application for CAP and development recommendations provided by the SAP BTP Developer Guide.
+Welcome to your new project.
 
-## Domain Model
+It contains these folders and files, following our recommended project layout:
 
-The application support team members to create and process incidents on behalf of registered customers. The basic domain model is depicted below.
-
-![domain drawio](xmpls/schema.drawio.svg)
-
-
-
-## Setup
-
-Assumed you prepared for CAP development as documented in capire's *[Getting Started > Jumpstart](https://cap.cloud.sap/docs/get-started/jumpstart)* page, ...
-
-Clone the repository and install dependencies:
-
-```sh
-git clone https://github.com/cap-js/incidents-app
-cd incidents-app
-```
-
-```sh
-npm install
-```
+File or Folder | Purpose
+---------|----------
+`app/` | content for UI frontends goes here
+`db/` | your domain models and data go here
+`srv/` | your service models and code go here
+`package.json` | project metadata and configuration
+`readme.md` | this getting started guide
 
 
+## Next Steps
 
-## Run
-
-Run the application locally:
-
-```sh
-cds watch
-```
-Then open http://localhost:4004 and navigate to [/incidents/webapp](http://localhost:4004/incidents/webapp/index.html). <br>
-(login as `alice`, no password required).
-
-<details>
-    <summary> Troubleshooting </summary>
-  If you get a 403 Forbidden Error and the logon popup doesn't show, try to open a browser in an incognito mode or clear the browser cache.
-</details>
+- Open a new terminal and run `cds watch`
+- (in VS Code simply choose _**Terminal** > Run Task > cds watch_)
+- Start adding content, for example, a [db/schema.cds](db/schema.cds).
 
 
+## Learn More
 
-## Test
-
-Run enclosed tests with:
-
-```sh
-npm test
-```
-
-
-## Deploy
-
-See: *[BTP Developer Guidelines Deployment Guides](https://help.sap.com/docs/btp/btp-developers-guide/deploy-cap)*
+Learn more at https://cap.cloud.sap/docs/get-started/.
