@@ -10,6 +10,7 @@ entity Customers : managed {
   key ID         : String;
   firstName      : String;
   lastName       : String;
+  dateOfBirth    : Date;
   name           : String = firstName ||' '|| lastName;
   email          : EMailAddress;
   phone          : PhoneNumber;
