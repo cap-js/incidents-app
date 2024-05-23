@@ -1,14 +1,18 @@
 serviceInstances:
   saas-registry:
     parameters:
+      xsappname: incidentapp
+      appName: incidentapp
+      displayName: incidentapp
+      description: Sample incident app.
       appUrls:
         getDependencies: "https://<<SubdomainOfProviderSubaccount>>.incidentapp.<<SHOOT_DOMAIN>>/callback/v1.0/dependencies"
-        # NOTE: this should forward the call to the operators subscription server
-        # In case of kyma clusters, it will be https://cap-op.<<SHOOT_DOMAIN>>/provision/tenants/{tenantId}
-        onSubscription: "https://cap-operator.<<SHOOT_DOMAIN>>/provision/tenants/{tenantId}"
+        # NOTE: this should forward the call to the CAP Operator subscription server
+        onSubscription: "https://cap-op.<<SHOOT_DOMAIN>>/provision/tenants/{tenantId}"
 
   xsuaa:
     parameters:
+      xsappname: incidentapp
       oauth2-configuration:
         redirect-uris:
         - "https://*incidentapp.<<SHOOT_DOMAIN>>/**"
