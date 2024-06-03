@@ -32,9 +32,10 @@
     "add-attachments": "npm add @cap-js/attachments && cp -r xmpls/attachments.cds ./db",
     "add-notifications": "npm add @cap-js/notifications && cp xmpls/alert-notifications.js ./srv && cp xmpls/notification-types.json ./srv",
     "add-audit-log": "npm add @cap-js/audit-logging && cp xmpls/data-privacy.cds ./srv && cp xmpls/audit-log.test.js ./test",
-    "add-remote-service": "cp -r xmpls/remote-service/* . && npm pkg set name=@capire/incidents",
-    "add-messaging": "cp -r xmpls/messaging/* . && npm pkg set name=@capire/incidents",
+    "add-remote-service": "cp -r xmpls/remote-service/* . && npm run set-pkg-name",
+    "add-messaging": "cp -r xmpls/messaging/* . && npm run set-pkg-name",
     "add-all-xmpls": "npm run add-remote-service && npm run add-messaging && npm run add-change-tracking && npm run add-audit-log",
+    "set-pkg-name": "npm pkg set name=@capire/incidents",
     "reset": "read -p 'This will irreversibly reset your working directory including ALL files in this git repo. Continue?' -n 1 -r && echo && if [[ $REPLY =~ ^[Yy]$ ]]; then git clean -fd && git reset --hard && npm i; fi"
   },
   "jest": {
