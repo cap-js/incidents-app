@@ -1,0 +1,144 @@
+_schema-version: "3.1"
+ID: sdmincidents
+description: Extend Upload Set to Fiori Elements and utilize Document Management Service
+version: 1.0.0
+modules:
+  - name: incidents-srv
+    type: nodejs
+    path: gen/srv
+    requires:
+      - name: sdi-hana
+      - name: sdm-incidents-auth
+      - name: sdm-di-destination
+      - name: sdm
+    provides:
+      - name: srv-api
+        properties:
+          srv-url: ${default-url}
+    parameters:
+      buildpack: nodejs_buildpack
+    build-parameters:
+      builder: npm
+  - name: incidents-db-deployer
+    type: hdb
+    path: gen/db
+    requires:
+      - name: sdi-hana
+    parameters:
+      buildpack: nodejs_buildpack
+  - name: incidents-destination-content
+    type: com.sap.application.content
+    requires:
+      - name: srv-api
+      - name: sdm-incidents-auth
+        parameters:
+          service-key:
+            name: incidents-auth-key
+      - name: incidents-repo-host
+        parameters:
+          service-key:
+            name: incidents-repo-host-key
+      - name: sdm-di-destination
+        parameters:
+          content-target: true
+    parameters:
+      content:
+        instance:
+          destinations:
+            - Name: incidents-repo-host
+              ServiceInstanceName: incidents-html5-srv
+              ServiceKeyName: incidents-repo-host-key
+              sap.cloud.service: approuter
+            - Authentication: OAuth2UserTokenExchange
+              Name: sdm-incidents-auth
+              ServiceInstanceName: sdm-incidents-auth
+              ServiceKeyName: incidents-auth-key
+              sap.cloud.service: approuter
+            - Authentication: OAuth2UserTokenExchange
+              Name: incidents-srv
+              TokenServiceInstanceName: sdm-incidents-auth
+              TokenServiceKeyName: incidents-auth-key
+              URL: ~{srv-api/srv-url}
+              sap.cloud.service: approuter
+          existing_destinations_policy: update
+    build-parameters:
+      no-source: true
+  - name: incidents-app-content
+    type: com.sap.application.content
+    path: .
+    requires:
+      - name: incidents-repo-host
+        parameters:
+          content-target: true
+    build-parameters:
+      build-result: resources
+      requires:
+        - artifacts:
+            - incidents.zip
+          name: sdmincidents
+          target-path: resources/
+  - name: sdmincidents
+    type: html5
+    path: app/incidents
+    build-parameters:
+      build-result: dist
+      builder: custom
+      commands:
+        - npm install
+        - npm run build:cf
+      supported-platforms: []
+resources:
+  - name: sdi-hana
+    type: com.sap.xs.hdi-container
+    parameters:
+      service: hana
+      service-plan: hdi-shared
+  - name: sdm-incidents-auth
+    type: org.cloudfoundry.managed-service
+    parameters:
+      config:
+        tenant-mode: dedicated
+        xsappname: sdmincidents
+      path: ./xs-security.json
+      service: xsuaa
+      service-keys:
+        - name: incidents-auth-key
+      service-plan: application
+  - name: sdm-di-destination
+    type: org.cloudfoundry.managed-service
+    parameters:
+      config:
+        HTML5Runtime_enabled: true
+        init_data:
+          instance:
+            destinations:
+              - Authentication: NoAuthentication
+                Name: ui5
+                ProxyType: Internet
+                Type: HTTP
+                URL: https://ui5.sap.com
+            existing_destinations_policy: update
+        version: 1.0.0
+      service: destination
+      service-keys:
+        - name: incidents-destination-key
+      service-plan: lite
+  - name: incidents-repo-host
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: html5-apps-repo
+      service-name: incidents-html5-srv
+      service-plan: app-host
+  - name: sdm
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: sdm
+      service-plan: standard
+parameters:
+  deploy_mode: html5-repo
+  enable-parallel-deployments: true
+build-parameters:
+  before-all:
+    - builder: custom
+      commands:
+        - npx cds build --production

@@ -12,11 +12,19 @@
     "dummy": 0
   },
   "dependencies": {
+    "@cap-js/attachments": "file:cap-js-attachments-1.1.1.tgz",
+    "@cap-js/audit-logging": "^0.6.0",
+    "@cap-js/sdm": "file:cap-js-sdm-1.0.0.tgz",
     "@sap/cds": ">=7",
-    "express": "^4"
+    "@sap/cds-hana": "^2",
+    "@sap/cds-odata-v2-adapter-proxy": "^1.4.48",
+    "@sap/xssec": "^3",
+    "express": "^4",
+    "node-cache": "^5.1.2"
   },
   "devDependencies": {
     "@cap-js/sqlite": "^1.0.1",
+    "@sap/cds-dk": "^7",
     "@sap/ux-specification": "^1.108.4",
     "axios": "^1.4.0",
     "chai": "^4.3.7",
@@ -38,28 +46,20 @@
     "reset": "read -p 'This will irreversibly reset your working directory including ALL files in this git repo. Continue?' -n 1 -r && echo && if [[ $REPLY =~ ^[Yy]$ ]]; then git clean -fd && git reset --hard && npm i; fi"
   },
   "jest": {
-    "modulePathIgnorePatterns": ["<rootDir>/xmpls/"]
+    "modulePathIgnorePatterns": [
+      "<rootDir>/xmpls/"
+    ]
   },
   "sapux": [
     "app/incidents"
   ],
   "cds": {
     "requires": {
-      "auth": {
-        "[development]": {
-          "users": {
-            "alice": {
-              "roles": [
-                "support",
-                "admin"
-              ]
-            },
-            "bob": {
-              "roles": [
-                "support"
-              ]
-            }
-          }
+      "auth": "jwt",
+      "db": "hana",
+      "sdm": {
+        "settings": {
+          "repositoryId": "42f3807b-be76-4d80-9dd1-32ca5b31b565"
         }
       }
     }

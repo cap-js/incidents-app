@@ -1,0 +1,31 @@
+specVersion: '2.4'
+metadata:
+  name: ns.incidents
+type: application
+resources:
+  configuration:
+    propertiesFileSourceEncoding: UTF-8
+builder:
+  resources:
+    excludes:
+      - "/test/**"
+      - "/localService/**"
+  customTasks:
+  - name: webide-extension-task-updateManifestJson
+    afterTask: replaceVersion
+    configuration:
+      appFolder: webapp
+      destDir: dist
+  - name: ui5-task-zipper
+    afterTask: generateCachebusterInfo
+    configuration:
+      archiveName: incidents
+      additionalFiles:
+      - xs-app.json
+  - name: ui5-tooling-transpile-task
+    afterTask: replaceVersion
+    configuration:
+      debug: true
+      removeConsoleStatements: true
+      transpileAsync: true
+      transpileTypeScript: true 

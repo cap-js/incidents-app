@@ -1,4 +1,4 @@
-using ProcessorService as service from '../../srv/services';
+using ProcessorService as service from '../../srv/service';
 using from '../../db/schema';
 
 annotate service.Customers with @title : '{i18n>Customer}';
