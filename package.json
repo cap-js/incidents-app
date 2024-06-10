@@ -12,9 +12,7 @@
     "dummy": 0
   },
   "dependencies": {
-    "@cap-js/attachments": "file:cap-js-attachments-1.1.1.tgz",
     "@cap-js/audit-logging": "^0.6.0",
-    "@cap-js/sdm": "file:cap-js-sdm-1.0.0.tgz",
     "@sap/cds": ">=7",
     "@sap/cds-hana": "^2",
     "@sap/cds-odata-v2-adapter-proxy": "^1.4.48",
