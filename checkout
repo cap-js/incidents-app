@@ -1,0 +1,58 @@
+#!/usr/bin/env node
+/* eslint-disable no-console */
+
+const [,,$1,$2] = process.argv
+
+async function remoteService () {
+    const TARGET_DIR = "xmpls/remote-service"
+    const EXCLUDES = "--exclude='*.md' --exclude='package.json'"
+    const cmd = `eval rsync -av ${EXCLUDES} ${TARGET_DIR}/ .`
+    await run(cmd)
+
+    const { readFile, writeFile } = require("fs").promises;
+    const { join } = require("path");
+    const packageJson = JSON.parse(await readFile(join(__dirname, "package.json"), "utf-8"));
+    const delta = JSON.parse(await readFile(join(__dirname, `${TARGET_DIR}/package.json`), "utf-8"));
+    packageJson.cds.requires["API_BUSINESS_PARTNER"] = delta.cds.requires["API_BUSINESS_PARTNER"]
+    await writeFile(join(__dirname, "package.json"), JSON.stringify(packageJson, null, 2), "utf-8");
+}
+
+async function messaging () {
+    const TARGET_DIR = "xmpls/messaging"
+    const EXCLUDES = "--exclude='*.md' --exclude='package.json'"
+    const cmd = `eval rsync -av ${EXCLUDES} ${TARGET_DIR}/ .`
+    await run(cmd)
+
+    const { readFile, writeFile } = require("fs").promises;
+    const { join } = require("path");
+    const packageJson = JSON.parse(await readFile(join(__dirname, "package.json"), "utf-8"));
+    const delta = JSON.parse(await readFile(join(__dirname, `${TARGET_DIR}/package.json`), "utf-8"));
+    packageJson.cds.requires["API_BUSINESS_PARTNER"] = delta.cds.requires["API_BUSINESS_PARTNER"]
+    packageJson.cds.requires["messaging"] = delta.cds.requires["messaging"]
+    await writeFile(join(__dirname, "package.json"), JSON.stringify(packageJson, null, 2), "utf-8");
+}
+
+function run (cmd, silent) {
+    if (cmd.raw) return run (String.raw(...arguments))
+    if (cmd.endsWith('--silent')) silent = cmd = cmd.slice(0,-9)
+    if (typeof cmd === 'string') cmd = new Promise ((done,failed) => {
+        const cp = exec (cmd, (e,stdout) => e ? failed(e) : done(stdout))
+        if (!silent) {
+        cp.stdout.on ('data', d => process.stdout.write(d))
+        cp.stderr.on ('data', d => process.stderr.write(d))
+        }
+    })
+    return cmd
+}
+
+switch ($1) {
+ 
+    case 'remote-service':
+        remoteService();
+        break;
+    case 'messaging':
+        messaging();
+        break;
+    default:
+        console.log('Usage: ./checkout <command> [args]');
+}
