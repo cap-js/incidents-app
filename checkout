@@ -17,6 +17,16 @@ async function remoteService () {
     const delta = JSON.parse(await readFile(join(__dirname, `${TARGET_DIR}/package.json`), "utf-8"));
     packageJson.cds.requires["API_BUSINESS_PARTNER"] = delta.cds.requires["API_BUSINESS_PARTNER"]
     await writeFile(join(__dirname, "package.json"), JSON.stringify(packageJson, null, 2), "utf-8");
+
+    // dependencies
+    const deps = [
+        "@sap-cloud-sdk/connectivity",
+        "@sap-cloud-sdk/http-client",
+        "@sap-cloud-sdk/resilience",
+        "@sap-cloud-sdk/util"
+    ]
+    console.log("Adding npm dependencies")
+    await run(`npm add ${deps.join(" ")}`)
 }
 
 async function messaging () {
@@ -33,6 +43,17 @@ async function messaging () {
     packageJson.cds.requires["API_BUSINESS_PARTNER"] = delta.cds.requires["API_BUSINESS_PARTNER"]
     packageJson.cds.requires["messaging"] = delta.cds.requires["messaging"]
     await writeFile(join(__dirname, "package.json"), JSON.stringify(packageJson, null, 2), "utf-8");
+
+     // dependencies
+     const deps = [
+        "@sap-cloud-sdk/connectivity",
+        "@sap-cloud-sdk/http-client",
+        "@sap-cloud-sdk/resilience",
+        "@sap-cloud-sdk/util",
+        "@sap/xb-msg-amqp-v100"
+    ]
+    console.log("Adding npm dependencies")
+    await run(`npm add ${deps.join(" ")}`)
 }
 
 async function changeTracking () {
