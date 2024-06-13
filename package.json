@@ -35,7 +35,12 @@
     "add-remote-service": "cp -r xmpls/remote-service/* .",
     "add-messaging": "cp -r xmpls/messaging/* .",
     "add-all-xmpls": "npm run add-remote-service && npm run add-messaging && npm run add-change-tracking && npm run add-audit-log",
-    "reset": "read -p 'This will irreversibly reset your working directory including ALL files in this git repo. Continue?' -n 1 -r && echo && if [[ $REPLY =~ ^[Yy]$ ]]; then git clean -fd && git reset --hard && npm i; fi"
+    "reset": "read -p 'This will irreversibly reset your working directory including ALL files in this git repo. Continue?' -n 1 -r && echo && if [[ $REPLY =~ ^[Yy]$ ]]; then git clean -fd && git reset --hard && npm i; fi",
+
+    "add-remote-service-new": "./checkout remote-service",
+    "add-messaging-new": "./checkout messaging",
+    "add-change-tracking-new": "./checkout change-tracking"
+
   },
   "jest": {
     "modulePathIgnorePatterns": ["<rootDir>/xmpls/"]

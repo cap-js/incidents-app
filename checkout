@@ -2,12 +2,14 @@
 /* eslint-disable no-console */
 
 const [,,$1,$2] = process.argv
+const { exec } = require('child_process')
 
 async function remoteService () {
     const TARGET_DIR = "xmpls/remote-service"
-    const EXCLUDES = "--exclude='*.md' --exclude='package.json'"
-    const cmd = `eval rsync -av ${EXCLUDES} ${TARGET_DIR}/ .`
-    await run(cmd)
+    const INCLUDES = ["srv", "test"]
+    const paths = INCLUDES.map(pattern => TARGET_DIR + '/' + pattern)
+    const cmd = `cp -r ${paths.join(' ')} .`
+    await run(cmd);
 
     const { readFile, writeFile } = require("fs").promises;
     const { join } = require("path");
@@ -19,9 +21,10 @@ async function remoteService () {
 
 async function messaging () {
     const TARGET_DIR = "xmpls/messaging"
-    const EXCLUDES = "--exclude='*.md' --exclude='package.json'"
-    const cmd = `eval rsync -av ${EXCLUDES} ${TARGET_DIR}/ .`
-    await run(cmd)
+    const INCLUDES = ["app", "srv", "test"]
+    const paths = INCLUDES.map(pattern => TARGET_DIR + '/' + pattern)
+    const cmd = `cp -r ${paths.join(' ')} .`
+    await run(cmd);
 
     const { readFile, writeFile } = require("fs").promises;
     const { join } = require("path");
@@ -30,6 +33,16 @@ async function messaging () {
     packageJson.cds.requires["API_BUSINESS_PARTNER"] = delta.cds.requires["API_BUSINESS_PARTNER"]
     packageJson.cds.requires["messaging"] = delta.cds.requires["messaging"]
     await writeFile(join(__dirname, "package.json"), JSON.stringify(packageJson, null, 2), "utf-8");
+}
+
+async function changeTracking () {
+    const TARGET_DIR = "xmpls"
+    const deps = ["@cap-js/change-tracking"]
+    await run(`npm add ${deps.join(" ")}`)
+
+    await run (`cp -r ${TARGET_DIR}/change-*.cds srv/`)
+    await run (`cp -r ${TARGET_DIR}/change-*.test.js test/`)
+
 }
 
 function run (cmd, silent) {
@@ -52,6 +65,9 @@ switch ($1) {
         break;
     case 'messaging':
         messaging();
+        break;
+    case 'change-tracking':
+        changeTracking();
         break;
     default:
         console.log('Usage: ./checkout <command> [args]');
