@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /* eslint-disable no-console */
 
-const [,,$1,$2] = process.argv
+const [,,$1] = process.argv
 const { exec } = require('child_process')
 
 async function remoteService () {
@@ -27,6 +27,7 @@ async function remoteService () {
     ]
     console.log("Adding npm dependencies")
     await run(`npm add ${deps.join(" ")}`)
+    console.log("Added Remote Service")
 }
 
 async function messaging () {
@@ -54,16 +55,7 @@ async function messaging () {
     ]
     console.log("Adding npm dependencies")
     await run(`npm add ${deps.join(" ")}`)
-}
-
-async function changeTracking () {
-    const TARGET_DIR = "xmpls"
-    const deps = ["@cap-js/change-tracking"]
-    await run(`npm add ${deps.join(" ")}`)
-
-    await run (`cp -r ${TARGET_DIR}/change-*.cds srv/`)
-    await run (`cp -r ${TARGET_DIR}/change-*.test.js test/`)
-
+    console.log("Added Messaging")
 }
 
 function run (cmd, silent) {
@@ -87,9 +79,6 @@ switch ($1) {
     case 'messaging':
         messaging();
         break;
-    case 'change-tracking':
-        changeTracking();
-        break;
     default:
-        console.log('Usage: ./checkout <command> [args]');
+        console.log('Usage: ./checkout <command>');
 }
