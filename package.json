@@ -12,7 +12,9 @@
     "dummy": 0
   },
   "dependencies": {
+    "@cap-js/change-tracking": "^1.0.5",
     "@sap/cds": ">=7",
+    "@sap/cds-mtxs": "^1.9",
     "express": "^4"
   },
   "devDependencies": {
@@ -24,7 +26,6 @@
     "chai-subset": "^1.6.0"
   },
   "scripts": {
-    "watch": "cds watch",
     "start": "cds-serve",
     "test": "npx jest --silent",
     "add-change-tracking": "npm add @cap-js/change-tracking && cp xmpls/change-tracking.cds ./srv && cp xmpls/change-tracking.test.js ./test",
@@ -38,7 +39,9 @@
     "reset": "read -p 'This will irreversibly reset your working directory including ALL files in this git repo. Continue?' -n 1 -r && echo && if [[ $REPLY =~ ^[Yy]$ ]]; then git clean -fd && git reset --hard && npm i; fi"
   },
   "jest": {
-    "modulePathIgnorePatterns": ["<rootDir>/xmpls/"]
+    "modulePathIgnorePatterns": [
+      "<rootDir>/xmpls/"
+    ]
   },
   "sapux": [
     "app/incidents"
@@ -49,20 +52,30 @@
         "[development]": {
           "users": {
             "alice": {
+              "tenant": "t1",
               "roles": [
                 "support",
-                "admin"
+                "admin",
+                "cds.Subscriber",
+                "cds.ExtensionDeveloper"
               ]
             },
-            "bob": {
+            "bob": { "tenant" : "t1",
               "roles": [
                 "support"
               ]
             }
           }
         }
-      }
-    }
+      },
+      "[production]": {
+        "multitenancy": true,
+        "extensibility": true
+      },
+      "multitenancy": true,
+      "extensibility": true
+    },
+    "profile": "with-mtx-sidecar"
   },
   "private": true
 }
