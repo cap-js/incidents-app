@@ -25,7 +25,7 @@ Authorization: Basic alice:wonderland
 Content-Type: application/json
 
 {
-  "ID": "{{$guid}}",
+  "ID": "{{$randomInt 9000000 9999999}}",
   "firstName": "Bob",
   "lastName": "Builder",
   "email": "bob.builder@example.com"
@@ -33,7 +33,7 @@ Content-Type: application/json
 
 ### Updating a customer with personal data details
 @customer = {{create_customer.response.body.ID}}
-PATCH {{host}}/odata/v4/admin/Customers({{customer}})
+PATCH {{host}}/odata/v4/admin/Customers('{{customer}}')
 Authorization: Basic alice:wonderland
 Content-Type: application/json
 
