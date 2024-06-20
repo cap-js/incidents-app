@@ -19,6 +19,7 @@
     "@cap-js/sqlite": "^1.0.1",
     "@sap/ux-specification": "^1.108.4",
     "axios": "^1.4.0",
+    "cds-launchpad-plugin": "^2.1.8",
     "chai": "^4.3.7",
     "chai-as-promised": "^7.1.1",
     "chai-subset": "^1.6.0"
