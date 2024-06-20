@@ -12,6 +12,7 @@
     "dummy": 0
   },
   "dependencies": {
+    "@cap-js/audit-logging": "^0.8.0",
     "@sap/cds": ">=7",
     "express": "^4"
   },
@@ -38,7 +39,9 @@
     "reset": "read -p 'This will irreversibly reset your working directory including ALL files in this git repo. Continue?' -n 1 -r && echo && if [[ $REPLY =~ ^[Yy]$ ]]; then git clean -fd && git reset --hard && npm i; fi"
   },
   "jest": {
-    "modulePathIgnorePatterns": ["<rootDir>/xmpls/"]
+    "modulePathIgnorePatterns": [
+      "<rootDir>/xmpls/"
+    ]
   },
   "sapux": [
     "app/incidents"

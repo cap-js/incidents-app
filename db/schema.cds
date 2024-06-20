@@ -30,6 +30,7 @@ entity Addresses : cuid, managed {
  * Incidents created by Customers.
  */
 entity Incidents : cuid, managed {
+  customerCreditCardNo: String(16) = customer.creditCardNo;
   customer       : Association to Customers;
   title          : String @title: 'Title';
   urgency        : Association to Urgency default 'M';
