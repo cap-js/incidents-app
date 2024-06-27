@@ -57,7 +57,7 @@
       "db": "hana",
       "sdm": {
         "settings": {
-          "repositoryId": "10dd70b6-9797-401e-a0a7-d65134dec5cd"
+          "repositoryId": "<Add your onboarded repository Id>"
         }
       }
     }

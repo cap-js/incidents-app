@@ -10,7 +10,7 @@ modules:
       - name: sdi-hana
       - name: sdm-incidents-auth
       - name: sdm-di-destination
-      - name: sdm
+      - name: sdm-di-instance
     provides:
       - name: srv-api
         properties:
@@ -129,7 +129,7 @@ resources:
       service: html5-apps-repo
       service-name: incidents-html5-srv
       service-plan: app-host
-  - name: sdm
+  - name: sdm-di-instance
     type: org.cloudfoundry.managed-service
     parameters:
       service: sdm
