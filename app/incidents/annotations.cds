@@ -1,7 +1,6 @@
 using ProcessorService as service from '../../srv/processor-service';
 using from '../../db/schema';
 annotate service.Incidents with @(
-    Common.SemanticKey: [title],
     UI.FieldGroup #GeneratedGroup : {
         $Type : 'UI.FieldGroupType',
         Data : [
@@ -184,3 +183,5 @@ annotate service.Incidents.conversation with @(
             Label : '{i18n>Date}',
         },]
 );
+
+annotate service.Incidents with @Common.SemanticKey: [title];
