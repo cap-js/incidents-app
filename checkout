@@ -25,9 +25,8 @@ async function remoteService () {
         "@sap-cloud-sdk/resilience",
         "@sap-cloud-sdk/util"
     ]
-    console.log("Adding npm dependencies")
-    await run(`npm add ${deps.join(" ")}`)
-    console.log("Added Remote Service")
+    console.info("Preparing Incidents-app with Remote Service")
+    return await run(`npm add ${deps.join(" ")}`)
 }
 
 async function messaging () {
@@ -53,9 +52,8 @@ async function messaging () {
         "@sap-cloud-sdk/util",
         "@sap/xb-msg-amqp-v100"
     ]
-    console.log("Adding npm dependencies")
-    await run(`npm add ${deps.join(" ")}`)
-    console.log("Added Messaging")
+    console.info("Preparing Incidents-app with Messaging")
+    return await run(`npm add ${deps.join(" ")}`)
 }
 
 function run (cmd, silent) {
