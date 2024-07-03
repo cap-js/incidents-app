@@ -3,20 +3,22 @@
 
 const [,,$1] = process.argv
 const { exec } = require('child_process')
+const path = require('path')
+const { readFile, writeFile } = require("fs").promises;
+const { join } = require("path");
 
 async function remoteService () {
     const TARGET_DIR = "xmpls/remote-service"
+    const levelUP = "../../"
     const INCLUDES = ["srv", "test"]
-    const paths = INCLUDES.map(pattern => TARGET_DIR + '/' + pattern)
-    const cmd = `cp -r ${paths.join(' ')} .`
+    const paths = INCLUDES.map(pattern => join(__dirname, levelUP, TARGET_DIR, pattern))
+    const cmd = `cp -r ${paths.join(' ')} ${levelUP}`
     await run(cmd);
 
-    const { readFile, writeFile } = require("fs").promises;
-    const { join } = require("path");
-    const packageJson = JSON.parse(await readFile(join(__dirname, "package.json"), "utf-8"));
-    const delta = JSON.parse(await readFile(join(__dirname, `${TARGET_DIR}/package.json`), "utf-8"));
+    const packageJson = JSON.parse(await readFile(join(__dirname, levelUP ,"package.json"), "utf-8"));
+    const delta = JSON.parse(await readFile(join(__dirname, levelUP, TARGET_DIR, "package.json"), "utf-8"));
     packageJson.cds.requires["API_BUSINESS_PARTNER"] = delta.cds.requires["API_BUSINESS_PARTNER"]
-    await writeFile(join(__dirname, "package.json"), JSON.stringify(packageJson, null, 2), "utf-8");
+    await writeFile(join(__dirname, levelUP, "package.json"), JSON.stringify(packageJson, null, 2), "utf-8");
 
     // dependencies
     const deps = [
@@ -31,18 +33,17 @@ async function remoteService () {
 
 async function messaging () {
     const TARGET_DIR = "xmpls/messaging"
+    const levelUP = "../../"
     const INCLUDES = ["app", "srv", "test"]
-    const paths = INCLUDES.map(pattern => TARGET_DIR + '/' + pattern)
-    const cmd = `cp -r ${paths.join(' ')} .`
+    const paths = INCLUDES.map(pattern => join(__dirname, levelUP, TARGET_DIR, pattern))
+    const cmd = `cp -r ${paths.join(' ')} ${levelUP}`
     await run(cmd);
 
-    const { readFile, writeFile } = require("fs").promises;
-    const { join } = require("path");
-    const packageJson = JSON.parse(await readFile(join(__dirname, "package.json"), "utf-8"));
-    const delta = JSON.parse(await readFile(join(__dirname, `${TARGET_DIR}/package.json`), "utf-8"));
+    const packageJson = JSON.parse(await readFile(join(__dirname, levelUP, "package.json"), "utf-8"));
+    const delta = JSON.parse(await readFile(join(__dirname, levelUP, TARGET_DIR, "package.json"), "utf-8"));
     packageJson.cds.requires["API_BUSINESS_PARTNER"] = delta.cds.requires["API_BUSINESS_PARTNER"]
     packageJson.cds.requires["messaging"] = delta.cds.requires["messaging"]
-    await writeFile(join(__dirname, "package.json"), JSON.stringify(packageJson, null, 2), "utf-8");
+    await writeFile(join(__dirname, levelUP, "package.json"), JSON.stringify(packageJson, null, 2), "utf-8");
 
      // dependencies
      const deps = [
