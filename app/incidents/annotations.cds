@@ -44,7 +44,7 @@ annotate service.Incidents with @(
     UI.LineItem : [
         {
             $Type : 'UI.DataField',
-            Value : title,
+            Value : ID,
             Label : '{i18n>Title}',
         },
         {
@@ -184,4 +184,12 @@ annotate service.Incidents.conversation with @(
         },]
 );
 
-annotate service.Incidents with @Common.SemanticKey: [title];
+annotate service.Incidents with @Common.SemanticKey: [ID]{
+    ID @Core.Computed
+};
+annotate service.Incidents with {
+    ID @Common.Text : {
+            $value : title,
+            ![@UI.TextArrangement] : #TextOnly,
+        }
+};
