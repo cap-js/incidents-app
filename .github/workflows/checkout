@@ -12,7 +12,7 @@ async function remoteService () {
     const levelUP = "../../"
     const INCLUDES = ["srv", "test"]
     const paths = INCLUDES.map(pattern => join(__dirname, levelUP, TARGET_DIR, pattern))
-    const cmd = `cp -r ${paths.join(' ')} ${levelUP}`
+    const cmd = `cp -r ${paths.join(' ')} ${join(__dirname, levelUP)}`
     await run(cmd);
 
     const packageJson = JSON.parse(await readFile(join(__dirname, levelUP ,"package.json"), "utf-8"))
@@ -35,7 +35,7 @@ async function messaging () {
     const levelUP = "../../"
     const INCLUDES = ["app", "srv", "test"]
     const paths = INCLUDES.map(pattern => join(__dirname, levelUP, TARGET_DIR, pattern))
-    const cmd = `cp -r ${paths.join(' ')} ${levelUP}`
+    const cmd = `cp -r ${paths.join(' ')} ${join(__dirname, levelUP)}`
     await run(cmd);
 
     const packageJson = JSON.parse(await readFile(join(__dirname, levelUP, "package.json"), "utf-8"));
@@ -50,6 +50,40 @@ async function messaging () {
         "@sap-cloud-sdk/resilience": "^3",
         "@sap-cloud-sdk/util": "^3",
         "@sap/xb-msg-amqp-v100": "^0.9"
+    }
+    packageJson.dependencies = {...packageJson.dependencies, ...deps}
+    return await writeFile(join(__dirname, levelUP, "package.json"), JSON.stringify(packageJson, null, 2), "utf-8")
+}
+
+async function changeTracking() {
+    const TARGET_DIR = "xmpls"
+    const levelUP = "../../"
+    let cmd = `cp -r ${join(__dirname, levelUP, TARGET_DIR ,'change-tracking.cds')} ${join(__dirname, levelUP, 'srv')}`
+    await run(cmd);
+    cmd = `cp -r ${join(__dirname, levelUP, TARGET_DIR ,'change-tracking.test.js')} ${join(__dirname, levelUP, 'test')}`
+    await run(cmd);
+    const packageJson = JSON.parse(await readFile(join(__dirname, levelUP, "package.json"), "utf-8"));
+
+     // dependencies
+     const deps = {
+        "@cap-js/change-tracking": "*"
+    }
+    packageJson.dependencies = {...packageJson.dependencies, ...deps}
+    return await writeFile(join(__dirname, levelUP, "package.json"), JSON.stringify(packageJson, null, 2), "utf-8")
+}
+
+async function auditLog() {
+    const TARGET_DIR = "xmpls"
+    const levelUP = "../../"
+    let cmd = `cp -r ${join(__dirname, levelUP, TARGET_DIR ,'data-privacy.cds')} ${join(__dirname, levelUP, 'srv')}`
+    await run(cmd);
+    cmd = `cp -r ${join(__dirname, levelUP, TARGET_DIR ,'audit-log.test.js')} ${join(__dirname, levelUP, 'test')}`
+    await run(cmd);
+    const packageJson = JSON.parse(await readFile(join(__dirname, levelUP, "package.json"), "utf-8"));
+
+     // dependencies
+     const deps = {
+        "@cap-js/audit-logging": "*"
     }
     packageJson.dependencies = {...packageJson.dependencies, ...deps}
     return await writeFile(join(__dirname, levelUP, "package.json"), JSON.stringify(packageJson, null, 2), "utf-8")
@@ -75,6 +109,12 @@ switch ($1) {
         break;
     case 'messaging':
         messaging();
+        break;
+    case 'change-tracking':
+        changeTracking()
+        break;
+    case 'audit-log':
+        auditLog()
         break;
     default:
         console.log('Usage: ./checkout <command>');
