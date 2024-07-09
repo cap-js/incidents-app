@@ -15,19 +15,19 @@ async function remoteService () {
     const cmd = `cp -r ${paths.join(' ')} ${join(__dirname, levelUP)}`
     await run(cmd);
 
-    const packageJson = JSON.parse(await readFile(join(__dirname, levelUP ,"package.json"), "utf-8"))
-    const delta = JSON.parse(await readFile(join(__dirname, levelUP, TARGET_DIR, "package.json"), "utf-8"))
+    const packageJson = JSON.parse(await readFile(join(__dirname, levelUP ,"package.json"), "utf-8"));
+    const delta = JSON.parse(await readFile(join(__dirname, levelUP, TARGET_DIR, "package.json"), "utf-8"));
     packageJson.cds.requires["API_BUSINESS_PARTNER"] = delta.cds.requires["API_BUSINESS_PARTNER"]
+    await writeFile(join(__dirname, levelUP, "package.json"), JSON.stringify(packageJson, null, 2), "utf-8");
 
     // dependencies
-    const deps = {
-        "@sap-cloud-sdk/connectivity": "^3",
-        "@sap-cloud-sdk/http-client": "^3",
-        "@sap-cloud-sdk/resilience": "^3",
-        "@sap-cloud-sdk/util": "^3"
-    }
-    packageJson.dependencies = {...packageJson.dependencies, ...deps}
-    return await writeFile(join(__dirname, levelUP, "package.json"), JSON.stringify(packageJson, null, 2), "utf-8");
+    const deps = [
+        "@sap-cloud-sdk/connectivity",
+        "@sap-cloud-sdk/http-client",
+        "@sap-cloud-sdk/resilience",
+        "@sap-cloud-sdk/util"
+    ]
+    return await run(`npm add ${deps.join(" ")}`)
 }
 
 async function messaging () {
@@ -42,51 +42,17 @@ async function messaging () {
     const delta = JSON.parse(await readFile(join(__dirname, levelUP, TARGET_DIR, "package.json"), "utf-8"));
     packageJson.cds.requires["API_BUSINESS_PARTNER"] = delta.cds.requires["API_BUSINESS_PARTNER"]
     packageJson.cds.requires["messaging"] = delta.cds.requires["messaging"]
+    await writeFile(join(__dirname, levelUP, "package.json"), JSON.stringify(packageJson, null, 2), "utf-8");
 
      // dependencies
-     const deps = {
-        "@sap-cloud-sdk/connectivity": "^3",
-        "@sap-cloud-sdk/http-client": "^3",
-        "@sap-cloud-sdk/resilience": "^3",
-        "@sap-cloud-sdk/util": "^3",
-        "@sap/xb-msg-amqp-v100": "^0.9"
-    }
-    packageJson.dependencies = {...packageJson.dependencies, ...deps}
-    return await writeFile(join(__dirname, levelUP, "package.json"), JSON.stringify(packageJson, null, 2), "utf-8")
-}
-
-async function changeTracking() {
-    const TARGET_DIR = "xmpls"
-    const levelUP = "../../"
-    let cmd = `cp -r ${join(__dirname, levelUP, TARGET_DIR ,'change-tracking.cds')} ${join(__dirname, levelUP, 'srv')}`
-    await run(cmd);
-    cmd = `cp -r ${join(__dirname, levelUP, TARGET_DIR ,'change-tracking.test.js')} ${join(__dirname, levelUP, 'test')}`
-    await run(cmd);
-    const packageJson = JSON.parse(await readFile(join(__dirname, levelUP, "package.json"), "utf-8"));
-
-     // dependencies
-     const deps = {
-        "@cap-js/change-tracking": "*"
-    }
-    packageJson.dependencies = {...packageJson.dependencies, ...deps}
-    return await writeFile(join(__dirname, levelUP, "package.json"), JSON.stringify(packageJson, null, 2), "utf-8")
-}
-
-async function auditLog() {
-    const TARGET_DIR = "xmpls"
-    const levelUP = "../../"
-    let cmd = `cp -r ${join(__dirname, levelUP, TARGET_DIR ,'data-privacy.cds')} ${join(__dirname, levelUP, 'srv')}`
-    await run(cmd);
-    cmd = `cp -r ${join(__dirname, levelUP, TARGET_DIR ,'audit-log.test.js')} ${join(__dirname, levelUP, 'test')}`
-    await run(cmd);
-    const packageJson = JSON.parse(await readFile(join(__dirname, levelUP, "package.json"), "utf-8"));
-
-     // dependencies
-     const deps = {
-        "@cap-js/audit-logging": "*"
-    }
-    packageJson.dependencies = {...packageJson.dependencies, ...deps}
-    return await writeFile(join(__dirname, levelUP, "package.json"), JSON.stringify(packageJson, null, 2), "utf-8")
+     const deps = [
+        "@sap-cloud-sdk/connectivity",
+        "@sap-cloud-sdk/http-client",
+        "@sap-cloud-sdk/resilience",
+        "@sap-cloud-sdk/util",
+        "@sap/xb-msg-amqp-v100"
+    ]
+    return await run(`npm add ${deps.join(" ")}`)
 }
 
 function run (cmd, silent) {
@@ -109,12 +75,6 @@ switch ($1) {
         break;
     case 'messaging':
         messaging();
-        break;
-    case 'change-tracking':
-        changeTracking()
-        break;
-    case 'audit-log':
-        auditLog()
         break;
     default:
         console.log('Usage: ./checkout <command>');
