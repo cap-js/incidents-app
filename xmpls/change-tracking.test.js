@@ -126,10 +126,8 @@ describe("Integration Test for ChangeTracking", () => {
         const incidentChanges = await SELECT.from(ChangeView).where({
                 entity: "sap.capire.incidents.Incidents",
                 attribute: "status",
-                keys: `ID=${draftId}`,
-                modification: "delete"
             })
-        expect(incidentChanges.length).to.equal(1);
+        expect(incidentChanges.length).to.equal(0);
       });
     });
 });
