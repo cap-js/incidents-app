@@ -27,7 +27,6 @@ async function remoteService () {
         "@sap-cloud-sdk/resilience",
         "@sap-cloud-sdk/util"
     ]
-    console.info("Preparing Incidents-app with Remote Service")
     return await run(`npm add ${deps.join(" ")}`)
 }
 
@@ -53,7 +52,6 @@ async function messaging () {
         "@sap-cloud-sdk/util",
         "@sap/xb-msg-amqp-v100"
     ]
-    console.info("Preparing Incidents-app with Messaging")
     return await run(`npm add ${deps.join(" ")}`)
 }
 
