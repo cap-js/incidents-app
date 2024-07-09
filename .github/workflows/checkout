@@ -12,7 +12,7 @@ async function remoteService () {
     const levelUP = "../../"
     const INCLUDES = ["srv", "test"]
     const paths = INCLUDES.map(pattern => join(__dirname, levelUP, TARGET_DIR, pattern))
-    const cmd = `cp -r ${paths.join(' ')} ${levelUP}`
+    const cmd = `cp -r ${paths.join(' ')} ${join(__dirname, levelUP)}`
     await run(cmd);
 
     const packageJson = JSON.parse(await readFile(join(__dirname, levelUP ,"package.json"), "utf-8"));
@@ -36,7 +36,7 @@ async function messaging () {
     const levelUP = "../../"
     const INCLUDES = ["app", "srv", "test"]
     const paths = INCLUDES.map(pattern => join(__dirname, levelUP, TARGET_DIR, pattern))
-    const cmd = `cp -r ${paths.join(' ')} ${levelUP}`
+    const cmd = `cp -r ${paths.join(' ')} ${join(__dirname, levelUP)}`
     await run(cmd);
 
     const packageJson = JSON.parse(await readFile(join(__dirname, levelUP, "package.json"), "utf-8"));
