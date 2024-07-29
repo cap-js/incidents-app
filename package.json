@@ -38,7 +38,9 @@
     "reset": "read -p 'This will irreversibly reset your working directory including ALL files in this git repo. Continue?' -n 1 -r && echo && if [[ $REPLY =~ ^[Yy]$ ]]; then git clean -fd && git reset --hard && npm i; fi"
   },
   "jest": {
-    "modulePathIgnorePatterns": ["<rootDir>/xmpls/"]
+    "modulePathIgnorePatterns": [
+      "<rootDir>/xmpls/"
+    ]
   },
   "sapux": [
     "app/incidents"
@@ -61,6 +63,10 @@
             }
           }
         }
+      },
+      "API_BUSINESS_PARTNER": {
+        "kind": "odata-v2",
+        "model": "srv/external/API_BUSINESS_PARTNER"
       }
     }
   },

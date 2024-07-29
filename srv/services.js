@@ -28,7 +28,33 @@ class ProcessorService extends cds.ApplicationService {
   }
 }
 
-module.exports = { ProcessorService }
+class AdminService extends cds.ApplicationService {
+  async init() {
+    const { Customers } = this.entities
+
+    const bupa = await cds.connect.to('API_BUSINESS_PARTNER')
+    const { A_BusinessPartner } = bupa.entities
+
+    async function upsertCustomer(id) {
+      const remote = await bupa.get(A_BusinessPartner, id)
+      const local = await SELECT.from(Customers, id)
+      // TODO: field mapping from A_BusinessPartner to Customers
+      if (local) await UPDATE(Customers, id).with(remote)
+      else await INSERT.into(Customers).entries(remote)
+    }
+
+    bupa.on('BusinessPartner.Created', async function (msg) {
+      await upsertCustomer(msg.data.BusinessPartner)
+    })
+    bupa.on('BusinessPartner.Changed', async function (msg) {
+      await upsertCustomer(msg.data.BusinessPartner)
+    })
+
+    return super.init()
+  }
+}
+
+module.exports = { ProcessorService, AdminService }
 
 
 // ------------------------------------------------------------------------------------------------------------------------------------------------------------
