@@ -16,6 +16,12 @@
     "express": "^4"
   },
   "devDependencies": {
+    "@cap-js/audit-logging": "^0.8.0",
+    "@cap-js/change-tracking": "^1.0.6",
+    "@sap-cloud-sdk/connectivity": "^3.16.0",
+    "@sap-cloud-sdk/http-client": "^3.16.0",
+    "@sap-cloud-sdk/resilience": "^3.16.0",
+    "@sap-cloud-sdk/util": "^3.16.0",
     "@cap-js/sqlite": "^1.0.1",
     "@sap/ux-specification": "^1.108.4",
     "axios": "^1.4.0",
