@@ -43,6 +43,7 @@ class AdminService extends cds.ApplicationService {
       else await INSERT.into(Customers).entries(remote)
     }
 
+    // REVISIT: we should probably only update existing replicas
     bupa.on('BusinessPartner.Created', async function (msg) {
       await upsertCustomer(msg.data.BusinessPartner)
     })
