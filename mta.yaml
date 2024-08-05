@@ -25,7 +25,7 @@ modules:
       buildpack: nodejs_buildpack
       readiness-health-check-type: http
       readiness-health-check-http-endpoint: /health
-      domain: cert.${default-domain} # needed for mTLS
+      domain: cert.${default-domain} # needed for mTLS -> do we need the non-cert route as well?
     build-parameters:
       builder: npm
     provides:

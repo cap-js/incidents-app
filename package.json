@@ -73,7 +73,10 @@
       "db": {
         "kind": "sqlite",
         "credentials": {
-          "url": "db.sqlite"
+          "url": "db.sqlite",
+          "[test]": {
+            "url": ":memory:"
+          }
         }
       },
       "messaging": {
