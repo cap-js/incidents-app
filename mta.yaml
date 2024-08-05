@@ -12,8 +12,10 @@ build-parameters:
       commands:
         - npm ci
         - npx cds build --production
-        - cp db.sqlite gen/srv # deploy the sqlite db
         - cp -r cert/ gen/srv/cert # deploy the certificates
+        # deploy the sqlite db
+        - npx cds deploy
+        - cp db.sqlite gen/srv
 
 modules:
   - name: incidents-srv

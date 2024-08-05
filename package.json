@@ -81,6 +81,9 @@
         "x509": {
           "certPath": "./cert/sap.cdsipoc-client-cert-chain.pem",
           "pkeyPath": "./cert/sap.cdsipoc-client-cert-key.pem"
+        },
+        "[test]": {
+          "kind": "local-messaging"
         }
       },
       "API_BUSINESS_PARTNER": {
