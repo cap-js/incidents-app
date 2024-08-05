@@ -1,0 +1,65 @@
+_schema-version: '3.1'
+ID: d050513.incidents
+version: 1.0.0
+description: "S/4HANA to @capire/incidents"
+
+parameters:
+  enable-parallel-deployments: true
+
+build-parameters:
+  before-all:
+    - builder: custom
+      commands:
+        - npm ci
+        - npx cds build --production
+        - cp db.sqlite gen/srv # deploy the sqlite db
+        - cp -r cert/ gen/srv/cert # deploy the certificates
+
+modules:
+  - name: incidents-srv
+    type: nodejs
+    path: gen/srv
+    parameters:
+      buildpack: nodejs_buildpack
+      readiness-health-check-type: http
+      readiness-health-check-http-endpoint: /health
+      domain: cert.${default-domain} # needed for mTLS
+    build-parameters:
+      builder: npm
+    provides:
+      - name: incidents-srv-api
+        properties:
+          url: ${default-url}
+    requires:
+      - name: incidents-logs
+      - name: incidents-destination
+      - name: incidents-event-broker
+        parameters:
+          config:
+            authentication-type: X509_PROVIDED
+            x509:
+              outbound: # values for certificate and key provided via x509.mtaext
+                certificate: '***'
+                key: '***'
+
+resources:
+  - name: incidents-logs
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: application-logs
+      service-plan: lite
+  - name: incidents-destination
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: destination
+      service-plan: lite
+  - name: incidents-event-broker
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: event-broker
+      service-plan: event-connectivity
+      config:
+        systemNamespace: cap.incidents # inconsequential value, just shouldn't clash (probably) but "must be fewer than 15 symbols" -> what to recommend?
+        webhookUrl: ~{incidents-srv-api/url}/-/cds/event-broker/webhook
+    requires:
+      - name: incidents-srv-api

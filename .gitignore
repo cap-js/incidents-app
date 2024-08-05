@@ -40,3 +40,8 @@ resources/
 
 # VitePress
 _docs/.vitepress/cache
+
+# secrets
+cert
+*.mtaext
+notes.txt

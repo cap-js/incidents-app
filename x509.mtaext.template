@@ -1,0 +1,23 @@
+_schema-version: '3.1'
+ID: d050513.incidents.x509
+extends: d050513.incidents
+
+modules:
+  - name: incidents-srv
+    requires:
+      - name: incidents-event-broker
+        parameters:
+          config:
+            x509:
+              outbound:
+                certificate: |-
+                  -----BEGIN CERTIFICATE-----
+                  MII...
+                  -----END CERTIFICATE-----
+                  -----BEGIN CERTIFICATE-----
+                  MII...
+                  -----END CERTIFICATE-----
+                key: |-
+                  -----BEGIN PRIVATE KEY-----
+                  MII...
+                  -----END PRIVATE KEY-----

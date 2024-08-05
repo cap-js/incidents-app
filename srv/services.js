@@ -35,20 +35,18 @@ class AdminService extends cds.ApplicationService {
     const bupa = await cds.connect.to('API_BUSINESS_PARTNER')
     const { A_BusinessPartner } = bupa.entities
 
-    async function upsertCustomer(id) {
-      const remote = await bupa.get(A_BusinessPartner, id)
-      const local = await SELECT.from(Customers, id)
-      // TODO: field mapping from A_BusinessPartner to Customers
-      if (local) await UPDATE(Customers, id).with(remote)
-      else await INSERT.into(Customers).entries(remote)
-    }
+    const BUPA_LOG = cds.log('API_BUSINESS_PARTNER')
 
-    // REVISIT: we should probably only update existing replicas
-    bupa.on('BusinessPartner.Created', async function (msg) {
-      await upsertCustomer(msg.data.BusinessPartner)
-    })
     bupa.on('BusinessPartner.Changed', async function (msg) {
-      await upsertCustomer(msg.data.BusinessPartner)
+      BUPA_LOG.info('Received event "BusinessPartner.Changed" with data:', msg.data)
+      const ID = msg.data.BusinessPartner
+      const local = await SELECT.one.from(Customers, ID)
+      if (!local) {
+        BUPA_LOG.info('No matching Customer in local database')
+        return
+      }
+      // the below is only pseudo code!!!
+      await UPDATE(Customers, ID).with(await bupa.get(A_BusinessPartner, ID))
     })
 
     return super.init()
