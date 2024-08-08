@@ -28,7 +28,32 @@ class ProcessorService extends cds.ApplicationService {
   }
 }
 
-module.exports = { ProcessorService }
+class AdminService extends cds.ApplicationService {
+  async init() {
+    const { Customers } = this.entities
+
+    const bupa = await cds.connect.to('API_BUSINESS_PARTNER')
+    const { A_BusinessPartner } = bupa.entities
+
+    const BUPA_LOG = cds.log('API_BUSINESS_PARTNER')
+
+    bupa.on('BusinessPartner.Changed', async function (msg) {
+      BUPA_LOG.info('Received event "BusinessPartner.Changed" with data:', msg.data)
+      const ID = msg.data.BusinessPartner
+      const local = await SELECT.one.from(Customers, ID)
+      if (!local) {
+        BUPA_LOG.info('No matching Customer in local database')
+        return
+      }
+      // the below is only pseudo code!!!
+      await UPDATE(Customers, ID).with(await bupa.get(A_BusinessPartner, ID))
+    })
+
+    return super.init()
+  }
+}
+
+module.exports = { ProcessorService, AdminService }
 
 
 // ------------------------------------------------------------------------------------------------------------------------------------------------------------
