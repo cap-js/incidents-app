@@ -30,7 +30,7 @@
   "scripts": {
     "build": "mbt build -t gen --mtar mta.tar",
     "deploy": "cf deploy gen/mta.tar -e x509.mtaext",
-    "undeploy": "cf undeploy d050513.incidents --delete-services --delete-service-keys",
+    "undeploy": "cf undeploy cap.incidents --delete-services --delete-service-keys",
     "watch": "cds watch",
     "start": "cds-serve",
     "test": "npx jest --silent",

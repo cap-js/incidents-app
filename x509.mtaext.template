@@ -1,6 +1,6 @@
 _schema-version: '3.1'
-ID: d050513.incidents.x509
-extends: d050513.incidents
+ID: cap.incidents.x509
+extends: cap.incidents
 
 modules:
   - name: incidents-srv
