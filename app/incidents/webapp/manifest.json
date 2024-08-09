@@ -23,7 +23,8 @@
                         "additionalParameters": "allowed"
                     },
                     "semanticObject": "Incidents",
-                    "action": "display"
+                    "action": "display",
+                    "title": "{{flpTitle}}"
                 }
             }
         },
