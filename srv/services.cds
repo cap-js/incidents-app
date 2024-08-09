@@ -11,7 +11,7 @@ service ProcessorService {
 /**
  * Service used by administrators to manage customers and incidents.
  */
-service AdminService @(requires:'admin') {
+service AdminService {
   entity Customers as projection on my.Customers;
   entity Incidents as projection on my.Incidents;
 }
