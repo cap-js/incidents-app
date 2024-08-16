@@ -1,7 +1,7 @@
 {
   "_version": "1.59.0",
   "sap.app": {
-    "id": "ns.incidents",
+    "id": "ns.incidents.incidents",
     "type": "application",
     "i18n": "i18n/i18n.properties",
     "applicationVersion": {
@@ -12,8 +12,8 @@
     "resources": "resources.json",
     "sourceTemplate": {
       "id": "@sap/generator-fiori:lrop",
-      "version": "1.13.3",
-      "toolsId": "0f04f804-1c69-4a2d-bc3d-81fcff64c262"
+      "version": "1.14.3",
+      "toolsId": "aa98de0b-cbc0-4e19-b573-f275822f564b"
     },
     "dataSources": {
       "mainService": {
@@ -45,7 +45,7 @@
   "sap.ui5": {
     "flexEnabled": true,
     "dependencies": {
-      "minUI5Version": "1.123.1",
+      "minUI5Version": "1.127.0",
       "libs": {
         "sap.m": {},
         "sap.ui.core": {},
@@ -61,14 +61,13 @@
       "i18n": {
         "type": "sap.ui.model.resource.ResourceModel",
         "settings": {
-          "bundleName": "ns.incidents.i18n.i18n"
+          "bundleName": "ns.incidents.incidents.i18n.i18n"
         }
       },
       "": {
         "dataSource": "mainService",
         "preload": true,
         "settings": {
-          "synchronizationMode": "None",
           "operationMode": "Server",
           "autoExpandSelect": true,
           "earlyRequests": true
@@ -83,6 +82,7 @@
       "css": []
     },
     "routing": {
+      "config": {},
       "routes": [
         {
           "pattern": ":?query:",
@@ -133,7 +133,6 @@
               "controlConfiguration": {
                 "conversation/@com.sap.vocabularies.UI.v1.LineItem#i18nConversation": {
                   "tableSettings": {
-                    "type": "ResponsiveTable",
                     "creationMode": {
                       "name": "Inline"
                     }
