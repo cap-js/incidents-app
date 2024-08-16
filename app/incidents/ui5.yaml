@@ -2,7 +2,7 @@
 
 specVersion: "3.1"
 metadata:
-  name: ns.incidents.incidents
+  name: ns.incidents
 type: application
 server:
   customMiddleware:

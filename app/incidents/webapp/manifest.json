@@ -1,7 +1,7 @@
 {
   "_version": "1.59.0",
   "sap.app": {
-    "id": "ns.incidents.incidents",
+    "id": "ns.incidents",
     "type": "application",
     "i18n": "i18n/i18n.properties",
     "applicationVersion": {
@@ -61,7 +61,7 @@
       "i18n": {
         "type": "sap.ui.model.resource.ResourceModel",
         "settings": {
-          "bundleName": "ns.incidents.incidents.i18n.i18n"
+          "bundleName": "ns.incidents.i18n.i18n"
         }
       },
       "": {
