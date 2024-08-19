@@ -69,7 +69,7 @@ resources:
   - name: incidents-ias
     type: org.cloudfoundry.managed-service
     requires:
-      - name: srv-api
+      - name: incidents-srv-api
     processed-after:
       # for consumed-services (cf. below), incidents-event-broker must already exist
       # -> ensure incidents-ias is created afterwards
