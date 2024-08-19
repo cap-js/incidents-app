@@ -85,6 +85,11 @@
           "kind": "local-messaging"
         }
       },
+      "my-ias": {
+        "vcap": {
+          "label": "identity"
+        }
+      },
       "API_BUSINESS_PARTNER": {
         "kind": "odata-v2",
         "model": "srv/external/API_BUSINESS_PARTNER",

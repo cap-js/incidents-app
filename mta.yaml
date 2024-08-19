@@ -12,7 +12,6 @@ build-parameters:
       commands:
         - npm ci
         - npx cds build --production
-        - cp -r cert/ gen/srv/cert # deploy the certificates
         # deploy the sqlite db
         - npx cds deploy
         - cp db.sqlite gen/srv
@@ -25,7 +24,6 @@ modules:
       buildpack: nodejs_buildpack
       readiness-health-check-type: http
       readiness-health-check-http-endpoint: /health
-      domain: cert.${default-domain} # needed for mTLS -> do we need the non-cert route as well?
     build-parameters:
       builder: npm
     provides:
@@ -38,11 +36,12 @@ modules:
       - name: incidents-event-broker
         parameters:
           config:
-            authentication-type: X509_PROVIDED
-            x509:
-              outbound: # values for certificate and key provided via x509.mtaext
-                certificate: '***'
-                key: '***'
+            authentication-type: X509_IAS
+      - name: incidents-ias
+        parameters:
+          config:
+            credential-type: "X509_GENERATED"
+            app-identifier: "cap.incidents"
 
 resources:
   - name: incidents-logs
@@ -61,7 +60,25 @@ resources:
       service: event-broker
       service-plan: event-connectivity
       config:
-        systemNamespace: cap.incidents # inconsequential value, just shouldn't clash (probably) but "must be fewer than 15 symbols" -> what to recommend?
+        # unique identifier for this event broker instance
+        # should start with own namespace (i.e., "foo.bar") and may not be longer than 15 characters
+        systemNamespace: cap.incidents
         webhookUrl: ~{incidents-srv-api/url}/-/cds/event-broker/webhook
     requires:
       - name: incidents-srv-api
+  - name: incidents-ias
+    type: org.cloudfoundry.managed-service
+    requires:
+      - name: srv-api
+    processed-after:
+      # for consumed-services (cf. below), incidents-event-broker must already exist
+      # -> ensure incidents-ias is created afterwards
+      - incidents-event-broker
+    parameters:
+      service: identity
+      service-plan: application
+      config:
+        consumed-services:
+          - service-instance-name: incidents-event-broker
+        display-name: cap.incidents
+        home-url: ~{incidents-srv-api/url}
