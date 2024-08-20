@@ -40,8 +40,8 @@ modules:
       - name: incidents-ias
         parameters:
           config:
-            credential-type: "X509_GENERATED"
-            app-identifier: "cap.incidents"
+            credential-type: X509_GENERATED
+            app-identifier: cap.incidents
 
 resources:
   - name: incidents-logs
