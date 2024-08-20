@@ -29,7 +29,7 @@ modules:
     provides:
       - name: incidents-srv-api
         properties:
-          url: ${default-url}
+          url: ${default-url} #> needed in webhookUrl and home-url below
     requires:
       - name: incidents-logs
       - name: incidents-destination
@@ -41,7 +41,7 @@ modules:
         parameters:
           config:
             credential-type: X509_GENERATED
-            app-identifier: cap.incidents
+            app-identifier: cap.incidents #> any value, e.g., reuse MTA ID
 
 resources:
   - name: incidents-logs
@@ -72,7 +72,7 @@ resources:
       - name: incidents-srv-api
     processed-after:
       # for consumed-services (cf. below), incidents-event-broker must already exist
-      # -> ensure incidents-ias is created afterwards
+      # -> ensure incidents-ias is created after incidents-event-broker
       - incidents-event-broker
     parameters:
       service: identity
@@ -80,5 +80,5 @@ resources:
       config:
         consumed-services:
           - service-instance-name: incidents-event-broker
-        display-name: cap.incidents
+        display-name: cap.incidents #> any value, e.g., reuse MTA ID
         home-url: ~{incidents-srv-api/url}
