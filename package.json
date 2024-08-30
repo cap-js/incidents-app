@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "@sap/cds": ">=8",
-    "@sap/cds-mtxs": "^2",
+    "@sap/cds-mtxs": "2.0.6",
     "@sap/xssec": "^4",
     "express": "^4"
   },
