@@ -13,10 +13,14 @@
   },
   "dependencies": {
     "@sap/cds": ">=8",
+    "@sap/cds-mtxs": "^2",
+    "@sap/xssec": "^4",
     "express": "^4"
   },
   "devDependencies": {
+    "@cap-js/cap-operator-plugin": "^0.2.0",
     "@cap-js/sqlite": "^1.7.3",
+    "@sap/cds-dk": "^8",
     "@sap/ux-specification": "^1.120.16",
     "axios": "^1.7.3",
     "chai": "^4.3.7",
@@ -38,31 +42,19 @@
     "reset": "read -p 'This will irreversibly reset your working directory including ALL files in this git repo. Continue?' -n 1 -r && echo && if [[ $REPLY =~ ^[Yy]$ ]]; then git clean -fd && git reset --hard && npm i; fi"
   },
   "jest": {
-    "modulePathIgnorePatterns": ["<rootDir>/xmpls/"]
+    "modulePathIgnorePatterns": [
+      "<rootDir>/xmpls/"
+    ]
   },
   "sapux": [
     "app/incidents"
   ],
   "cds": {
     "requires": {
-      "auth": {
-        "[development]": {
-          "users": {
-            "alice": {
-              "roles": [
-                "support",
-                "admin"
-              ]
-            },
-            "bob": {
-              "roles": [
-                "support"
-              ]
-            }
-          }
-        }
-      }
-    }
+      "multitenancy": true,
+      "auth": "xsuaa"
+    },
+    "profile": "with-mtx-sidecar"
   },
   "private": true
 }
