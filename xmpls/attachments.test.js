@@ -1,6 +1,5 @@
-const cds = require('@sap/cds/lib')
-const { default: axios } = require('axios')
-const { GET, POST, DELETE, PUT, expect } = cds.test(__dirname + '../../')
+const cds = require('@sap/cds')
+const { GET, POST, PUT, DELETE , expect, axios} = cds.test(__dirname + '/..', '--with-mocks')
 const { createReadStream } = cds.utils.fs;
 const { join } = cds.utils.path;
 axios.defaults.auth = { username: 'alice' }
@@ -40,7 +39,7 @@ describe('Test attachments service', () => {
       )
  
 
-    const content = createReadStream(join(__dirname, "util/SolarPanelReport.pdf"));
+    const content = createReadStream(join(__dirname, "../xmpls/SolarPanelReport.pdf"));
     const attachRes = await POST(`/odata/v4/processor/Incidents(ID=${draftId},IsActiveEntity=false)/attachments`, 
     {
       up__ID: draftId,
