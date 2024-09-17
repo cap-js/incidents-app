@@ -71,7 +71,7 @@ describe('Test attachments service', () => {
     
 
   })
-  it('- check the uploaded file', async () => {
+  it('Check the uploaded file', async () => {
     const response = await GET(`/odata/v4/processor/Incidents(ID=${draftId},IsActiveEntity=true)/attachments(up__ID=${draftId},ID=${docId},IsActiveEntity=true)/content`);
     expect(response.status).to.equal(200);
     expect(response.data).to.not.be.undefined;
