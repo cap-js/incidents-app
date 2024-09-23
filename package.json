@@ -12,7 +12,14 @@
     "dummy": 0
   },
   "dependencies": {
+    "@cap-js/audit-logging": "^0.8.1",
+    "@cap-js/change-tracking": "^1.0.7",
+    "@sap-cloud-sdk/connectivity": "^3.21.0",
+    "@sap-cloud-sdk/http-client": "^3.21.0",
+    "@sap-cloud-sdk/resilience": "^3.21.0",
+    "@sap-cloud-sdk/util": "^3.21.0",
     "@sap/cds": ">=8",
+    "@sap/xb-msg-amqp-v100": "^0.9.58",
     "express": "^4"
   },
   "devDependencies": {
@@ -38,7 +45,9 @@
     "reset": "read -p 'This will irreversibly reset your working directory including ALL files in this git repo. Continue?' -n 1 -r && echo && if [[ $REPLY =~ ^[Yy]$ ]]; then git clean -fd && git reset --hard && npm i; fi"
   },
   "jest": {
-    "modulePathIgnorePatterns": ["<rootDir>/xmpls/"]
+    "modulePathIgnorePatterns": [
+      "<rootDir>/xmpls/"
+    ]
   },
   "sapux": [
     "app/incidents"
@@ -60,6 +69,23 @@
               ]
             }
           }
+        }
+      },
+      "API_BUSINESS_PARTNER": {
+        "kind": "odata-v2",
+        "model": "srv/external/API_BUSINESS_PARTNER",
+        "[production]": {
+          "credentials": {
+            "destination": "incidents-api-access",
+            "path": "/sap/opu/odata/sap/API_BUSINESS_PARTNER"
+          }
+        }
+      },
+      "messaging": {
+        "kind": "local-messaging",
+        "[production]": {
+          "kind": "enterprise-messaging-shared",
+          "format": "cloudevents"
         }
       }
     }
