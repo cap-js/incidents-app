@@ -16,7 +16,7 @@ serviceInstances:
         credential-types:
           - binding-secret
         redirect-uris: []
-  saas-registry:
+  saasRegistry:
     name: incidents-saas-registry
     serviceOfferingName: saas-registry
     servicePlanName: application
@@ -31,7 +31,7 @@ serviceInstances:
         onSubscriptionAsync: true
         onUnSubscriptionAsync: true
       category: CAP
-  service-manager:
+  serviceManager:
     name: incidents-service-manager
     serviceOfferingName: service-manager
     servicePlanName: container
@@ -50,13 +50,13 @@ serviceBindings:
     secretName: incidents-uaa-bind-secret
     secretKey: credentials
     parameters: {}
-  saas-registry:
+  saasRegistry:
     name: incidents-saas-registry-bind
     serviceInstanceName: incidents-saas-registry
     secretName: incidents-saas-registry-bind-secret
     secretKey: credentials
     parameters: {}
-  service-manager:
+  serviceManager:
     name: incidents-service-manager-bind
     serviceInstanceName: incidents-service-manager
     secretName: incidents-service-manager-bind-secret
@@ -80,7 +80,7 @@ btp:
 imagePullSecrets: []
 
 workloads:
-  app-router:
+  appRouter:
     name: app-router
     labels:
       sme.sap.com/app-type: incidents
@@ -105,7 +105,7 @@ workloads:
     deploymentDefinition:
       type: CAP
       image: null
-  tenant-job:
+  tenantJob:
     name: tenant-job
     labels:
       sme.sap.com/app-type: incidents
@@ -116,7 +116,7 @@ workloads:
     jobDefinition:
       type: TenantOperation
       image: null
-  custom-op:
+  customOp:
     name: custom-op
     labels:
       sme.sap.com/app-type: incidents

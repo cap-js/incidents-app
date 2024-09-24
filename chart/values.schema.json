@@ -36,6 +36,21 @@
             },
             "type": "object"
         },
+        "AppArmorProfile": {
+            "additionalProperties": false,
+            "properties": {
+                "localhostProfile": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "type"
+            ],
+            "type": "object"
+        },
         "AzureDiskVolumeSource": {
             "additionalProperties": false,
             "properties": {
@@ -203,6 +218,18 @@
             ],
             "type": "object"
         },
+        "ConfigMapEnvSource": {
+            "additionalProperties": false,
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "optional": {
+                    "type": "boolean"
+                }
+            },
+            "type": "object"
+        },
         "ConfigMapKeySelector": {
             "additionalProperties": false,
             "properties": {
@@ -260,6 +287,151 @@
             },
             "type": "object"
         },
+        "Container": {
+            "additionalProperties": false,
+            "properties": {
+                "args": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
+                "command": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
+                "env": {
+                    "items": {
+                        "$ref": "#/$defs/EnvVar"
+                    },
+                    "type": "array"
+                },
+                "envFrom": {
+                    "items": {
+                        "$ref": "#/$defs/EnvFromSource"
+                    },
+                    "type": "array"
+                },
+                "image": {
+                    "type": "string"
+                },
+                "imagePullPolicy": {
+                    "type": "string"
+                },
+                "lifecycle": {
+                    "$ref": "#/$defs/Lifecycle"
+                },
+                "livenessProbe": {
+                    "$ref": "#/$defs/Probe"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "ports": {
+                    "items": {
+                        "$ref": "#/$defs/ContainerPort"
+                    },
+                    "type": "array"
+                },
+                "readinessProbe": {
+                    "$ref": "#/$defs/Probe"
+                },
+                "resizePolicy": {
+                    "items": {
+                        "$ref": "#/$defs/ContainerResizePolicy"
+                    },
+                    "type": "array"
+                },
+                "resources": {
+                    "$ref": "#/$defs/ResourceRequirements"
+                },
+                "restartPolicy": {
+                    "type": "string"
+                },
+                "securityContext": {
+                    "$ref": "#/$defs/SecurityContext"
+                },
+                "startupProbe": {
+                    "$ref": "#/$defs/Probe"
+                },
+                "stdin": {
+                    "type": "boolean"
+                },
+                "stdinOnce": {
+                    "type": "boolean"
+                },
+                "terminationMessagePath": {
+                    "type": "string"
+                },
+                "terminationMessagePolicy": {
+                    "type": "string"
+                },
+                "tty": {
+                    "type": "boolean"
+                },
+                "volumeDevices": {
+                    "items": {
+                        "$ref": "#/$defs/VolumeDevice"
+                    },
+                    "type": "array"
+                },
+                "volumeMounts": {
+                    "items": {
+                        "$ref": "#/$defs/VolumeMount"
+                    },
+                    "type": "array"
+                },
+                "workingDir": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "name"
+            ],
+            "type": "object"
+        },
+        "ContainerPort": {
+            "additionalProperties": false,
+            "properties": {
+                "containerPort": {
+                    "type": "integer"
+                },
+                "hostIP": {
+                    "type": "string"
+                },
+                "hostPort": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "protocol": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "containerPort"
+            ],
+            "type": "object"
+        },
+        "ContainerResizePolicy": {
+            "additionalProperties": false,
+            "properties": {
+                "resourceName": {
+                    "type": "string"
+                },
+                "restartPolicy": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "resourceName",
+                "restartPolicy"
+            ],
+            "type": "object"
+        },
         "CredentialsRotationPolicy": {
             "additionalProperties": false,
             "properties": {
@@ -301,6 +473,12 @@
                 },
                 "imagePullPolicy": {
                     "type": "string"
+                },
+                "initContainers": {
+                    "items": {
+                        "$ref": "#/$defs/Container"
+                    },
+                    "type": "array"
                 },
                 "livenessProbe": {
                     "$ref": "#/$defs/Probe"
@@ -450,6 +628,21 @@
                 },
                 "sizeLimit": {
                     "$ref": "#/$defs/Quantity"
+                }
+            },
+            "type": "object"
+        },
+        "EnvFromSource": {
+            "additionalProperties": false,
+            "properties": {
+                "configMapRef": {
+                    "$ref": "#/$defs/ConfigMapEnvSource"
+                },
+                "prefix": {
+                    "type": "string"
+                },
+                "secretRef": {
+                    "$ref": "#/$defs/SecretEnvSource"
                 }
             },
             "type": "object"
@@ -814,6 +1007,12 @@
                 "imagePullPolicy": {
                     "type": "string"
                 },
+                "initContainers": {
+                    "items": {
+                        "$ref": "#/$defs/Container"
+                    },
+                    "type": "array"
+                },
                 "nodeName": {
                     "type": "string"
                 },
@@ -932,6 +1131,36 @@
                 "key",
                 "operator"
             ],
+            "type": "object"
+        },
+        "Lifecycle": {
+            "additionalProperties": false,
+            "properties": {
+                "postStart": {
+                    "$ref": "#/$defs/LifecycleHandler"
+                },
+                "preStop": {
+                    "$ref": "#/$defs/LifecycleHandler"
+                }
+            },
+            "type": "object"
+        },
+        "LifecycleHandler": {
+            "additionalProperties": false,
+            "properties": {
+                "exec": {
+                    "$ref": "#/$defs/ExecAction"
+                },
+                "httpGet": {
+                    "$ref": "#/$defs/HTTPGetAction"
+                },
+                "sleep": {
+                    "$ref": "#/$defs/SleepAction"
+                },
+                "tcpSocket": {
+                    "$ref": "#/$defs/TCPSocketAction"
+                }
+            },
             "type": "object"
         },
         "LocalObjectReference": {
@@ -1335,6 +1564,9 @@
         "PodSecurityContext": {
             "additionalProperties": false,
             "properties": {
+                "appArmorProfile": {
+                    "$ref": "#/$defs/AppArmorProfile"
+                },
                 "fsGroup": {
                     "type": "integer"
                 },
@@ -1489,15 +1721,7 @@
         },
         "Quantity": {
             "additionalProperties": false,
-            "properties": {
-                "Format": {
-                    "type": "string"
-                }
-            },
-            "required": [
-                "Format"
-            ],
-            "type": "object"
+            "type": "string"
         },
         "QuobyteVolumeSource": {
             "additionalProperties": false,
@@ -1697,6 +1921,18 @@
             ],
             "type": "object"
         },
+        "SecretEnvSource": {
+            "additionalProperties": false,
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "optional": {
+                    "type": "boolean"
+                }
+            },
+            "type": "object"
+        },
         "SecretKeyReference": {
             "additionalProperties": false,
             "properties": {
@@ -1776,6 +2012,9 @@
                 "allowPrivilegeEscalation": {
                     "type": "boolean"
                 },
+                "appArmorProfile": {
+                    "$ref": "#/$defs/AppArmorProfile"
+                },
                 "capabilities": {
                     "$ref": "#/$defs/Capabilities"
                 },
@@ -1824,6 +2063,18 @@
             },
             "required": [
                 "path"
+            ],
+            "type": "object"
+        },
+        "SleepAction": {
+            "additionalProperties": false,
+            "properties": {
+                "seconds": {
+                    "type": "integer"
+                }
+            },
+            "required": [
+                "seconds"
             ],
             "type": "object"
         },
@@ -2148,6 +2399,22 @@
             ],
             "type": "object"
         },
+        "VolumeDevice": {
+            "additionalProperties": false,
+            "properties": {
+                "devicePath": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "name",
+                "devicePath"
+            ],
+            "type": "object"
+        },
         "VolumeMount": {
             "additionalProperties": false,
             "properties": {
@@ -2162,6 +2429,9 @@
                 },
                 "readOnly": {
                     "type": "boolean"
+                },
+                "recursiveReadOnly": {
+                    "type": "string"
                 },
                 "subPath": {
                     "type": "string"
@@ -2337,7 +2607,7 @@
             "type": "object"
         },
         "chartValue": {
-            "additionalProperties": false,
+            "additionalProperties": true,
             "properties": {
                 "app": {
                     "$ref": "#/$defs/app"
@@ -2432,6 +2702,9 @@
                     "type": "string"
                 },
                 "secretRootKey": {
+                    "type": "string"
+                },
+                "secretTemplate": {
                     "type": "string"
                 },
                 "serviceInstanceName": {

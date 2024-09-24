@@ -1,5 +1,5 @@
 serviceInstances:
-  saas-registry:
+  saasRegistry:
     parameters:
       xsappname: incidentapp
       appName: incidentapp
@@ -52,13 +52,13 @@ workloads:
       - name: CDS_CONFIG
         value: '{"requires":{"cds.xt.DeploymentService":{"hdi": { "create": {"database_id": "<<HanaInstanceId>>"} }}}}'
 
-  app-router:
+  appRouter:
     deploymentDefinition:
       env:
       - name: TENANT_HOST_PATTERN
         value: ^(.*).(incidentapp.<<SHOOT_DOMAIN>>|iasalt.<<SHOOT_DOMAIN>>)
 
-  tenant-job:
+  tenantJob:
     jobDefinition:
       env:
       - name: CDS_ENV
