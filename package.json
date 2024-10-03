@@ -18,6 +18,7 @@
   "devDependencies": {
     "@cap-js/audit-logging": "^0.8.0",
     "@cap-js/change-tracking": "^1.0.6",
+    "@cap-js/attachments": "^1.1.6",
     "@cap-js/sqlite": "^1.0.1",
     "@sap/ux-specification": "^1.108.4",
     "axios": "^1.4.0",
@@ -32,7 +33,7 @@
     "test": "npx jest --silent",
     "add-change-tracking": "npm add @cap-js/change-tracking && cp xmpls/change-tracking.cds ./srv",
     "add-telemetry": "npm add @cap-js/telemetry",
-    "add-attachments": "npm add @cap-js/attachments && cp -r xmpls/attachments.cds ./db && cp xmpls/attachments.test.js ./test",
+    "add-attachments": "npm add @cap-js/attachments && cp -r xmpls/attachments.cds ./srv",
     "add-notifications": "npm add @cap-js/notifications && cp xmpls/alert-notifications.js ./srv && cp xmpls/notification-types.json ./srv",
     "add-audit-log": "npm add @cap-js/audit-logging && cp xmpls/data-privacy.cds ./srv",
     "add-remote-service": "./.github/workflows/checkout remote-service",
