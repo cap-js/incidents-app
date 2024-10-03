@@ -1,12 +1,24 @@
 const cds = require("@sap/cds");
-const { GET, POST, PATCH, DELETE , expect, axios} = cds.test(__dirname + '/..', '--with-mocks')
+const { setup, reset} = require("../.github/workflows/checkout");
 
 describe("Integration Test for ChangeTracking", () => {
+
+    beforeAll(async()=> {
+      await setup("xmpls", ["change-tracking.cds"])
+    })
+
+    afterAll(async() => {
+      await reset("srv", ["change-tracking.cds"])
+    })
+    
+    const { GET, POST, PATCH, DELETE , expect, axios} = cds.test(__dirname + '/..', '--with-mocks')
+
     let draftId,incidentId;
     axios.defaults.auth = { username: "alice" };
     let processorService = null;
     let ChangeView = null;
     beforeAll(async () => {
+
       processorService = await cds.connect.to('ProcessorService');
       ChangeView = processorService.entities.ChangeView;
     });

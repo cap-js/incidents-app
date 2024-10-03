@@ -2,41 +2,26 @@
 /* eslint-disable no-console */
 
 const [,,$1] = process.argv
-const { exec } = require('child_process')
-const path = require('path')
+const { exec } = require('child_process');
 const { readFile, writeFile } = require("fs").promises;
 const { join } = require("path");
+const levelUP = "../../"
 
 async function remoteService () {
     const TARGET_DIR = "xmpls/remote-service"
-    const levelUP = "../../"
-    const INCLUDES = ["srv", "test"]
-    const paths = INCLUDES.map(pattern => join(__dirname, levelUP, TARGET_DIR, pattern))
-    const cmd = `cp -r ${paths.join(' ')} ${join(__dirname, levelUP)}`
-    await run(cmd);
 
     const packageJson = JSON.parse(await readFile(join(__dirname, levelUP ,"package.json"), "utf-8"));
     const delta = JSON.parse(await readFile(join(__dirname, levelUP, TARGET_DIR, "package.json"), "utf-8"));
     packageJson.cds.requires["API_BUSINESS_PARTNER"] = delta.cds.requires["API_BUSINESS_PARTNER"]
     await writeFile(join(__dirname, levelUP, "package.json"), JSON.stringify(packageJson, null, 2), "utf-8");
 
-    // dependencies
-    const deps = [
-        "@sap-cloud-sdk/connectivity",
-        "@sap-cloud-sdk/http-client",
-        "@sap-cloud-sdk/resilience",
-        "@sap-cloud-sdk/util"
-    ]
-    return await run(`npm add ${deps.join(" ")}`)
+    // Remove mashup.cds > needed only for test context
+    await run(`shx rm -rf ${join(__dirname, levelUP, TARGET_DIR, "srv/mashup.cds")}`);
+
 }
 
 async function messaging () {
     const TARGET_DIR = "xmpls/messaging"
-    const levelUP = "../../"
-    const INCLUDES = ["app", "srv", "test"]
-    const paths = INCLUDES.map(pattern => join(__dirname, levelUP, TARGET_DIR, pattern))
-    const cmd = `cp -r ${paths.join(' ')} ${join(__dirname, levelUP)}`
-    await run(cmd);
 
     const packageJson = JSON.parse(await readFile(join(__dirname, levelUP, "package.json"), "utf-8"));
     const delta = JSON.parse(await readFile(join(__dirname, levelUP, TARGET_DIR, "package.json"), "utf-8"));
@@ -44,15 +29,26 @@ async function messaging () {
     packageJson.cds.requires["messaging"] = delta.cds.requires["messaging"]
     await writeFile(join(__dirname, levelUP, "package.json"), JSON.stringify(packageJson, null, 2), "utf-8");
 
-     // dependencies
-     const deps = [
-        "@sap-cloud-sdk/connectivity",
-        "@sap-cloud-sdk/http-client",
-        "@sap-cloud-sdk/resilience",
-        "@sap-cloud-sdk/util",
-        "@sap/xb-msg-amqp-v100"
-    ]
-    return await run(`npm add ${deps.join(" ")}`)
+    // Add UI fields for email in annotation
+    const content = "using from './incidents/field';"
+    await run(`shx echo '${content}' > ${join(__dirname, levelUP, TARGET_DIR, "app/fields.cds")}`);
+
+    // Remove mashup.cds > needed only for test context
+    await run(`shx rm -rf ${join(__dirname, levelUP, TARGET_DIR, "srv/mashup.cds")}`);
+
+}
+
+async function setup (TARGET_DIR = 'xmpls', INCLUDES = []) {
+    const paths = INCLUDES.map(pattern => join(__dirname, levelUP, TARGET_DIR, pattern))
+    const cmd = `shx cp -r ${paths.join(' ')} ${join(__dirname, levelUP, "srv")}`
+    await run(cmd);
+}
+
+async function reset (TARGET_DIR = 'srv', INCLUDES = []) {
+
+    const paths = INCLUDES.map(pattern => join(__dirname, levelUP, TARGET_DIR, pattern))
+    const cmd = `shx rm -rf ${paths.join(' ')}`
+    await run(cmd);
 }
 
 function run (cmd, silent) {
@@ -79,3 +75,5 @@ switch ($1) {
     default:
         console.log('Usage: ./checkout <command>');
 }
+
+module.exports = { setup, reset }
