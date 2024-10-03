@@ -16,17 +16,11 @@
     "express": "^4"
   },
   "devDependencies": {
-<<<<<<< HEAD
     "@cap-js/audit-logging": "^0.8.0",
     "@cap-js/change-tracking": "^1.0.6",
     "@cap-js/sqlite": "^1.0.1",
     "@sap/ux-specification": "^1.108.4",
     "axios": "^1.4.0",
-=======
-    "@cap-js/sqlite": "^1.7.3",
-    "@sap/ux-specification": "^1.120.16",
-    "axios": "^1.7.3",
->>>>>>> 043b1b4863fca62da1e2c284300ceeca8a1ed573
     "chai": "^4.3.7",
     "chai-as-promised": "^7.1.1",
     "chai-subset": "^1.6.0",
