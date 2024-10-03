@@ -1,10 +1,20 @@
 const cds = require('@sap/cds')
-const { GET, POST, PUT, DELETE , expect, axios} = cds.test(__dirname + '/..', '--with-mocks')
+const { setup, reset} = require("../.github/workflows/checkout");
 const { createReadStream } = cds.utils.fs;
 const { join } = cds.utils.path;
-axios.defaults.auth = { username: 'alice' }
 
 jest.setTimeout(11111)
+
+beforeAll(async()=> {
+  await setup("xmpls", ["attachments.cds"])
+})
+
+afterAll(async() => {
+  await reset("srv", ["attachments.cds"])
+})
+
+const { GET, POST, PUT, DELETE , expect, axios} = cds.test(__dirname + '/..', '--with-mocks')
+axios.defaults.auth = { username: 'alice' }
 
 describe('Test attachments service', () => {
     let draftId = null;
@@ -39,7 +49,7 @@ describe('Test attachments service', () => {
       )
  
 
-    const content = createReadStream(join(__dirname, "../xmpls/SolarPanelReport.pdf"));
+    const content = createReadStream(join(__dirname, "/../xmpls/SolarPanelReport.pdf"));
     const attachRes = await POST(`/odata/v4/processor/Incidents(ID=${draftId},IsActiveEntity=false)/attachments`, 
     {
       up__ID: draftId,

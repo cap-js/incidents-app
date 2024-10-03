@@ -1,10 +1,22 @@
 const cds = require("@sap/cds");
-const { GET, POST, PATCH, DELETE, expect, axios, assert } = cds.test(__dirname + '/..', '--with-mocks')
+const { setup, reset} = require("../.github/workflows/checkout");
 
-axios.defaults.auth = { username: "alice" };
+
 describe("Integration Test for AuditLog", () => {
+
+  beforeAll(async () => {
+    await setup("xmpls", ["data-privacy.cds"])
+  })
+
+  afterAll(async() => {
+    await reset("srv", ["data-privacy.cds"])
+  })
+  
+  const { GET, POST, PATCH, expect, axios, assert } = cds.test(__dirname + '/..', '--with-mocks')
+
   let customerID,audit;
   beforeAll(async () => {
+     axios.defaults.auth = { username: "alice" };
      audit = await cds.connect.to('audit-log')
   });
 

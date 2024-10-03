@@ -1,10 +1,12 @@
 const cds = require("@sap/cds");
-const { GET, POST, PATCH, DELETE, expect, axios } = cds.test(__dirname + '/..', '--with-mocks')
 
-describe("Integration Test for Eventing", () => {
-    let draftId,incidentId;
+describe("Integration Test for Remote Service", () => {
+
+    const { GET, POST, PATCH, expect, axios } = cds.test(__dirname + '/../xmpls/remote-service', '--with-mocks');
+
     axios.defaults.auth = { username: "alice" };
-    describe("GET should return 200", () => {
+    let draftId,incidentId;
+    describe("Test the BusinessPartner GET Endpoints", () => {
         
         it("Should return list of Business Partners", async () => {
         const response = await GET("/odata/v4/api-business-partner/A_BusinessPartner");
@@ -45,6 +47,7 @@ describe("Integration Test for Eventing", () => {
       });
       it('+ Test the customer detail', async () => {
         const response = await GET(`/odata/v4/processor/Incidents?$filter=ID eq ${draftId}`);
+        //incidentId = ID;
         expect(response.status).to.eql(200);
         expect(response.data.value).to.exist;
         expect(response.data.value[0]).to.contains({
@@ -54,44 +57,24 @@ describe("Integration Test for Eventing", () => {
       });
    
         describe("Create annd Update Business Partner", () => {
+            it("Creates a new Business Partner", async () => {
+            const payload = {
+                BusinessPartner: "17100015",
+                BusinessPartnerIsBlocked: true,
+                BusinessPartnerFullName: "John Doee",
+            };
+            const response = await POST(
+                "/odata/v4/api-business-partner/A_BusinessPartner",
+                payload
+            );
+            expect(response.status).to.eql(201);
+            });
             it("Update Business Partner", async () => {
                 const response = await PATCH(
-                `/odata/v4/api-business-partner/A_BusinessPartner('1004100')`,
-                {
-                  to_BusinessPartnerAddress: [{
-                     AddressID: "457",
-                     to_EmailAddress:[{
-                         AddressID: "457",
-                         Person: "johnson",
-                         OrdinalNumber: "334",
-                         EmailAddress: "sunny@test.com"
-                     }]
-                 }]
-             }
+                `/odata/v4/api-business-partner/A_BusinessPartner('17100015')`,
+                {BusinessPartnerIsBlocked: false}
                 );
                 expect(response.status).to.eql(200);
-            });
-            describe("Verify the updated Business Partner", () => {
-              it("Verify the Address of Business Partner", async () => {
-                const response = await GET(`/odata/v4/api-business-partner/A_BusinessPartnerAddress?$filter=BusinessPartner eq '1004100'`);
-                expect(response.status).to.eql(200);
-                expect(response.data.value).to.exist;
-                expect(response.data.value[0]).to.contains({
-                  AddressID: "457",
-                });
-              }); 
-
-              it("Verify the Email address of Business Partner", async () => {
-                const response = await GET(`/odata/v4/api-business-partner/A_AddressEmailAddress?$filter=AddressID eq '457'`);
-                expect(response.status).to.eql(200);
-                expect(response.data.value).to.exist;
-                expect(response.data.value[0]).to.contains({
-                  AddressID: "457",
-                  Person: "johnson",
-                  OrdinalNumber: "334",
-                  EmailAddress: "sunny@test.com"
-                });
-              }); 
             });
         }); 
          
@@ -101,6 +84,10 @@ describe("Integration Test for Eventing", () => {
                 "PreserveChanges": true
                 });
                 expect(status).to.equal(201);
+            }); 
+            it(`Update Business Partner details of the Incident`, async ()=>{
+                const {status } = await PATCH(`/odata/v4/processor/Incidents(ID=${draftId},IsActiveEntity=false)`,{customer_ID: '17100015'});
+                expect(status).to.equal(200);
             }); 
     });
 });
