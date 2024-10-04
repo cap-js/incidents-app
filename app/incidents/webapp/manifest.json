@@ -29,7 +29,7 @@
         },
         "dataSources": {
             "mainService": {
-                "uri": "/odata/v4/processor/",
+                "uri": "odata/v4/processor/",
                 "type": "OData",
                 "settings": {
                     "annotations": [],
@@ -168,5 +168,9 @@
     "sap.fiori": {
         "registrationIds": [],
         "archeType": "transactional"
+    },
+    "sap.cloud": {
+        "public": true,
+        "service": "incidents.mgmt"
     }
 }
