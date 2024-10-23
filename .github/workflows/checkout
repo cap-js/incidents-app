@@ -6,6 +6,7 @@ const { exec } = require('child_process');
 const { readFile, writeFile } = require("fs").promises;
 const { join } = require("path");
 const levelUP = "../../"
+const cds = require("@sap/cds")
 
 async function remoteService () {
     const TARGET_DIR = "xmpls/remote-service"
@@ -16,7 +17,7 @@ async function remoteService () {
     await writeFile(join(__dirname, levelUP, "package.json"), JSON.stringify(packageJson, null, 2), "utf-8");
 
     // Remove mashup.cds > needed only for test context
-    await run(`shx rm -rf ${join(__dirname, levelUP, TARGET_DIR, "srv/mashup.cds")}`);
+    await cds.utils.rm(join(__dirname, levelUP, TARGET_DIR, "srv/mashup.cds"));
 
 }
 
@@ -31,24 +32,24 @@ async function messaging () {
 
     // Add UI fields for email in annotation
     const content = "using from './incidents/field';"
-    await run(`shx echo '${content}' > ${join(__dirname, levelUP, TARGET_DIR, "app/fields.cds")}`);
+    await run(`echo '${content}' > ${join(__dirname, levelUP, TARGET_DIR, "app/fields.cds")}`);
 
     // Remove mashup.cds > needed only for test context
-    await run(`shx rm -rf ${join(__dirname, levelUP, TARGET_DIR, "srv/mashup.cds")}`);
+    await cds.utils.rm(join(__dirname, levelUP, TARGET_DIR, "srv/mashup.cds"));
 
 }
 
 async function setup (TARGET_DIR = 'xmpls', INCLUDES = []) {
     const paths = INCLUDES.map(pattern => join(__dirname, levelUP, TARGET_DIR, pattern))
-    const cmd = `shx cp -r ${paths.join(' ')} ${join(__dirname, levelUP, "srv")}`
-    await run(cmd);
+    for (let [index, srcPath] of paths.entries()) {
+        await cds.utils.copy(srcPath, join(__dirname, levelUP, "srv", INCLUDES[index]));
+    }
 }
 
 async function reset (TARGET_DIR = 'srv', INCLUDES = []) {
 
     const paths = INCLUDES.map(pattern => join(__dirname, levelUP, TARGET_DIR, pattern))
-    const cmd = `shx rm -rf ${paths.join(' ')}`
-    await run(cmd);
+    await cds.utils.rm(paths.join(' '))
 }
 
 function run (cmd, silent) {
