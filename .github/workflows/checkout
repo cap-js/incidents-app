@@ -15,7 +15,9 @@ async function checkout (xmpl, ...requires) {
   await write (base) .to ('package.json')
 }
 
-checkout['remote-service'] = ()=> checkout ('remote-service', 'API_BUSINESS_PARTNER')
+checkout['remote-service'] = ()=>
+  checkout ('remote-service', 'API_BUSINESS_PARTNER')
+
 checkout['messaging'] = ()=> Promise.all([
   checkout ('messaging', 'messaging', 'API_BUSINESS_PARTNER'),
   append ('\n'+`using from './incidents/field';`+'\n') .to ('app/services.cds') // add email fields to UI
@@ -23,8 +25,8 @@ checkout['messaging'] = ()=> Promise.all([
 
 // actually run the checkout...
 const [,,$1] = process.argv
-checkout[$1]?.().catch(console.error)
-|| console.log('Usage: ./checkout remote-service | messaging')
+if ($1 in checkout) checkout[$1]().catch(console.error)
+else console.log('Usage: ./checkout remote-service | messaging')
 
 // ------------------------------------------------------------------------
 // fixes for missing features in older cds versions
