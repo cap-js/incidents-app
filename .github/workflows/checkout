@@ -24,8 +24,7 @@ checkout['messaging'] = ()=> Promise.all([
 ])
 
 // actually run the checkout...
-const cmd = checkout[process.argv[2]]
-cmd?.().catch(console.error) || console.error (
+checkout[process.argv[2]]?.().catch(console.error) || console.error (
   `Usage: ${path.relative(process.cwd(),__filename)} ${Object.keys(checkout).join('|')}`
 )
 
