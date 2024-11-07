@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 const cds = require("@sap/cds")
-const { read, write, append=_append } = cds.utils
+const { copy, read, write, append=_append } = cds.utils
 
 const checkout = {
 
@@ -15,7 +15,13 @@ const checkout = {
   },
 
   async messaging () {
-    await append ('\n'+`using from './incidents/field'; //> adds email fields to UI`+'\n') .to ('app/services.cds')
+    // copy content from xmpls/messaging to incidents...
+    for (let each of ['app','srv'])
+      copy('xmpls/messaging/'+each).to(each)
+    // add email fields to UI
+    await append ('\n'+`using from './incidents/field';`+'\n')
+      .to ('app/services.cds')
+    // enhance package.json
     let xmpls = await read ('xmpls/messaging/package.json')
     let base = await read ('package.json')
     for (let each of ['API_BUSINESS_PARTNER','messaging'])

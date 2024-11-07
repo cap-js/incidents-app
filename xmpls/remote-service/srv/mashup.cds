@@ -1,6 +1,3 @@
-using { ProcessorService } from '../../../app/services';
-annotate ProcessorService with @impl: 'srv/services.js';
-
 // REVISIT: This is not in line with our best practices.
 using { API_BUSINESS_PARTNER as S4 } from './external/API_BUSINESS_PARTNER';
 service RemoteService {
