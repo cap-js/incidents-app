@@ -25,7 +25,9 @@ checkout['messaging'] = ()=> Promise.all([
 
 // actually run the checkout...
 const cmd = checkout[process.argv[2]]
-cmd?.().catch(console.error) || console.log('Usage: ./checkout remote-service | messaging')
+cmd?.().catch(console.error) || console.error (
+  `Usage: ${path.relative(process.cwd(),__filename)} ${Object.keys(checkout).join('|')}`
+)
 
 // ------------------------------------------------------------------------
 // fixes for missing features in older cds versions
