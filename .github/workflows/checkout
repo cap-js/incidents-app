@@ -1,31 +1,34 @@
 #!/usr/bin/env node
 
-// helpers
-const _append = str => ({ to: file => cds.utils.fs.promises.appendFile(cds.utils.path.join(cds.root,file), str) })
-const _stringified = o => JSON.stringify(o,null,2)
-
 const cds = require("@sap/cds")
 const { read, write, append=_append } = cds.utils
 
 const checkout = {
 
   async 'remote-service' () {
-    const xmpls = await read ('xmpls/remote-service/package.json')
-    const base = await read ('package.json')
+    let xmpls = await read ('xmpls/remote-service/package.json')
+    let base = await read ('package.json')
     for (let each of ['API_BUSINESS_PARTNER'])
       base.cds.requires[each] = xmpls.cds.requires[each]
-    await write (_stringified(base)) .to ('package.json')
+    if (append === _append) base = _formatted(base) //> for older cds versions only
+    await write (base) .to ('package.json')
   },
 
   async messaging () {
-    const xmpls = await read ('xmpls/messaging/package.json')
-    const base = await read ('package.json')
+    await append ('\n'+`using from './incidents/field'; //> adds email fields to UI`+'\n') .to ('app/services.cds')
+    let xmpls = await read ('xmpls/messaging/package.json')
+    let base = await read ('package.json')
     for (let each of ['API_BUSINESS_PARTNER','messaging'])
       base.cds.requires[each] = xmpls.cds.requires[each]
-    await write (_stringified(base)) .to ('package.json')
-    await append ('\n'+`using from './incidents/field'; //> adds email fields to UI`+'\n') .to ('app/services.cds')
+    if (append === _append) base = _formatted(base) //> for older cds versions only
+    await write (base) .to ('package.json')
   }
 }
 
 const [,,$1] = process.argv
 checkout[$1]?.() || console.log('Usage: ./checkout remote-service | messaging')
+
+// ------------------------------------------------------------------------
+// fixes for missing features in older cds versions
+function _append (str) { return { to: file => cds.utils.fs.promises.appendFile(cds.utils.path.join(cds.root,file), str) }}
+function _formatted (json) { return JSON.stringify(json,null,2) }
