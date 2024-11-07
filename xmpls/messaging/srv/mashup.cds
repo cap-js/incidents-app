@@ -1,6 +1,6 @@
 // REVISIT: This file and all in ./external is copy from ../remote-service -> should be refactored
 
-using { ProcessorService } from '@capire/incidents/app/services';
+using { ProcessorService } from '../../../app/services';
 annotate ProcessorService with @impl: 'srv/services.js';
 
 // REVISIT: This is not in line with our best practices.
