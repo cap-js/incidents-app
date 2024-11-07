@@ -1,80 +1,32 @@
 #!/usr/bin/env node
 /* eslint-disable no-console */
 
-const [,,$1] = process.argv
-const { exec } = require('child_process');
-const { readFile, writeFile } = require("fs").promises;
-const { join } = require("path");
-const levelUP = "../../"
 const cds = require("@sap/cds")
+const { read, write, path } = cds.utils
+const { promises:fs } = require("fs")
+const _stringified = o => JSON.stringify(o,null,2)
 
-async function remoteService () {
-    const TARGET_DIR = "xmpls/remote-service"
+const checkout = {
 
-    const packageJson = JSON.parse(await readFile(join(__dirname, levelUP ,"package.json"), "utf-8"));
-    const delta = JSON.parse(await readFile(join(__dirname, levelUP, TARGET_DIR, "package.json"), "utf-8"));
-    packageJson.cds.requires["API_BUSINESS_PARTNER"] = delta.cds.requires["API_BUSINESS_PARTNER"]
-    await writeFile(join(__dirname, levelUP, "package.json"), JSON.stringify(packageJson, null, 2), "utf-8");
+  async 'remote-service' () {
+    const xmpls = await read ('xmpls/remote-service/package.json')
+    const base = await read ('package.json')
+    for (let each of ['API_BUSINESS_PARTNER'])
+      base.cds.requires[each] = xmpls.cds.requires[each]
+    await write (_stringified(base)).to('package.json')
+  },
 
-    // Remove mashup.cds > needed only for test context
-    await cds.utils.rm(join(__dirname, levelUP, TARGET_DIR, "srv/mashup.cds"));
-
+  async messaging () {
+    const xmpls = await read ('xmpls/messaging/package.json')
+    const base = await read ('package.json')
+    for (let each of ['API_BUSINESS_PARTNER','messaging'])
+      base.cds.requires[each] = xmpls.cds.requires[each]
+    await write (_stringified(base)).to('package.json')
+    await fs.appendFile (path.join(cds.root,'srv','services.cds'), `
+      using from './incidents/field'; // Add UI fields for email in annotation
+    `)
+  }
 }
 
-async function messaging () {
-    const TARGET_DIR = "xmpls/messaging"
-
-    const packageJson = JSON.parse(await readFile(join(__dirname, levelUP, "package.json"), "utf-8"));
-    const delta = JSON.parse(await readFile(join(__dirname, levelUP, TARGET_DIR, "package.json"), "utf-8"));
-    packageJson.cds.requires["API_BUSINESS_PARTNER"] = delta.cds.requires["API_BUSINESS_PARTNER"]
-    packageJson.cds.requires["messaging"] = delta.cds.requires["messaging"]
-    await writeFile(join(__dirname, levelUP, "package.json"), JSON.stringify(packageJson, null, 2), "utf-8");
-
-    // Add UI fields for email in annotation
-    const content = "using from './incidents/field';"
-    await run(`echo '${content}' > ${join(__dirname, levelUP, TARGET_DIR, "app/fields.cds")}`);
-
-    // Remove mashup.cds > needed only for test context
-    await cds.utils.rm(join(__dirname, levelUP, TARGET_DIR, "srv/mashup.cds"));
-
-}
-
-async function setup (TARGET_DIR = 'xmpls', INCLUDES = []) {
-    const paths = INCLUDES.map(pattern => join(__dirname, levelUP, TARGET_DIR, pattern))
-    for (let [index, srcPath] of paths.entries()) {
-        await cds.utils.copy(srcPath, join(__dirname, levelUP, "srv", INCLUDES[index]));
-    }
-}
-
-async function reset (TARGET_DIR = 'srv', INCLUDES = []) {
-
-    const paths = INCLUDES.map(pattern => join(__dirname, levelUP, TARGET_DIR, pattern))
-    await cds.utils.rm(paths.join(' '))
-}
-
-function run (cmd, silent) {
-    if (cmd.raw) return run (String.raw(...arguments))
-    if (cmd.endsWith('--silent')) silent = cmd = cmd.slice(0,-9)
-    if (typeof cmd === 'string') cmd = new Promise ((done,failed) => {
-        const cp = exec (cmd, (e,stdout) => e ? failed(e) : done(stdout))
-        if (!silent) {
-        cp.stdout.on ('data', d => process.stdout.write(d))
-        cp.stderr.on ('data', d => process.stderr.write(d))
-        }
-    })
-    return cmd
-}
-
-switch ($1) {
- 
-    case 'remote-service':
-        remoteService();
-        break;
-    case 'messaging':
-        messaging();
-        break;
-    default:
-        console.log('Usage: ./checkout <command>');
-}
-
-module.exports = { setup, reset }
+const [,,$1] = process.argv
+checkout[$1]?.() || console.log('Usage: ./checkout remote-service | messaging')

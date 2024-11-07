@@ -1,93 +1,73 @@
 const cds = require('@sap/cds')
-const { setup, reset} = require("../.github/workflows/checkout");
-const { createReadStream } = cds.utils.fs;
-const { join } = cds.utils.path;
-
-jest.setTimeout(11111)
-
-beforeAll(async()=> {
-  await setup("xmpls", ["attachments.cds"])
-})
-
-afterAll(async() => {
-  await reset("srv", ["attachments.cds"])
-})
-
-const { GET, POST, PUT, DELETE , expect, axios} = cds.test(__dirname + '/..', '--with-mocks')
-axios.defaults.auth = { username: 'alice' }
 
 describe('Test attachments service', () => {
-    let draftId = null;
-    let docId = null;
 
-  it('Create an incident ', async () => {
-    const { status, statusText, data } = await POST(`/odata/v4/processor/Incidents`, {
+  const { copy, rm, exists, path } = cds.utils; cds.root = path.resolve(__dirname,'..')
+  beforeAll (()=> copy('xmpls/attachments.cds').to('srv/attachments.cds'))
+  afterAll (() => rm('srv/attachments.cds'))
+
+  it('should have the srv/attachments.cds file in place', () => {
+    expect(exists('srv/attachments.cds')).to.be.true
+  })
+
+  const { GET, POST, PUT, DELETE , expect, axios} = cds.test()
+  axios.defaults.auth = { username: 'alice' }
+
+  const Incidents = '/odata/v4/processor/Incidents'
+  const edit = 'ProcessorService.draftEdit'
+  const activate = 'ProcessorService.draftActivate'
+  const active = 'IsActiveEntity=true'
+  const draft = 'IsActiveEntity=false'
+  let ID = null, id = null
+
+  it('should create a new incident ', async () => {
+    const { status, data } = await POST(`${Incidents}`, {
       title: 'Urgent attention required !',
       status_code: 'N'
     })
-    draftId = data.ID
     expect(status).to.equal(201)
-    expect(statusText).to.equal('Created')
+    ID = `ID=${data.ID}` //> captures the newly created Incident's ID for subsequent use...
   })
 
-  it('+ Activate the draft', async () => {
-    const response = await POST(
-      `/odata/v4/processor/Incidents(ID=${draftId},IsActiveEntity=false)/ProcessorService.draftActivate`
-    )
+  it('should activate the draft', async () => {
+    const response = await POST `${Incidents}(${ID},${draft})/${activate}`
     expect(response.status).to.eql(201)
-
   })
 
+  it(`should edit the incident to add an attachment`, async () => {
+    await POST `${Incidents}(${ID},${active})/${edit}`
 
-  describe('Test the file upload', () => {
-    it(`Should Close the Incident-${draftId}`, async () => {
-      const { status } = await POST(
-        `/odata/v4/processor/Incidents(ID=${draftId},IsActiveEntity=true)/ProcessorService.draftEdit`,
-        {
-          PreserveChanges: true
-        }
-      )
- 
-
-    const content = createReadStream(join(__dirname, "/../xmpls/SolarPanelReport.pdf"));
-    const attachRes = await POST(`/odata/v4/processor/Incidents(ID=${draftId},IsActiveEntity=false)/attachments`, 
-    {
-      up__ID: draftId,
+    // Add an attachment entry
+    const created = await POST (`${Incidents}(${ID},${draft})/attachments`, {
+      up__ID: ID,
       filename: "SolarPanelReport.pdf",
       mimeType: "application/pdf",
       status: "Clean",
-      createdAt: new Date(),
-    }, { headers: { 'Content-Type': 'application/json' } });
-    
-        console.log(attachRes);
-    docId = attachRes.data.ID;
-        console.log("doc id"+docId);
-    // Upload the file content with PUT
-    const uploadResp = await PUT(
-      `/odata/v4/processor/Incidents_attachments(up__ID=${draftId},ID=${docId},IsActiveEntity=false)/content`,
-      content,
-      { headers: { 'Content-Type': 'application/pdf' } }
-    );
-    expect(uploadResp.status).to.equal(204);
-    // add attachments here
+    }, { headers: { 'Content-Type': 'application/json' }})
+    expect(created.status).to.equal(201)
+    id = `ID=${created.data.ID}` //> captures the newly created Attachments's ID for subsequent use...
 
- 
-      const response = await POST(
-        `/odata/v4/processor/Incidents(ID=${draftId},IsActiveEntity=false)/ProcessorService.draftActivate`
-      )
-      expect(response.status).to.eql(200)
-    })
-    
+    // Upload the file
+    const uploaded = await PUT (`${Incidents}_attachments(up__${ID},${id},${draft})/content`,
+      require('fs').createReadStream (cds.root+'/xmpls/SolarPanelReport.pdf'),
+      { headers: { 'Content-Type': 'application/pdf' }}
+    )
+    expect(uploaded.status).to.equal(204)
 
-  })
-  it('Check the uploaded file', async () => {
-    const response = await GET(`/odata/v4/processor/Incidents(ID=${draftId},IsActiveEntity=true)/attachments(up__ID=${draftId},ID=${docId},IsActiveEntity=true)/content`);
-    expect(response.status).to.equal(200);
-    expect(response.data).to.not.be.undefined;
+    // Activate the draft
+    const activated = await POST `${Incidents}(${ID},${draft})/${activate}`
+    expect(activated.status).to.eql(200)
   })
 
-  it('- Delete the Incident', async () => {
-    const response = await DELETE(`/odata/v4/processor/Incidents(ID=${draftId},IsActiveEntity=true)`)
-    expect(response.status).to.eql(204)
+
+  it('should check the uploaded file', async () => {
+    const { status, data} = await GET `${Incidents}(${ID},${active})/attachments(up__${ID},${id})/content`
+    expect(status).to.equal(200)
+    expect(data).to.not.be.undefined
+  })
+
+  it('should delete the incident', async () => {
+    const { status } = await DELETE `${Incidents}(${ID},${active})`
+    expect(status).to.eql(204)
   })
 })
