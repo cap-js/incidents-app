@@ -24,9 +24,8 @@ checkout['messaging'] = ()=> Promise.all([
 ])
 
 // actually run the checkout...
-const [,,$1] = process.argv
-if ($1 in checkout) checkout[$1]().catch(console.error)
-else console.log('Usage: ./checkout remote-service | messaging')
+const cmd = checkout[process.argv[2]]
+cmd?.().catch(console.error) || console.log('Usage: ./checkout remote-service | messaging')
 
 // ------------------------------------------------------------------------
 // fixes for missing features in older cds versions
