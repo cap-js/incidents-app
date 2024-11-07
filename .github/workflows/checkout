@@ -2,8 +2,7 @@
 /* eslint-disable no-console */
 
 const cds = require("@sap/cds")
-const { read, write, path } = cds.utils
-const { promises:fs } = require("fs")
+const { read, write, append=_append, fs, path } = cds.utils
 const _stringified = o => JSON.stringify(o,null,2)
 
 const checkout = {
@@ -13,7 +12,7 @@ const checkout = {
     const base = await read ('package.json')
     for (let each of ['API_BUSINESS_PARTNER'])
       base.cds.requires[each] = xmpls.cds.requires[each]
-    await write (_stringified(base)).to('package.json')
+    await write (_stringified(base)) .to ('package.json')
   },
 
   async messaging () {
@@ -21,11 +20,13 @@ const checkout = {
     const base = await read ('package.json')
     for (let each of ['API_BUSINESS_PARTNER','messaging'])
       base.cds.requires[each] = xmpls.cds.requires[each]
-    await write (_stringified(base)).to('package.json')
-    await fs.appendFile (path.join(cds.root,'srv','services.cds'), `
-      using from './incidents/field'; // Add UI fields for email in annotation
-    `)
+    await write (_stringified(base)) .to ('package.json')
+    await append ('\n'+`using from './incidents/field'; //> adds email fields to UI`+'\n') .to ('app/services.cds')
   }
+}
+
+function _append(str) {
+  return { to: file =>  fs.promises.appendFile(path.join(cds.root,file), str) }
 }
 
 const [,,$1] = process.argv
