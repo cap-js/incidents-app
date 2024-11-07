@@ -1,9 +1,11 @@
 #!/usr/bin/env node
-/* eslint-disable no-console */
+
+// helpers
+const _append = str => ({ to: file => cds.utils.fs.promises.appendFile(cds.utils.path.join(cds.root,file), str) })
+const _stringified = o => JSON.stringify(o,null,2)
 
 const cds = require("@sap/cds")
-const { read, write, append=_append, fs, path } = cds.utils
-const _stringified = o => JSON.stringify(o,null,2)
+const { read, write, append=_append } = cds.utils
 
 const checkout = {
 
@@ -23,10 +25,6 @@ const checkout = {
     await write (_stringified(base)) .to ('package.json')
     await append ('\n'+`using from './incidents/field'; //> adds email fields to UI`+'\n') .to ('app/services.cds')
   }
-}
-
-function _append(str) {
-  return { to: file =>  fs.promises.appendFile(path.join(cds.root,file), str) }
 }
 
 const [,,$1] = process.argv
