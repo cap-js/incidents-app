@@ -129,7 +129,7 @@ resources:
                 ProxyType: Internet
                 CEP.HTML5contentprovider: true
                 Type: HTTP
-                URL: https://sveto-cdm-md14azlb.launchpad.${default-domain}
+                URL: https://<subdomain>.launchpad.${default-domain}
       service: destination
       service-name: incident-management-destination-service
       service-plan: lite

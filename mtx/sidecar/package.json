@@ -1,11 +1,10 @@
 {
   "name": "incidents-mtx",
   "dependencies": {
-    "@sap/cds": "^7",
-    "@sap/cds-hana": "^2",
-    "@sap/cds-mtxs": "^1.9",
-    "@sap/xsenv": "^5.1.0",
-    "@sap/xssec": "^3",
+    "@cap-js/hana": "^1",
+    "@sap/cds": "^8",
+    "@sap/cds-mtxs": "^2",
+    "@sap/xssec": "^4",
     "express": "^4"
   },
   "devDependencies": {
