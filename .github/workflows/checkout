@@ -1,0 +1,81 @@
+#!/usr/bin/env node
+/* eslint-disable no-console */
+
+const [,,$1] = process.argv
+const { exec } = require('child_process')
+const path = require('path')
+const { readFile, writeFile } = require("fs").promises;
+const { join } = require("path");
+
+async function remoteService () {
+    const TARGET_DIR = "xmpls/remote-service"
+    const levelUP = "../../"
+    const INCLUDES = ["srv", "test"]
+    const paths = INCLUDES.map(pattern => join(__dirname, levelUP, TARGET_DIR, pattern))
+    const cmd = `cp -r ${paths.join(' ')} ${join(__dirname, levelUP)}`
+    await run(cmd);
+
+    const packageJson = JSON.parse(await readFile(join(__dirname, levelUP ,"package.json"), "utf-8"));
+    const delta = JSON.parse(await readFile(join(__dirname, levelUP, TARGET_DIR, "package.json"), "utf-8"));
+    packageJson.cds.requires["API_BUSINESS_PARTNER"] = delta.cds.requires["API_BUSINESS_PARTNER"]
+    await writeFile(join(__dirname, levelUP, "package.json"), JSON.stringify(packageJson, null, 2), "utf-8");
+
+    // dependencies
+    const deps = [
+        "@sap-cloud-sdk/connectivity",
+        "@sap-cloud-sdk/http-client",
+        "@sap-cloud-sdk/resilience",
+        "@sap-cloud-sdk/util"
+    ]
+    return await run(`npm add ${deps.join(" ")}`)
+}
+
+async function messaging () {
+    const TARGET_DIR = "xmpls/messaging"
+    const levelUP = "../../"
+    const INCLUDES = ["app", "srv", "test"]
+    const paths = INCLUDES.map(pattern => join(__dirname, levelUP, TARGET_DIR, pattern))
+    const cmd = `cp -r ${paths.join(' ')} ${join(__dirname, levelUP)}`
+    await run(cmd);
+
+    const packageJson = JSON.parse(await readFile(join(__dirname, levelUP, "package.json"), "utf-8"));
+    const delta = JSON.parse(await readFile(join(__dirname, levelUP, TARGET_DIR, "package.json"), "utf-8"));
+    packageJson.cds.requires["API_BUSINESS_PARTNER"] = delta.cds.requires["API_BUSINESS_PARTNER"]
+    packageJson.cds.requires["messaging"] = delta.cds.requires["messaging"]
+    await writeFile(join(__dirname, levelUP, "package.json"), JSON.stringify(packageJson, null, 2), "utf-8");
+
+     // dependencies
+     const deps = [
+        "@sap-cloud-sdk/connectivity",
+        "@sap-cloud-sdk/http-client",
+        "@sap-cloud-sdk/resilience",
+        "@sap-cloud-sdk/util",
+        "@sap/xb-msg-amqp-v100"
+    ]
+    return await run(`npm add ${deps.join(" ")}`)
+}
+
+function run (cmd, silent) {
+    if (cmd.raw) return run (String.raw(...arguments))
+    if (cmd.endsWith('--silent')) silent = cmd = cmd.slice(0,-9)
+    if (typeof cmd === 'string') cmd = new Promise ((done,failed) => {
+        const cp = exec (cmd, (e,stdout) => e ? failed(e) : done(stdout))
+        if (!silent) {
+        cp.stdout.on ('data', d => process.stdout.write(d))
+        cp.stderr.on ('data', d => process.stderr.write(d))
+        }
+    })
+    return cmd
+}
+
+switch ($1) {
+ 
+    case 'remote-service':
+        remoteService();
+        break;
+    case 'messaging':
+        messaging();
+        break;
+    default:
+        console.log('Usage: ./checkout <command>');
+}
