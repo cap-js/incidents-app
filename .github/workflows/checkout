@@ -1,81 +1,33 @@
 #!/usr/bin/env node
-/* eslint-disable no-console */
+const { fs, path, exists, copy, read, write, append=_append } = require("@sap/cds").utils
 
-const [,,$1] = process.argv
-const { exec } = require('child_process')
-const path = require('path')
-const { readFile, writeFile } = require("fs").promises;
-const { join } = require("path");
-
-async function remoteService () {
-    const TARGET_DIR = "xmpls/remote-service"
-    const levelUP = "../../"
-    const INCLUDES = ["srv", "test"]
-    const paths = INCLUDES.map(pattern => join(__dirname, levelUP, TARGET_DIR, pattern))
-    const cmd = `cp -r ${paths.join(' ')} ${join(__dirname, levelUP)}`
-    await run(cmd);
-
-    const packageJson = JSON.parse(await readFile(join(__dirname, levelUP ,"package.json"), "utf-8"));
-    const delta = JSON.parse(await readFile(join(__dirname, levelUP, TARGET_DIR, "package.json"), "utf-8"));
-    packageJson.cds.requires["API_BUSINESS_PARTNER"] = delta.cds.requires["API_BUSINESS_PARTNER"]
-    await writeFile(join(__dirname, levelUP, "package.json"), JSON.stringify(packageJson, null, 2), "utf-8");
-
-    // dependencies
-    const deps = [
-        "@sap-cloud-sdk/connectivity",
-        "@sap-cloud-sdk/http-client",
-        "@sap-cloud-sdk/resilience",
-        "@sap-cloud-sdk/util"
-    ]
-    return await run(`npm add ${deps.join(" ")}`)
+async function checkout (xmpl, ...requires) {
+  // copy content from xmpl to incidents...
+  await Promise.all (['app','srv','db','test'] .map (async each => {
+    let src = `xmpls/${xmpl}/${each}`
+    if (exists(src)) return await copy(src).to(each)
+  }))
+  // enhance package.json
+  let xmpls = await read (`xmpls/${xmpl}/package.json`)
+  let base = await read ('package.json')
+  for (let each of requires) base.cds.requires[each] = xmpls.cds.requires[each]
+  if (append === _append) base = _formatted(base) //> for older cds versions only
+  await write (base) .to ('package.json')
 }
 
-async function messaging () {
-    const TARGET_DIR = "xmpls/messaging"
-    const levelUP = "../../"
-    const INCLUDES = ["app", "srv", "test"]
-    const paths = INCLUDES.map(pattern => join(__dirname, levelUP, TARGET_DIR, pattern))
-    const cmd = `cp -r ${paths.join(' ')} ${join(__dirname, levelUP)}`
-    await run(cmd);
+exports['remote-service'] = ()=>
+  checkout ('remote-service', 'API_BUSINESS_PARTNER')
 
-    const packageJson = JSON.parse(await readFile(join(__dirname, levelUP, "package.json"), "utf-8"));
-    const delta = JSON.parse(await readFile(join(__dirname, levelUP, TARGET_DIR, "package.json"), "utf-8"));
-    packageJson.cds.requires["API_BUSINESS_PARTNER"] = delta.cds.requires["API_BUSINESS_PARTNER"]
-    packageJson.cds.requires["messaging"] = delta.cds.requires["messaging"]
-    await writeFile(join(__dirname, levelUP, "package.json"), JSON.stringify(packageJson, null, 2), "utf-8");
+exports['messaging'] = ()=> Promise.all([
+  checkout ('messaging', 'messaging', 'API_BUSINESS_PARTNER'),
+  append ('\n'+`using from './incidents/field';`+'\n') .to ('app/services.cds') // add email fields to UI
+])
 
-     // dependencies
-     const deps = [
-        "@sap-cloud-sdk/connectivity",
-        "@sap-cloud-sdk/http-client",
-        "@sap-cloud-sdk/resilience",
-        "@sap-cloud-sdk/util",
-        "@sap/xb-msg-amqp-v100"
-    ]
-    return await run(`npm add ${deps.join(" ")}`)
-}
+if (!module.parent) exports[process.argv[2]]?.().catch(console.error) || console.log (
+  `Usage: ${path.relative(process.cwd(),__filename)} ${Object.keys(exports).join('|')}`
+)
 
-function run (cmd, silent) {
-    if (cmd.raw) return run (String.raw(...arguments))
-    if (cmd.endsWith('--silent')) silent = cmd = cmd.slice(0,-9)
-    if (typeof cmd === 'string') cmd = new Promise ((done,failed) => {
-        const cp = exec (cmd, (e,stdout) => e ? failed(e) : done(stdout))
-        if (!silent) {
-        cp.stdout.on ('data', d => process.stdout.write(d))
-        cp.stderr.on ('data', d => process.stderr.write(d))
-        }
-    })
-    return cmd
-}
-
-switch ($1) {
- 
-    case 'remote-service':
-        remoteService();
-        break;
-    case 'messaging':
-        messaging();
-        break;
-    default:
-        console.log('Usage: ./checkout <command>');
-}
+// ------------------------------------------------------------------------
+// fixes for missing features in older cds versions
+function _append (str) { return { to: file => fs.promises.appendFile(path.join(cds.root,file), str) }}
+function _formatted (json) { return JSON.stringify(json,null,2) }

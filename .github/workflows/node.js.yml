@@ -26,7 +26,7 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
     - run: npm i
-    - run: npm test
+    - run: npm test -- --colors
 
   push:
     name: Push to CDS Test branch

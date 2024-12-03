@@ -1,5 +1,6 @@
+// REVISIT: This file and all in ./external is copy from ../remote-service -> should be refactored
+// REVISIT: This is not in line with our best practices.
 using { API_BUSINESS_PARTNER as S4 } from './external/API_BUSINESS_PARTNER';
-
 service RemoteService {
   entity BusinessPartner as projection on S4.A_BusinessPartner {
     key BusinessPartner as ID,

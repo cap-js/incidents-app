@@ -98,10 +98,10 @@
             "messaging": {
                 "kind": "local-messaging",
                 "[production]": {
-                  "kind": "enterprise-messaging-shared",
-                  "format": "cloudevents"
+                    "kind": "enterprise-messaging-shared",
+                    "format": "cloudevents"
                 }
-              }
+            }
         }
     }
 }

@@ -17,12 +17,12 @@ jobs:
         run: |
           npm run add-all-xmpls
           rm -rf xmpls
-          
+
       - name: Test
         run: |
           npm i
-          npm test
-          
+          npm test -- --colors
+
       - name: Extract last commit author email and name
         id: extract_commit_info
         run: |

@@ -8,7 +8,7 @@ class ProcessorService extends cds.ApplicationService {
     this.on('READ', 'Customers', (req) => this.onCustomerRead(req));
     this.on(['CREATE','UPDATE'], 'Incidents', (req, next) => this.onCustomerCache(req, next));
     this.S4bupa = await cds.connect.to('API_BUSINESS_PARTNER');
-    this.remoteService = await cds.connect.to('RemoteService');
+    this.remoteService = await cds.connect.to('RemoteService'); // REVISIT: What is this for?
     return super.init();
   }
 
@@ -33,7 +33,7 @@ class ProcessorService extends cds.ApplicationService {
               })
           })
       }).where({ ID: newCustomerId }));
-                                                                                    
+
       if(customer) {
         customer.email = customer.addresses[0]?.email[0]?.email;
         customer.phone = customer.addresses[0]?.phoneNumber[0]?.phone;
@@ -50,7 +50,7 @@ class ProcessorService extends cds.ApplicationService {
     console.log('>> delegating to S4 service...', req.query);
     const top = parseInt(req._queryOptions?.$top) || 100;
     const skip = parseInt(req._queryOptions?.$skip) || 0;
-  
+
     const { BusinessPartner } = this.remoteService.entities;
 
     // Expands are required as the runtime does not support path expressions for remote services
@@ -63,7 +63,7 @@ class ProcessorService extends cds.ApplicationService {
             });
         })
     }).limit(top, skip));
-  
+
     result = result.map((bp) => ({
       ID: bp.ID,
       name: bp.name,
@@ -75,7 +75,7 @@ class ProcessorService extends cds.ApplicationService {
     console.log("after result", result);
     return result;
   }
-  
+
 
   changeUrgencyDueToSubject(data) {
     if (data) {
