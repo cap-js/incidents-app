@@ -140,7 +140,7 @@ resources:
                 ProxyType: Internet
                 CEP.HTML5contentprovider: true
                 Type: HTTP
-                URL: https://ga-cdm-3wsxxsls.launchpad.${default-domain}
+                URL: https://<provider-subaccount>.launchpad.${default-domain}
   - name: incident-management-db
     type: org.cloudfoundry.managed-service
     parameters:
