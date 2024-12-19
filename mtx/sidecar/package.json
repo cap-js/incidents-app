@@ -16,9 +16,13 @@
   "cds": {
     "profile": "mtx-sidecar",
     "requires": {
-      "audit-log": true,
-      "destinations": true,
-      "html5-repo": true
+      "html5-host": {
+        "vcap": {
+           "label": "html5-apps-repo",  
+           "plan": "app-host"
+        },
+        "subscriptionDependency": { "uaa": "xsappname" }
+      }
     }
   }
 }

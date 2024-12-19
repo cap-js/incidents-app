@@ -34,7 +34,7 @@ modules:
 
   - name: incident-management-app-deployer
     type: com.sap.application.content
-    path: gen
+    path: .
     requires:
       - name: srv-api
       - name: incident-management-auth
@@ -42,12 +42,12 @@ modules:
         parameters:
           content-target: true
     build-parameters:
-      build-result: app/
+      build-result: resources/
       requires:
         - name: incidentmanagementincidents
           artifacts:
             - incidents.zip
-          target-path: app/
+          target-path: resources/
     parameters:
       config:
         destinations:
@@ -61,7 +61,7 @@ modules:
     type: html5
     path: app/incidents
     build-parameters:
-      build-result: dist
+      build-result: dist/
       builder: custom
       commands:
         - npm ci
@@ -84,7 +84,6 @@ modules:
     requires:
       - name: incident-management-registry
       - name: incident-management-auth
-      - name: incident-management-destination
       - name: incident-management-db
       - name: incident-management-html5-repo-host
 
