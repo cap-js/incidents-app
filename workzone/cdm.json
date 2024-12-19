@@ -1,0 +1,75 @@
+[
+    {
+    "_version": "3.0",
+    "identification": {
+        "id": "defaultCatalogId",
+        "title": "{{title}}",
+        "entityType": "catalog"
+    },
+    "payload": {
+        "viz": [
+        {
+            "appId": "ns.incidents",
+            "vizId": "intent1"
+        }
+        ]
+    },
+    "texts": [
+        {
+        "locale": "",
+        "textDictionary": {
+            "title": "Default Catalog Title"
+        }
+        }
+    ]
+    },
+    {
+    "_version": "3.0",
+    "identification": {
+        "id": "defaultGroupId",
+        "title": "{{title}}",
+        "entityType": "group"
+    },
+    "payload": {
+        "viz": [
+        {
+            "appId": "ns.incidents",
+            "vizId": "intent1"
+        }
+        ]
+    },
+    "texts": [
+        {
+        "locale": "",
+        "textDictionary": {
+            "title": "Business Apps"
+        }
+        }
+    ]
+    },
+    {
+    "_version": "3.0",
+    "identification": {
+        "id": "defaultRole",
+        "entityType": "role",
+        "title": "Default Role"
+    },
+    "payload": {
+        "apps": [
+        {
+            "id": "ns.incidents"
+        }
+        ],
+        "catalogs": [
+        {
+            "id": "defaultCatalogId"
+        }
+        ],
+        "groups": [
+        {
+            "id": "defaultGroupId"
+        }
+        ]
+      }
+   }
+]

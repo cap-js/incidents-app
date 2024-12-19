@@ -24,6 +24,14 @@
                     },
                     "semanticObject": "Incidents",
                     "action": "display"
+                },
+                "incidents-display": {
+                    "semanticObject": "incidents",
+                    "action": "display",
+                    "signature": {
+                        "parameters": {},
+                        "additionalParameters": "allowed"
+                    }
                 }
             }
         },
@@ -168,5 +176,9 @@
     "sap.fiori": {
         "registrationIds": [],
         "archeType": "transactional"
+    },
+    "sap.cloud": {
+        "public": true,
+        "service": "incidents.service"
     }
 }

@@ -1,5 +1,5 @@
 {
-  "name": "@capire/incidents",
+  "name": "incident-management",
   "version": "1.0.0",
   "calesi": {
     "@cap-js/audit-logging": "*",
@@ -12,14 +12,18 @@
     "dummy": 0
   },
   "dependencies": {
+    "@cap-js/hana": "^1",
     "@sap/cds": ">=8",
+    "@sap/cds-mtxs": "^2",
+    "@sap/xssec": "^4",
     "express": "^4"
   },
   "devDependencies": {
+    "@cap-js/attachments": "^1.1.6",
     "@cap-js/audit-logging": "^0.8.0",
     "@cap-js/change-tracking": "^1.0.6",
-    "@cap-js/attachments": "^1.1.6",
     "@cap-js/sqlite": "^1.0.1",
+    "@sap/cds-dk": "^8",
     "@sap/ux-specification": "^1.108.4",
     "axios": "^1.4.0",
     "chai": "^4.3.7",
@@ -66,8 +70,22 @@
             }
           }
         }
-      }
-    }
+      },
+      "[production]": {
+        "auth": {
+          "kind": "xsuaa"
+        },
+        "db": "hana",
+        "multitenancy": true
+      },
+      "destinations": true,
+      "html5-repo": true,
+      "workzone": true
+    },
+    "sql": {
+      "native_hana_associations": false
+    },
+    "profile": "with-mtx-sidecar"
   },
   "private": true
 }
