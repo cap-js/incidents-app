@@ -33,16 +33,15 @@ modules:
     requires:
       - name: incidents-logs
       - name: incidents-destination
-      - name: incidents-event-broker
-        parameters:
-          config:
-            authentication-type: X509_IAS
       - name: incidents-ias
         parameters:
           config:
             credential-type: X509_GENERATED
             app-identifier: cap.incidents #> any value, e.g., reuse MTA ID
-
+      - name: incidents-event-broker
+        parameters:
+          config:
+            authentication-type: X509_IAS
 resources:
   - name: incidents-logs
     type: org.cloudfoundry.managed-service
