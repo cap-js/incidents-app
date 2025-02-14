@@ -42,6 +42,7 @@ modules:
         parameters:
           config:
             authentication-type: X509_IAS
+            
 resources:
   - name: incidents-logs
     type: org.cloudfoundry.managed-service
