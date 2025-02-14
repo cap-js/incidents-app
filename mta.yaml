@@ -15,6 +15,8 @@ modules:
       - name: srv-api
         properties:
           srv-url: ${default-url}
+    properties:
+      REPOSITORY_ID: MY_REPO      
     parameters:
       buildpack: nodejs_buildpack
     build-parameters:
