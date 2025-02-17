@@ -40,6 +40,9 @@ entity Incidents : cuid, managed {
     author    : type of managed:createdBy;
     message   : String;
   };
+  // AI filled fields
+  completion : Integer @assert.range: [0,100];
+  summary : String;
 }
 
 entity Status : CodeList {

@@ -2,7 +2,39 @@ using ProcessorService as service from '../../srv/services';
 using from '../../db/schema';
 
 annotate service.Customers with @title : '{i18n>Customer}';
-annotate service.Incidents with @title : '{i18n>Incident}';
+annotate service.Incidents with @(
+    title : '{i18n>Incident}',
+    UI.DataPoint #progress : {
+        $Type : 'UI.DataPointType',
+        Value : completion,
+        Title : 'completion',
+        TargetValue : 100,
+        Visualization : #Progress,
+    },
+    UI.HeaderFacets : [
+        {
+            $Type : 'UI.ReferenceFacet',
+            ID : 'completion',
+            Target : '@UI.DataPoint#progress',
+        },
+        {
+            $Type : 'UI.ReferenceFacet',
+            Label : 'Summary',
+            ID : 'Summary',
+            Target : '@UI.FieldGroup#Summary',
+        },
+    ],
+    UI.FieldGroup #Summary : {
+        $Type : 'UI.FieldGroupType',
+        Data : [
+            {
+                $Type : 'UI.DataField',
+                Value : summary,
+                Label : 'summary',
+            },
+        ],
+    },
+);
 annotate service.Incidents with @odata.draft.enabled;
 
 annotate service.Incidents with @(

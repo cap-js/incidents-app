@@ -152,12 +152,20 @@
                                             "name": "Inline"
                                         }
                                     }
+                                },
+                                "conversation/@com.sap.vocabularies.UI.v1.LineItem#i18nConversation1": {
+                                    "tableSettings": {
+                                        "personalization": {
+                                            "sort": true
+                                        }
+                                    }
                                 }
                             }
                         }
                     }
                 }
-            }
+            },
+            "config": {}
         },
         "extends": {
             "extensions": {
