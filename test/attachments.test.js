@@ -48,6 +48,7 @@ describe('Test attachments service', () => {
     id = `ID=${created.data.ID}` //> captures the newly created Attachments's ID for subsequent use...
 
     // Upload the file
+    console.log(`CDS Root is: ${cds.root}`)
     const uploaded = await PUT (`${Incidents}_attachments(up__${ID},${id},${draft})/content`,
       require('fs').createReadStream (cds.root+'/xmpls/SolarPanelReport.pdf'),
       { headers: { 'Content-Type': 'application/pdf' }}
