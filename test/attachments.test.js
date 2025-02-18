@@ -47,6 +47,7 @@ describe('Test attachments service', () => {
     expect(created.status).to.equal(201)
     id = `ID=${created.data.ID}` //> captures the newly created Attachments's ID for subsequent use...
 
+    cds.root = path.resolve(__dirname,'..')
     // Upload the file
     console.log(`CDS Root is: ${cds.root}`)
     const uploaded = await PUT (`${Incidents}_attachments(up__${ID},${id},${draft})/content`,
