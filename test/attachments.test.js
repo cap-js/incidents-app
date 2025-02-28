@@ -48,9 +48,15 @@ describe('Test attachments service', () => {
     id = `ID=${created.data.ID}` //> captures the newly created Attachments's ID for subsequent use...
 
     // Upload the file
+    const filePath = path.join(cds.root, 'xmpls', 'SolarPanelReport.pdf');
+    const fileSize = require('fs').statSync(filePath).size;
+
     const uploaded = await PUT (`${Incidents}_attachments(up__${ID},${id},${draft})/content`,
-      require('fs').createReadStream (cds.root+'/xmpls/SolarPanelReport.pdf'),
-      { headers: { 'Content-Type': 'application/pdf' }}
+      require('fs').createReadStream (filePath),
+      { headers: {
+        'Content-Type': 'application/pdf',
+        'Content-Length': fileSize
+      }}
     )
     expect(uploaded.status).to.equal(204)
 
