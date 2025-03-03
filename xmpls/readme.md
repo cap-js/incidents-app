@@ -1,8 +1,3 @@
-
-    "add-remote-service": ".github/workflows/checkout remote-service",
-    "add-messaging": ".github/workflows/checkout messaging",
-    "add-all-xmpls": "npm run add-remote-service && npm run add-messaging && npm run add-change-tracking && npm run add-audit-log",
-
 # CAP Plugins
 
 Plugins can be activated and added to a CAP application easily.
