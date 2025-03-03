@@ -16,7 +16,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [18.x, 20.x]
+        node-version: [18.x, 20.x, 22.x]
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
@@ -27,9 +27,3 @@ jobs:
         node-version: ${{ matrix.node-version }}
     - run: npm i
     - run: npm test -- --colors
-
-  push:
-    name: Push to CDS Test branch
-    uses: ./.github/workflows/create-test-branch.yml
-    secrets: inherit
-    if: github.event_name == 'push'
