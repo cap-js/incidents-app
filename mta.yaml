@@ -17,6 +17,8 @@ modules:
           srv-url: ${default-url}
     parameters:
       buildpack: nodejs_buildpack
+    properties:
+        REPOSITORY_ID: 8bd6c07a-b206-40f3-9cad-3b3da6edb089
     build-parameters:
       builder: npm
   - name: incidents-db-deployer
