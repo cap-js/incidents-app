@@ -52,6 +52,9 @@ Run enclosed tests with:
 npm test
 ```
 
+## Add plugins
+
+If you want to use the Incidents App with CAP plugins like Change Tracking, Attachment Handling etc. have a look at the [readme file in the xmpls folder](./xmpls/readme.md).
 
 ## Deploy
 
