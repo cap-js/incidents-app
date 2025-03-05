@@ -1,9 +1,13 @@
 using { sap.capire.incidents as my } from '../db/schema';
+using { Attachments } from '@cap-js/attachments';
 
 /**
  * Service used by support personell, i.e. the incidents' 'processors'.
  */
 service ProcessorService {
+  extend my.Incidents with {
+  attachments: Composition of many Attachments;
+  }
   entity Incidents as projection on my.Incidents;
   entity Customers @readonly as projection on my.Customers;
 }

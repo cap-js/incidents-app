@@ -13,13 +13,16 @@
   },
   "dependencies": {
     "@sap/cds": ">=8",
-    "express": "^4"
+    "express": "^4",
+    "@cap-js/hana": "^1",
+    "@sap/xssec": "^4"
   },
   "devDependencies": {
+    "@cap-js/attachments": "^1.2.1",
     "@cap-js/audit-logging": "^0.8.0",
     "@cap-js/change-tracking": "^1.0.6",
-    "@cap-js/attachments": "^1.1.6",
     "@cap-js/sqlite": "^1.0.1",
+    "@sap/cds-dk": "^8",
     "@sap/ux-specification": "^1.108.4",
     "axios": "^1.4.0",
     "chai": "^4.3.7",
@@ -66,7 +69,21 @@
             }
           }
         }
+      },
+      "[production]": {
+        "db": {
+          "kind": "hana-cloud"
+        },
+        "auth": {
+          "kind": "xsuaa"
+        },
+        "approuter": {
+          "kind": "cloudfoundry"
+        }
       }
+    },
+    "sql": {
+      "native_hana_associations": false
     }
   },
   "private": true
