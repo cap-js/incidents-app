@@ -12,7 +12,7 @@ The application support team members to create and process incidents on behalf o
 
 ## Setup
 
-Assumed you prepared for CAP development as documented in capire's *[Getting Started > Jumpstart](https://cap.cloud.sap/docs/get-started/jumpstart)* page, ...
+Assumed you prepared for CAP development as documented in capire's *[Initial Setup](https://cap.cloud.sap/docs/get-started/#setup)* section, ...
 
 Clone the repository and install dependencies:
 
