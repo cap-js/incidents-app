@@ -3,6 +3,7 @@ const cds = require("@sap/cds")
 describe("Integration Test for Eventing", () => {
 
   const { GET, POST, PATCH, expect, axios } = cds.test(__dirname + '/../xmpls/messaging','--with-mocks')
+  cds.env.features.mocked_bindings = false // we don't want to use remote bindings
   axios.defaults.auth = { username: "alice" }
 
   const bupa = '/odata/v4/api-business-partner'
