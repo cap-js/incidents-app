@@ -5,6 +5,11 @@
   },
   "routes": [
     {
+      "source": "^/odata/v4/(.*)$",
+      "destination": "srv-api",
+      "authenticationType": "xsuaa"
+    },
+    {
       "source": "^(.*)$",
       "target": "$1",
       "service": "html5-apps-repo-rt",
