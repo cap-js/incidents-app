@@ -1,5 +1,5 @@
 using { sap.capire.incidents as my } from '../db/schema';
-using {  Attachments } from '@cap-js/sdm';
+using { sap.attachments.Attachments } from '@cap-js/sdm';
 /**
  * Service used by support personell, i.e. the incidents' 'processors'.
  */
