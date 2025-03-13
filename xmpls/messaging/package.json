@@ -14,13 +14,10 @@
         "@sap/xb-msg-amqp-v100": "^0"
     },
     "devDependencies": {
+        "@cap-js/cds-test": "^0",
         "@cap-js/sqlite": "^1.0.1",
         "@sap/cds-dk": "^7",
         "@sap/ux-specification": "^1.108.4",
-        "axios": "^1.4.0",
-        "chai": "^4.3.7",
-        "chai-as-promised": "^7.1.1",
-        "chai-subset": "^1.6.0",
         "jest": "^29.5.0",
         "rimraf": "^3.0.2"
     },

@@ -8,6 +8,7 @@ gen/
 node_modules/
 target/
 dist/
+@cds-models/
 
 # NPM
 .npmrc
