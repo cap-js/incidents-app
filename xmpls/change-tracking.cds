@@ -1,4 +1,4 @@
-using { ProcessorService.Incidents } from './services';
+using { ProcessorService.Incidents } from './processor-service';
 
 annotate Incidents with {
   customer @changelog: [customer.name];
