@@ -1,6 +1,4 @@
 const cds = require("@sap/cds")
-const e = require("express")
-
 
 describe("Integration Test for AuditLog", () => {
 
