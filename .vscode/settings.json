@@ -1,0 +1,9 @@
+{
+  "files.exclude": {
+    ".*": true,
+    "cds-plugin.js": true,
+    "CONTRIBUTING.md": true,
+    "LICENSE": true,
+    "REUSE*": true
+  }
+}
