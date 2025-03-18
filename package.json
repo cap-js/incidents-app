@@ -2,10 +2,10 @@
   "name": "@capire/incidents",
   "version": "1.0.0",
   "calesi": {
+    "@cap-js/attachments": "*",
     "@cap-js/audit-logging": "*",
     "@cap-js/change-tracking": "*",
     "@cap-js/notifications": "*",
-    "@cap-js/attachments": "*",
     "@cap-js/telemetry": "*",
     "@sap/ams": "*",
     "@sap/ams-dev": "*",
@@ -16,10 +16,10 @@
     "express": "^4"
   },
   "devDependencies": {
-    "@cap-js/cds-test": "^0",
+    "@cap-js/attachments": "^2.0.0",
     "@cap-js/audit-logging": "^0.8.0",
     "@cap-js/change-tracking": "^1.0.6",
-    "@cap-js/attachments": "^2.0.0",
+    "@cap-js/cds-test": "^0",
     "@cap-js/sqlite": "^1.0.1",
     "@sap/ux-specification": "^1.108.4"
   },

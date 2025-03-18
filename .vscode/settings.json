@@ -1,6 +1,7 @@
 {
   "files.exclude": {
     ".*": true,
+    "node_modules": true,
     "cds-plugin.js": true,
     "CONTRIBUTING.md": true,
     "LICENSE": true,

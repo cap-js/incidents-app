@@ -11,7 +11,7 @@ class ProcessorService extends cds.ApplicationService {
     })
 
     this.before (['WRITE'], Incidents, ({data}) => {
-      if (data.title?.match(/urgent/)) data.urgency_code = 'H'
+      if (data.title?.match(/urgent/i)) data.urgency_code = 'H'
     })
 
     return super.init()
