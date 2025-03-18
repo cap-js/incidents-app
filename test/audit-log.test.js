@@ -1,24 +1,17 @@
-const cds = require("@sap/cds")
+const cds = require('@sap/cds/lib')
 
 describe("Integration Test for AuditLog", () => {
 
   const { copy, rm, exists, path } = cds.utils; cds.root = path.resolve(__dirname,'..')
-  beforeAll (()=> Promise.all ([
-    copy('xmpls/admin-service.cds').to('srv/admin-service.cds'),
-    copy('xmpls/data-privacy.cds').to('srv/data-privacy.cds'),
-  ]))
-  afterAll (() => Promise.all ([
-    rm('srv/admin-service.cds'),
-    rm('srv/data-privacy.cds'),
-  ]))
-
-  it('should have the copied files file in place', () => {
-    expect(exists('srv/admin-service.cds')).to.be.true
-    expect(exists('srv/data-privacy.cds')).to.be.true
-  })
+  beforeAll (()=> copy('xmpls/data-privacy.cds').to('srv/data-privacy.cds'))
+  afterAll (()=> rm('srv/data-privacy.cds'))
 
   const { GET, POST, PATCH , expect, axios} = cds.test()
   axios.defaults.auth = { username: 'alice' }
+
+  it('should have the copied files in place', () => {
+    expect(exists('srv/data-privacy.cds')).to.be.true
+  })
 
   let ID
   let audit; beforeAll (async () => {
