@@ -10,9 +10,9 @@ class ProcessorService extends cds.ApplicationService {
       if (closed) req.reject `Can't modify a closed incident!`
     })
 
-    this.before (['CREATE','UPDATE'], Incidents, ({data}) => {
-      let urgent = data.title?.match(/urgent/i)
-      if (urgent) data.urgency_code = 'H'
+    this.before (['CREATE','UPDATE'], Incidents, req => {
+      let urgent = req.data.title?.match(/urgent/i)
+      if (urgent) req.data.urgency_code = 'H'
     })
 
     return super.init()
