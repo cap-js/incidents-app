@@ -10,7 +10,9 @@
     {
       "name": "support",
       "description": "generated",
-      "scope-references": ["$XSAPPNAME.support"],
+      "scope-references": [
+        "$XSAPPNAME.support"
+      ],
       "attribute-references": []
     },
     {
