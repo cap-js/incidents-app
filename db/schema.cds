@@ -1,4 +1,5 @@
 using { cuid, managed, sap.common.CodeList } from '@sap/cds/common';
+using { Attachments } from '@cap-js/attachments';
 
 namespace sap.capire.incidents;
 
@@ -34,11 +35,13 @@ entity Incidents : cuid, managed {
   title          : String @title: 'Title';
   urgency        : Association to Urgency default 'M';
   status         : Association to Status default 'N';
+  attachments: Composition of many Attachments;
   conversation   : Composition of many {
     key ID    : UUID;
     timestamp : type of managed:createdAt;
     author    : type of managed:createdBy;
     message   : String;
+  
   };
 }
 
