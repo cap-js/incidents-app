@@ -61,15 +61,21 @@
       },
       "destinations": true,
       "html5-repo": true,
-      "workzone": true
+      "workzone": true,
+      "[production]": {
+        "db": "hana",
+        "auth": {
+          "kind": "xsuaa"
+        }
+      },
+      "html5-runtime": true
     },
-
     "sql": {
       "native_hana_associations": false
     }
   },
   "attachments": {
     "scan": true
-},
+  },
   "private": true
 }
