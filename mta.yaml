@@ -29,6 +29,7 @@ modules:
       - name: incidents-destination
       - name: incidents-db
       - name: incidents-auth
+      - name: incident-management-malware 
 
   - name: incidents-db-deployer
     type: hdb
@@ -117,7 +118,14 @@ resources:
     type: org.cloudfoundry.managed-service
     parameters:
       service: objectstore
-      service-plan: standard
+      service-plan: s3-standard
+      
+  - name: incident-management-malware
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: malware-scanner
+      service-plan: clamav
+
   - name: incidents-destination
     type: org.cloudfoundry.managed-service
     parameters:
