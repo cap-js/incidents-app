@@ -27,5 +27,6 @@
       ],
       "attribute-references": []
     }
-  ]
+  ],
+  "authorities-inheritance": false
 }

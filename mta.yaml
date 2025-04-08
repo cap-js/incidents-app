@@ -9,7 +9,7 @@ build-parameters:
   before-all:
     - builder: custom
       commands:
-        - npm ci
+        - npm i
         - npx cds build --production
 modules:
   - name: incidents-srv
@@ -25,11 +25,11 @@ modules:
         properties:
           srv-url: ${default-url}
     requires:
-      - name: incidents-attachments
       - name: incidents-destination
       - name: incidents-db
       - name: incidents-auth
-      - name: incident-management-malware 
+      - name: incidents-attachments
+      - name: incidents-malware 
 
   - name: incidents-db-deployer
     type: hdb
@@ -49,26 +49,11 @@ modules:
     build-parameters:
       build-result: app/
       requires:
-        - name: incidentsgen
-          artifacts:
-            - gen.zip
-          target-path: app/
         - name: incidentsincidents
           artifacts:
             - incidents.zip
           target-path: app/
 
-  - name: incidentsgen
-    type: html5
-    path: app/gen
-    build-parameters:
-      build-result: dist
-      builder: custom
-      commands:
-        - npm ci
-        - npm run build
-      supported-platforms:
-        []
   - name: incidentsincidents
     type: html5
     path: app/incidents
@@ -76,7 +61,7 @@ modules:
       build-result: dist
       builder: custom
       commands:
-        - npm ci
+        - npm i
         - npm run build
       supported-platforms:
         []
@@ -114,18 +99,6 @@ modules:
               sap.cloud.service: incidents.service
 
 resources:
-  - name: incidents-attachments
-    type: org.cloudfoundry.managed-service
-    parameters:
-      service: objectstore
-      service-plan: s3-standard
-      
-  - name: incident-management-malware
-    type: org.cloudfoundry.managed-service
-    parameters:
-      service: malware-scanner
-      service-plan: clamav
-
   - name: incidents-destination
     type: org.cloudfoundry.managed-service
     parameters:
@@ -175,3 +148,13 @@ resources:
       config:
         xsappname: incidents-${org}-${space}
         tenant-mode: dedicated
+  - name: incidents-attachments
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: objectstore
+      service-plan: s3-standard
+  - name: incidents-malware
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: malware-scanner
+      service-plan: clamav
