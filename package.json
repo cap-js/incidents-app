@@ -6,10 +6,10 @@
     "express": "^4"
   },
   "devDependencies": {
-    "@cap-js/attachments": "^2.0.0",
+    "@cap-js/cds-test": "^0",
     "@cap-js/audit-logging": "^0.8.0",
     "@cap-js/change-tracking": "^1.0.6",
-    "@cap-js/cds-test": "^0",
+    "@cap-js/attachments": "^2",
     "@cap-js/sqlite": "^1.0.1"
   },
   "scripts": {
