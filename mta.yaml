@@ -21,16 +21,28 @@ modules:
       buildpack: nodejs_buildpack
       readiness-health-check-type: http
       readiness-health-check-http-endpoint: /health
+      routes:
+        - route: "${default-url}"
+        - route: "${default-host}.cert.${default-domain}"
     build-parameters:
       builder: npm
     provides:
       - name: srv-api # required by consumers of CAP services (e.g. approuter)
         properties:
           srv-url: ${default-url}
+          srv-cert-url: '${protocol}://${default-host}.cert.${default-domain}'
     requires:
       - name: incident-management-destination
       - name: incident-management-db
       - name: incident-management-auth
+        parameters:
+          config:
+            credential-type: X509_GENERATED
+            app-identifier: srv
+    deployed-after:
+      - incident-management-ams-policies-deployer
+    properties:
+      AMS_DCL_ROOT: ams/dcl
 
   - name: incident-management-app-deployer
     type: com.sap.application.content
@@ -38,9 +50,15 @@ modules:
     requires:
       - name: srv-api
       - name: incident-management-auth
+        parameters:
+          config:
+            credential-type: X509_GENERATED
       - name: incident-management-html5-repo-host
         parameters:
           content-target: true
+          config:
+            IASDependencyName: incidents-api
+            HTML5Runtime_enabled: true
     build-parameters:
       build-result: resources/
       requires:
@@ -51,11 +69,11 @@ modules:
     parameters:
       config:
         destinations:
-        - forwardAuthToken: true
-          name: incident-management-srv-api
-          url: ~{srv-api/srv-url}
-        - name: ui5
-          url: https://ui5.sap.com
+          - forwardAuthToken: true
+            name: incident-management-srv-api
+            url: ~{srv-api/srv-url}
+          - name: ui5
+            url: https://ui5.sap.com
 
   - name: incidentmanagementincidents
     type: html5
@@ -77,15 +95,26 @@ modules:
     parameters:
       memory: 256M
       disk-quota: 512M
+      instances: 1
+      routes:
+        - route: "${default-url}"
+        - route: "${default-host}.cert.${default-domain}"
     provides:
       - name: mtx-api
         properties:
           mtx-url: ${default-url}
+          mtx-cert-url: ${protocol}://${default-host}.cert.${default-domain}
     requires:
-      - name: incident-management-registry
-      - name: incident-management-auth
       - name: incident-management-db
       - name: incident-management-html5-repo-host
+      - name: incident-management-auth
+        parameters:
+          config:
+            credential-type: X509_GENERATED
+            app-identifier: mtx
+      - name: incident-management-destination
+      - name: incidents_html_repo_runtime
+      - name: incident-management-sms
 
   - name: incident-management-destinations
     type: com.sap.application.content
@@ -94,15 +123,10 @@ modules:
         parameters:
           service-key:
             name: incidents-html5-app-runtime-service-key
-      - name: incident-management-auth
-        parameters:
-          service-key:
-            name: incident-management-auth-key
       - name: incident-management-html5-repo-host
         parameters:
           service-key:
             name: incident-management-html5-repo-host-key
-      - name: srv-api
       - name: incident-management-destination
         parameters:
           content-target: true
@@ -117,6 +141,25 @@ modules:
               ServiceInstanceName: incidents-html5-app-runtime-service
               ServiceKeyName: incidents-html5-app-runtime-service-key
               URL: https://html5-apps-repo-rt.${default-domain}/applications/cdm/incidents.service
+
+  - name: incident-management-ams-policies-deployer
+    type: javascript.nodejs
+    path: gen/policies
+    parameters:
+      buildpack: nodejs_buildpack
+      no-route: true
+      no-start: true
+      tasks:
+        - name: deploy-dcl
+          command: npm start
+          memory: 512M
+    requires:
+      - name: incident-management-auth
+        parameters:
+          config:
+            credential-type: X509_GENERATED
+            app-identifier: ams-policy-deployer
+
 
 resources:
   - name: incidents_html_repo_runtime
@@ -140,7 +183,14 @@ resources:
                 ProxyType: Internet
                 CEP.HTML5contentprovider: true
                 Type: HTTP
-                URL: https://<provider-subaccount>.launchpad.${default-domain}
+                URL: https://abhinav-jp.launchpad.${default-domain}
+    requires:
+      - name: srv-api
+        group: destinations
+        properties:
+          name: srv-api # must be used in xs-app.json as well
+          url: ~{srv-url}
+          forwardAuthToken: true
   - name: incident-management-db
     type: org.cloudfoundry.managed-service
     parameters:
@@ -151,32 +201,44 @@ resources:
     parameters:
       service: html5-apps-repo
       service-plan: app-host
-  - name: incident-management-registry
-    type: org.cloudfoundry.managed-service
-    requires:
-      - name: mtx-api
-    parameters:
-      service: saas-registry
-      service-plan: application
-      config:
-        xsappname: incident-management-${org}-${space}
-        appName: incident-management-${org}-${space}
-        displayName: incident-management
-        description: A simple CAP project.
-        category: 'CDM'
-        appUrls:
-          getDependencies: ~{mtx-api/mtx-url}/-/cds/saas-provisioning/dependencies
-          onSubscription: ~{mtx-api/mtx-url}/-/cds/saas-provisioning/tenant/{tenantId}
-          onSubscriptionAsync: true
-          onUnSubscriptionAsync: true
-          onUpdateDependenciesAsync: true
-          callbackTimeoutMillis: 300000 # Increase if your deployments are taking longer than that
   - name: incident-management-auth
     type: org.cloudfoundry.managed-service
     parameters:
-      service: xsuaa
+      service: identity
+      service-name: incident-management-auth
       service-plan: application
-      path: ./xs-security.json
       config:
-        xsappname: incident-management-${org}-${space}
-        tenant-mode: shared
+        display-name: incident-management-saas-cdm
+        provided-apis:
+          - name: incidents-api
+            description: api exposed by incident mgmt saas cdm app
+        authorization:
+          enabled: true
+        multi-tenant: true
+        xsuaa-cross-consumption: true
+
+  - name: incident-management-sms
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: subscription-manager
+      service-plan: provider
+      config:
+        applicationType: application
+        appName: incident-management-${org}-${space}
+        appCallbacks:
+          dependenciesCallbacks:
+            url: ~{mtx-api/mtx-cert-url}/-/cds/sms-provisioning/dependencies/{app_tid}
+          subscriptionCallbacks:
+            url: ~{mtx-api/mtx-cert-url}/-/cds/sms-provisioning/tenant/{app_tid}
+            async:
+              subscribeEnable: true
+              unSubscribeEnable: true
+              timeoutInMillis: 300000 # Increase if your deployments are taking longer than that
+        displayName: incident-management-ias
+        description: Description for incident-management
+        category: Category
+        iasServiceInstanceName: incident-management-auth
+    requires:
+      - name: mtx-api
+    processed-after:
+      - incident-management-auth

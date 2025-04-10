@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@cap-js/hana": "^1",
+    "@sap/ams": "^2",
     "@sap/cds": ">=8",
     "@sap/cds-mtxs": "^2",
     "@sap/xssec": "^4",
@@ -23,6 +24,7 @@
     "@cap-js/audit-logging": "^0.8.0",
     "@cap-js/change-tracking": "^1.0.6",
     "@cap-js/sqlite": "^1.0.1",
+    "@sap/ams-dev": "^2",
     "@sap/cds-dk": "^8",
     "@sap/ux-specification": "^1.108.4",
     "axios": "^1.4.0",
@@ -69,12 +71,10 @@
               ]
             }
           }
-        }
+        },
+        "kind": "ias"
       },
       "[production]": {
-        "auth": {
-          "kind": "xsuaa"
-        },
         "db": "hana",
         "multitenancy": true
       },

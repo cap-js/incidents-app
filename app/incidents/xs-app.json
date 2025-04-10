@@ -5,14 +5,14 @@
       "source": "^/?odata/(.*)$",
       "target": "/odata/$1",
       "destination": "incident-management-srv-api",
-      "authenticationType": "xsuaa",
+      "authenticationType": "ias",
       "csrfProtection": true
     },
     {
       "source": "^(.*)$",
       "target": "$1",
       "service": "html5-apps-repo-rt",
-      "authenticationType": "xsuaa"
+      "authenticationType": "ias"
     }
   ],
   "welcomeFile": "/index.html"

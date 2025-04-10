@@ -14,15 +14,21 @@
     "start": "cds-serve"
   },
   "cds": {
-    "profile": "mtx-sidecar",
     "requires": {
       "html5-host": {
         "vcap": {
-           "label": "html5-apps-repo",  
-           "plan": "app-host"
+          "label": "html5-apps-repo",
+          "plan": "app-host"
         },
         "subscriptionDependency": { "uaa": "xsappname" }
-      }
+
+      },
+      "auth": "ias"
+    },
+    "profiles": [
+      "mtx-sidecar",
+      "subscription-manager"
+    ]
     }
   }
-}
+
