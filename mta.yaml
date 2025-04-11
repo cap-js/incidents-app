@@ -29,8 +29,8 @@ modules:
       - name: incidents-db
       - name: incidents-auth
       - name: incidents-attachments
-      - name: incidents-malware 
-
+      - name: incidents-malware
+ 
   - name: incidents-db-deployer
     type: hdb
     path: gen/db
@@ -38,7 +38,7 @@ modules:
       buildpack: nodejs_buildpack
     requires:
       - name: incidents-db
-
+ 
   - name: incidents-app-deployer
     type: com.sap.application.content
     path: gen
@@ -53,7 +53,7 @@ modules:
           artifacts:
             - incidents.zip
           target-path: app/
-
+ 
   - name: incidentsincidents
     type: html5
     path: app/incidents
@@ -61,11 +61,11 @@ modules:
       build-result: dist
       builder: custom
       commands:
-        - npm i
+        - npm ci
         - npm run build
       supported-platforms:
         []
-
+ 
   - name: incidents-destinations
     type: com.sap.application.content
     requires:
@@ -97,7 +97,7 @@ modules:
               ServiceInstanceName: incidents-auth
               ServiceKeyName: incidents-auth-key
               sap.cloud.service: incidents.service
-
+ 
 resources:
   - name: incidents-destination
     type: org.cloudfoundry.managed-service
