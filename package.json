@@ -2,7 +2,6 @@
   "name": "@capire/incidents",
   "version": "1.0.0",
   "calesi": {
-    "@cap-js/audit-logging": "*",
     "@cap-js/change-tracking": "*",
     "@cap-js/notifications": "*",
     "@cap-js/attachments": "*",
@@ -19,7 +18,6 @@
   },
   "devDependencies": {
     "@cap-js/attachments": "^1.2.1",
-    "@cap-js/audit-logging": "^0.8.0",
     "@cap-js/cds-test": "^0",
     "@cap-js/change-tracking": "^1.0.6",
     "@cap-js/sqlite": "^1.0.1",
