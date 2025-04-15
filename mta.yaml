@@ -26,19 +26,11 @@ modules:
           srv-url: ${default-url}
     requires:
       - name: incidents-destination
-      - name: incidents-db
       - name: incidents-auth
       - name: incidents-attachments
       - name: incidents-malware
- 
-  - name: incidents-db-deployer
-    type: hdb
-    path: gen/db
-    parameters:
-      buildpack: nodejs_buildpack
-    requires:
       - name: incidents-db
- 
+
   - name: incidents-app-deployer
     type: com.sap.application.content
     path: gen
@@ -53,7 +45,7 @@ modules:
           artifacts:
             - incidents.zip
           target-path: app/
- 
+
   - name: incidentsincidents
     type: html5
     path: app/incidents
@@ -65,7 +57,7 @@ modules:
         - npm run build
       supported-platforms:
         []
- 
+
   - name: incidents-destinations
     type: com.sap.application.content
     requires:
@@ -97,7 +89,28 @@ modules:
               ServiceInstanceName: incidents-auth
               ServiceKeyName: incidents-auth-key
               sap.cloud.service: incidents.service
- 
+
+  - name: incidents-mtx
+    type: nodejs
+    path: gen/mtx/sidecar
+    build-parameters:
+      builder: npm-ci
+    parameters:
+      instances: 1
+      memory: 256M
+      disk-quota: 512M
+    provides:
+      - name: mtx-api
+        properties:
+          mtx-url: ${default-url}
+    requires:
+      - name: incidents-registry
+      - name: incidents-destination
+      - name: incidents-db
+      - name: incidents-html5-runtime
+      - name: incidents-html5-repo-host
+      - name: incidents-auth
+
 resources:
   - name: incidents-destination
     type: org.cloudfoundry.managed-service
@@ -122,6 +135,15 @@ resources:
                 Authentication: NoAuthentication
                 Type: HTTP
                 ProxyType: Internet
+          subaccount:
+            existing_destinations_policy: update
+            destinations:
+              - Name: incidents-workzone-runtime
+                Authentication: NoAuthentication
+                Type: HTTP
+                ProxyType: Internet
+                URL: https://${org}.launchpad.${default-domain}
+                CEP.HTML5contentprovider: true
     requires:
       - name: srv-api
         group: destinations
@@ -129,11 +151,6 @@ resources:
           name: srv-api # must be used in xs-app.json as well
           url: ~{srv-url}
           forwardAuthToken: true
-  - name: incidents-db
-    type: com.sap.xs.hdi-container
-    parameters:
-      service: hana
-      service-plan: hdi-shared
   - name: incidents-html5-repo-host
     type: org.cloudfoundry.managed-service
     parameters:
@@ -147,7 +164,7 @@ resources:
       path: ./xs-security.json
       config:
         xsappname: incidents-${org}-${space}
-        tenant-mode: dedicated
+        tenant-mode: shared
   - name: incidents-attachments
     type: org.cloudfoundry.managed-service
     parameters:
@@ -158,3 +175,33 @@ resources:
     parameters:
       service: malware-scanner
       service-plan: clamav
+  - name: incidents-registry
+    type: org.cloudfoundry.managed-service
+    requires:
+      - name: mtx-api
+    parameters:
+      service: saas-registry
+      service-plan: application
+      config:
+        xsappname: incidents-${org}-${space}
+        appName: incidents-${org}-${space}
+        displayName: incidents
+        description: A simple CAP project.
+        category: 'Category'
+        appUrls:
+          getDependencies: ~{mtx-api/mtx-url}/-/cds/saas-provisioning/dependencies
+          onSubscription: ~{mtx-api/mtx-url}/-/cds/saas-provisioning/tenant/{tenantId}
+          onSubscriptionAsync: true
+          onUnSubscriptionAsync: true
+          onUpdateDependenciesAsync: true
+          callbackTimeoutMillis: 300000 # Increase if your deployments are taking longer than that
+  - name: incidents-db
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: service-manager
+      service-plan: container
+  - name: incidents-html5-runtime
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: html5-apps-repo
+      service-plan: app-runtime

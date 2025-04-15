@@ -13,6 +13,7 @@
   "dependencies": {
     "@cap-js/hana": "^1",
     "@sap/cds": ">=8",
+    "@sap/cds-mtxs": "^2",
     "@sap/xssec": "^4",
     "express": "^4"
   },
@@ -64,13 +65,15 @@
         "db": "hana",
         "auth": {
           "kind": "xsuaa"
-        }
+        },
+        "multitenancy": true
       },
       "html5-runtime": true
     },
     "sql": {
       "native_hana_associations": false
-    }
+    },
+    "profile": "with-mtx-sidecar"
   },
   "attachments": {
     "scan": true
