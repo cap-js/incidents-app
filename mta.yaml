@@ -1,0 +1,174 @@
+_schema-version: 3.3.0
+ID: ga
+version: 1.0.0
+description: "A simple CAP project."
+parameters:
+  enable-parallel-deployments: true
+  deploy_mode: html5-repo
+  workzoneServicePlan: local-entry-point
+  workzoneServiceName: build-workzone-standard
+  lepExposureId: ga.service
+  workzoneServiceProviderId: ga-${org}-${space}
+build-parameters:
+  before-all:
+    - builder: custom
+      commands:
+        - npm ci
+        - mkdir -p app/resources
+        - cp workzone/cdm.json app/resources/cdm.json
+        - npx cds build --production
+modules:
+  - name: ga-srv
+    type: nodejs
+    path: gen/srv
+    parameters:
+      instances: 1
+      buildpack: nodejs_buildpack
+    build-parameters:
+      builder: npm-ci
+    provides:
+      - name: srv-api # required by consumers of CAP services (e.g. approuter)
+        properties:
+          srv-url: ${default-url}
+    requires:
+      - name: ga-db
+      - name: ga-auth
+
+  - name: ga
+    type: approuter.nodejs
+    path: app/router
+    parameters:
+      keep-existing-routes: true
+      disk-quota: 256M
+      memory: 256M
+    properties:
+      TENANT_HOST_PATTERN: "^(.*)-${default-uri}"
+      OWN_SAP_CLOUD_SERVICE: "[\"gaservice\"]"
+    requires:
+      - name: srv-api
+        group: destinations
+        properties:
+          name: srv-api # must be used in xs-app.json as well
+          url: ~{srv-url}
+          forwardAuthToken: true
+      - name: incidents-build-workzone-service
+      - name: mtx-api
+        group: destinations
+        properties:
+          name: mtx-api # must be used in xs-app.json as well
+          url: ~{mtx-url}
+      - name: ga-html5-runtime
+      - name: ga-auth
+    provides:
+      - name: app-api
+        properties:
+          app-protocol: ${protocol}
+          app-uri: ${default-uri}
+
+  - name: ga-mtx
+    type: nodejs
+    path: gen/mtx/sidecar
+    requires:
+      - name: app-api
+        properties:
+          SUBSCRIPTION_URL: ~{app-protocol}://\${tenant_subdomain}-~{app-uri}
+      - name: ga-db
+      - name: ga-html5-repo-host
+      - name: ga-html5-runtime
+      - name: incidents-build-workzone-service
+      - name: ga-auth
+      - name: ga-registry
+
+    build-parameters:
+      builder: npm-ci
+    parameters:
+      instances: 1
+      memory: 256M
+      disk-quota: 512M
+    provides:
+      - name: mtx-api
+        properties:
+          mtx-url: ${default-url}
+
+  - name: ga-app-deployer
+    type: com.sap.application.content
+    path: app
+    requires:
+      - name: ga-html5-repo-host
+        parameters:
+          content-target: true
+      - name: incidents-build-workzone-service
+    build-parameters:
+      build-result: resources
+      requires:
+        - name: gaincidents
+          artifacts:
+            - incidents.zip
+          target-path: resources
+
+  - name: gaincidents
+    type: html5
+    path: app/incidents
+    build-parameters:
+      build-result: dist
+      builder: custom
+      commands:
+        - npm ci
+        - npm run build
+      supported-platforms:
+        []
+
+resources:
+  - name: ga-db
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: service-manager
+      service-plan: container
+
+  - name: ga-html5-repo-host
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: html5-apps-repo
+      service-plan: app-host
+  - name: ga-html5-runtime
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: html5-apps-repo
+      service-plan: app-runtime
+  - name: ga-registry
+    type: org.cloudfoundry.managed-service
+    requires:
+      - name: mtx-api
+    parameters:
+      service: saas-registry
+      service-plan: application
+      config:
+        xsappname: ga-${org}-${space}
+        appName: ga-${org}-${space}
+        displayName: ga
+        description: A simple CAP project.
+        category: 'Category'
+        appUrls:
+          getDependencies: ~{mtx-api/mtx-url}/-/cds/saas-provisioning/dependencies
+          onSubscription: ~{mtx-api/mtx-url}/-/cds/saas-provisioning/tenant/{tenantId}
+          onSubscriptionAsync: true
+          onUnSubscriptionAsync: true
+          onUpdateDependenciesAsync: true
+          callbackTimeoutMillis: 300000 # Increase if your deployments are taking longer than that
+  - name: incidents-build-workzone-service
+    parameters:
+      config:
+        providerId: ga-${org}-${space}
+        exposureId: ga.service
+      service-plan: local-entry-point
+      service: build-workzone-standard
+    type: org.cloudfoundry.managed-service
+  - name: ga-auth
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: xsuaa
+      service-plan: application
+      path: ./xs-security.json
+      config:
+        xsappname: ga-${org}-${space}
+        tenant-mode: shared

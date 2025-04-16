@@ -1,0 +1,76 @@
+{
+  "scopes": [
+    {
+      "name": "$XSAPPNAME.support",
+      "description": "support"
+    },
+    {
+      "name": "$XSAPPNAME.admin",
+      "description": "admin"
+    },
+    {
+      "name": "uaa.user",
+      "description": "UAA"
+    },
+
+    {
+      "name": "$XSAPPNAME.Callback",
+      "description": "Subscription via SaaS Registry",
+      "grant-as-authority-to-apps": [
+        "$XSAPPNAME(application,sap-provisioning,tenant-onboarding)"
+      ]
+    },
+    {
+      "name": "$XSAPPNAME.mtcallback",
+      "description": "Subscription via SaaS Registry",
+      "grant-as-authority-to-apps": [
+        "$XSAPPNAME(application,sap-provisioning,tenant-onboarding)"
+      ]
+    }
+  ],
+  "attributes": [],
+  "role-templates": [
+    {
+      "name": "Token_Exchange",
+      "description": "UAA",
+      "scope-references": [
+        "uaa.user"
+      ]
+    },
+    {
+      "name": "MultitenancyCallbackRoleTemplate",
+      "description": "Call callback-services of applications",
+      "scope-references": [
+        "$XSAPPNAME.Callback"
+      ]
+    },
+    {
+      "name": "support",
+      "description": "generated",
+      "scope-references": [
+        "$XSAPPNAME.support"
+      ],
+      "attribute-references": []
+    },
+    {
+      "name": "admin",
+      "description": "generated",
+      "scope-references": [
+        "$XSAPPNAME.admin"
+      ],
+      "attribute-references": []
+    }
+  ],
+  "role-collections": [
+    {
+      "name": "Incidents_GA",
+      "description": "Grant Administrative access to LEP",
+      "role-template-references": [
+        "$XSAPPNAME.Token_Exchange",
+        "$XSAPPNAME.MultitenancyCallbackRoleTemplate",
+        "$XSAPPNAME.support",
+        "$XSAPPNAME.admin"
+      ]
+    }
+  ]
+}

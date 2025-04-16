@@ -1,0 +1,229 @@
+[
+    {
+      "_version": "3.0",
+      "identification": {
+        "id": "Incidents_GA",
+        "title": "{{title}}",
+        "entityType": "role"
+      },
+      "payload": {
+        "catalogs": [
+          {
+            "id": "lepCatalog"
+          }
+        ],
+        "spaces": [
+          {
+            "id": "lepSpace"
+          }
+        ],
+        "apps": [
+          {
+            "id": "ns.incidents"
+          }
+        ]
+      },
+      "texts": [
+        {
+          "locale": "en",
+          "textDictionary": {
+            "title": "LEP Role"
+          }
+        },
+        {
+          "locale": "",
+          "textDictionary": {
+            "title": "LEP Role"
+          }
+        }
+      ]
+    },
+    {
+      "_version": "3.0",
+      "identification": {
+        "id": "lepCatalog",
+        "title": "{{title}}",
+        "entityType": "catalog"
+      },
+      "payload": {
+        "viz": [
+          {
+            "appId": "ns.incidents",
+            "vizId": "intent1"
+          }
+        ]
+      },
+      "texts": [
+        {
+          "locale": "en",
+          "textDictionary": {
+            "title": "LEP Catalog"
+          }
+        },
+        {
+          "locale": "",
+          "textDictionary": {
+            "title": "LEP Catalog"
+          }
+        }
+      ]
+    },
+    {
+      "_version": "3.1.0",
+      "identification": {
+        "id": "lepSpace",
+        "title": "{{title}}",
+        "description": "{{description}}",
+        "entityType": "space"
+      },
+      "payload": {
+        "contentNodes": [
+          {
+            "type": "workpage",
+            "id": "lepWorkpage"
+          }
+        ]
+      },
+      "texts": [
+        {
+          "locale": "en",
+          "textDictionary": {
+            "title": "LEP Space",
+            "description": "LEP Space"
+          }
+        },
+        {
+          "locale": "",
+          "textDictionary": {
+            "title": "LEP Space",
+            "description": "LEP Space"
+          }
+        }
+      ]
+    },
+    {
+      "_version": "3.2.0",
+      "identification": {
+        "id": "lepWorkpage",
+        "entityType": "workpage",
+        "title": "{{title}}",
+        "description": "{{description}}"
+      },
+      "payload": {
+        "workpageConfig": {
+          "title": "{{title}}"
+        },
+        "rows": [
+          {
+            "id": "row-1",
+            "rowConfig": {},
+            "columns": [
+              {
+                "id": "col-11",
+                "columnConfig": {
+                  "columnWidth": 8
+                },
+                "cells": [
+                  {
+                    "id": "cell-111",
+                    "cellConfig": {},
+                    "widgets": [
+                      {
+                        "id": "widg-1111",
+                        "viz": {
+                          "appId": "ns.incidents",
+                          "vizId": "intent1"
+                        }
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "texts": [
+        {
+          "locale": "en",
+          "textDictionary": {
+            "title": "LEP Workpage (New Experience)",
+            "description": "LEP Workpage (New Experience)"
+          }
+        },
+        {
+          "locale": "",
+          "textDictionary": {
+            "title": "LEP Workpage (New Experience)",
+            "description": "LEP Workpage (New Experience)"
+          }
+        }
+      ]
+    },
+    {
+      "_version": "3.1.0",
+      "identification": {
+        "id": "lepPage",
+        "entityType": "page",
+        "title": "{{title}}",
+        "description": "{{description}}"
+      },
+      "payload": {
+        "sections": [
+          {
+            "id": "section1",
+            "title": "{{sections.section1.title}}",
+            "viz": [
+              {
+                "appId": "ns.incidents",
+                "displayFormatHint": "default",
+                "vizId": "intent1"
+              }
+            ]
+          }
+        ]
+      },
+      "texts": [
+        {
+          "locale": "",
+          "textDictionary": {
+            "description": "LEP Workpage (Old Experience)",
+            "sections.section1.title": "LEP Workpage (Old Experience) Section",
+            "title": "LEP Workpage (Old Experience)"
+          }
+        },
+        {
+          "locale": "en",
+          "textDictionary": {
+            "description": "LEP Workpage (Old Experience)",
+            "sections.section1.title": "LEP Workpage (Old Experience) Section",
+            "title": "LEP Workpage (Old Experience)"
+          }
+        }
+      ]
+    },
+    {
+      "_version": "3.2.0",
+      "identification": {
+        "id": "lepSite",
+        "entityType": "site"
+      },
+      "payload": {
+        "siteConfig": {
+          "title": "SAP Fiori launchpad site on Cloud Foundry",
+          "alias": "lepSite",
+          "displaySettings": {
+            "launchpadViewMode": "SpacesAndWorkPages"
+          },
+          "userCapabilities": {
+            "supportedLanguages": [
+              "en"
+            ]
+          },
+          "browserSettings": {
+            "asynchronousModuleLoading": true
+          }
+        }
+      }
+    }
+  ]

@@ -1,5 +1,5 @@
 {
-  "name": "@capire/incidents",
+  "name": "ga",
   "version": "1.0.0",
   "calesi": {
     "@cap-js/audit-logging": "*",
@@ -12,15 +12,19 @@
     "dummy": 0
   },
   "dependencies": {
-    "@sap/cds": ">=8",
+    "@cap-js/hana": "^1.8.0",
+    "@sap/cds": "8.8.2",
+    "@sap/cds-mtxs": "^2",
+    "@sap/hana-client": "^2.24.21",
+    "@sap/xssec": "^4",
     "express": "^4"
   },
   "devDependencies": {
     "@cap-js/cds-test": "^0",
-    "@cap-js/audit-logging": "^0.8.3",
     "@cap-js/change-tracking": "^1.0.6",
-    "@cap-js/attachments": "^2",
-    "@cap-js/sqlite": "^1.0.1"
+    "@cap-js/sqlite": "^1.0.1",
+    "@sap/cds-dk": "^8.8.2",
+    "@sap/ux-specification": "^1.108.4"
   },
   "scripts": {
     "watch": "cds watch",
@@ -53,8 +57,18 @@
             }
           }
         }
+      },
+      "html5-runtime": true,
+      "destinations": false,
+      "workzone": false,
+      "[production]": {
+        "multitenancy": true,
+        "auth": {
+          "kind": "xsuaa"
+        }
       }
-    }
+    },
+    "profile": "with-mtx-sidecar"
   },
   "private": true
 }
