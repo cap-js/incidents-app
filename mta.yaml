@@ -12,7 +12,7 @@ build-parameters:
         - npm i
         - npx cds build --production
 modules:
-  - name: incidents-srv
+  - name: incidents-testing-srv
     type: nodejs
     path: gen/srv
     parameters:
@@ -25,25 +25,25 @@ modules:
         properties:
           srv-url: ${default-url}
     requires:
-      - name: incidents-destination
-      - name: incidents-db
-      - name: incidents-auth
-      - name: incidents-attachments
-      - name: incidents-malware
+      - name: incidents-testing-destination
+      - name: incidents-testing-db
+      - name: incidents-testing-auth
+      - name: incidents-testing-attachments
+      - name: incidents-testing-malware
  
-  - name: incidents-db-deployer
+  - name: incidents-testing-db-deployer
     type: hdb
     path: gen/db
     parameters:
       buildpack: nodejs_buildpack
     requires:
-      - name: incidents-db
+      - name: incidents-testing-db
  
-  - name: incidents-app-deployer
+  - name: incidents-testing-app-deployer
     type: com.sap.application.content
     path: gen
     requires:
-      - name: incidents-html5-repo-host
+      - name: incidents-testing-html5-repo-host
         parameters:
           content-target: true
     build-parameters:
@@ -66,19 +66,19 @@ modules:
       supported-platforms:
         []
  
-  - name: incidents-destinations
+  - name: incidents-testing-destinations
     type: com.sap.application.content
     requires:
-      - name: incidents-auth
+      - name: incidents-testing-auth
         parameters:
           service-key:
-            name: incidents-auth-key
-      - name: incidents-html5-repo-host
+            name: incidents-testing-auth-key
+      - name: incidents-testing-html5-repo-host
         parameters:
           service-key:
-            name: incidents-html5-repo-host-key
+            name: incidents-testing-html5-repo-host-key
       - name: srv-api
-      - name: incidents-destination
+      - name: incidents-testing-destination
         parameters:
           content-target: true
     build-parameters:
@@ -88,18 +88,18 @@ modules:
         instance:
           existing_destinations_policy: update
           destinations:
-            - Name: incidents-html5-repository
-              ServiceInstanceName: incidents-html5-repo-host
-              ServiceKeyName: incidents-html5-repo-host-key
+            - Name: incidents-testing-html5-repository
+              ServiceInstanceName: incidents-testing-html5-repo-host
+              ServiceKeyName: incidents-testing-html5-repo-host-key
               sap.cloud.service: incidents.service
-            - Name: incidents-auth
+            - Name: incidents-testing-auth
               Authentication: OAuth2UserTokenExchange
-              ServiceInstanceName: incidents-auth
-              ServiceKeyName: incidents-auth-key
+              ServiceInstanceName: incidents-testing-auth
+              ServiceKeyName: incidents-testing-auth-key
               sap.cloud.service: incidents.service
  
 resources:
-  - name: incidents-destination
+  - name: incidents-testing-destination
     type: org.cloudfoundry.managed-service
     parameters:
       service: destination
@@ -110,7 +110,7 @@ resources:
           instance:
             existing_destinations_policy: update
             destinations:
-              - Name: incidents-srv-api
+              - Name: incidents-testing-srv-api
                 URL: ~{srv-api/srv-url}
                 Authentication: NoAuthentication
                 Type: HTTP
@@ -129,31 +129,31 @@ resources:
           name: srv-api # must be used in xs-app.json as well
           url: ~{srv-url}
           forwardAuthToken: true
-  - name: incidents-db
+  - name: incidents-testing-db
     type: com.sap.xs.hdi-container
     parameters:
       service: hana
       service-plan: hdi-shared
-  - name: incidents-html5-repo-host
+  - name: incidents-testing-html5-repo-host
     type: org.cloudfoundry.managed-service
     parameters:
       service: html5-apps-repo
       service-plan: app-host
-  - name: incidents-auth
+  - name: incidents-testing-auth
     type: org.cloudfoundry.managed-service
     parameters:
       service: xsuaa
       service-plan: application
       path: ./xs-security.json
       config:
-        xsappname: incidents-${org}-${space}
+        xsappname: incidents-testing-${org}-${space}
         tenant-mode: dedicated
-  - name: incidents-attachments
+  - name: incidents-testing-attachments
     type: org.cloudfoundry.managed-service
     parameters:
       service: objectstore
       service-plan: s3-standard
-  - name: incidents-malware
+  - name: incidents-testing-malware
     type: org.cloudfoundry.managed-service
     parameters:
       service: malware-scanner
