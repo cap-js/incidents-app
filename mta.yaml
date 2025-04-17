@@ -1,4 +1,4 @@
-_schema-version: 3.3.0
+_schema-version: 1.0.0
 ID: capire.incidents
 version: 1.0.0
 description: "A simple CAP project."
@@ -12,7 +12,7 @@ build-parameters:
         - npm i
         - npx cds build --production
 modules:
-  - name: incidents-srv
+  - name: incidents-testing-testing-srv
     type: nodejs
     path: gen/srv
     parameters:
@@ -25,17 +25,17 @@ modules:
         properties:
           srv-url: ${default-url}
     requires:
-      - name: incidents-destination
-      - name: incidents-auth
-      - name: incidents-attachments
-      - name: incidents-malware
-      - name: incidents-db
+      - name: incidents-testing-testing-destination
+      - name: incidents-testing-auth
+      - name: incidents-testing-attachments
+      - name: incidents-testing-malware
+      - name: incidents-testing-db
 
-  - name: incidents-app-deployer
+  - name: incidents-testing-app-deployer
     type: com.sap.application.content
     path: gen
     requires:
-      - name: incidents-html5-repo-host
+      - name: incidents-testing-html5-repo-host
         parameters:
           content-target: true
     build-parameters:
@@ -58,19 +58,19 @@ modules:
       supported-platforms:
         []
 
-  - name: incidents-destinations
+  - name: incidents-testing-destinations
     type: com.sap.application.content
     requires:
-      - name: incidents-auth
+      - name: incidents-testing-auth
         parameters:
           service-key:
-            name: incidents-auth-key
-      - name: incidents-html5-repo-host
+            name: incidents-testing-auth-key
+      - name: incidents-testing-html5-repo-host
         parameters:
           service-key:
-            name: incidents-html5-repo-host-key
+            name: incidents-testing-html5-repo-host-key
       - name: srv-api
-      - name: incidents-destination
+      - name: incidents-testing-destination
         parameters:
           content-target: true
     build-parameters:
@@ -80,17 +80,17 @@ modules:
         instance:
           existing_destinations_policy: update
           destinations:
-            - Name: incidents-html5-repository
-              ServiceInstanceName: incidents-html5-repo-host
-              ServiceKeyName: incidents-html5-repo-host-key
+            - Name: incidents-testing-html5-repository
+              ServiceInstanceName: incidents-testing-html5-repo-host
+              ServiceKeyName: incidents-testing-html5-repo-host-key
               sap.cloud.service: incidents.service
-            - Name: incidents-auth
+            - Name: incidents-testing-auth
               Authentication: OAuth2UserTokenExchange
-              ServiceInstanceName: incidents-auth
-              ServiceKeyName: incidents-auth-key
+              ServiceInstanceName: incidents-testing-auth
+              ServiceKeyName: incidents-testing-auth-key
               sap.cloud.service: incidents.service
 
-  - name: incidents-mtx
+  - name: incidents-testing-mtx
     type: nodejs
     path: gen/mtx/sidecar
     build-parameters:
@@ -104,15 +104,15 @@ modules:
         properties:
           mtx-url: ${default-url}
     requires:
-      - name: incidents-registry
-      - name: incidents-destination
-      - name: incidents-db
-      - name: incidents-html5-runtime
-      - name: incidents-html5-repo-host
-      - name: incidents-auth
+      - name: incidents-testing-registry
+      - name: incidents-testing-destination
+      - name: incidents-testing-db
+      - name: incidents-testing-html5-runtime
+      - name: incidents-testing-html5-repo-host
+      - name: incidents-testing-auth
 
 resources:
-  - name: incidents-destination
+  - name: incidents-testing-destination
     type: org.cloudfoundry.managed-service
     parameters:
       service: destination
@@ -123,7 +123,7 @@ resources:
           instance:
             existing_destinations_policy: update
             destinations:
-              - Name: incidents-srv-api
+              - Name: incidents-testing-srv-api
                 URL: ~{srv-api/srv-url}
                 Authentication: NoAuthentication
                 Type: HTTP
@@ -138,7 +138,7 @@ resources:
           subaccount:
             existing_destinations_policy: update
             destinations:
-              - Name: incidents-workzone-runtime
+              - Name: incidents-testing-workzone-runtime
                 Authentication: NoAuthentication
                 Type: HTTP
                 ProxyType: Internet
@@ -151,31 +151,31 @@ resources:
           name: srv-api # must be used in xs-app.json as well
           url: ~{srv-url}
           forwardAuthToken: true
-  - name: incidents-html5-repo-host
+  - name: incidents-testing-html5-repo-host
     type: org.cloudfoundry.managed-service
     parameters:
       service: html5-apps-repo
       service-plan: app-host
-  - name: incidents-auth
+  - name: incidents-testing-auth
     type: org.cloudfoundry.managed-service
     parameters:
       service: xsuaa
       service-plan: application
       path: ./xs-security.json
       config:
-        xsappname: incidents-${org}-${space}
+        xsappname: incidents-testing-${org}-${space}
         tenant-mode: shared
-  - name: incidents-attachments
+  - name: incidents-testing-attachments
     type: org.cloudfoundry.managed-service
     parameters:
       service: objectstore
       service-plan: s3-standard
-  - name: incidents-malware
+  - name: incidents-testing-malware
     type: org.cloudfoundry.managed-service
     parameters:
       service: malware-scanner
       service-plan: clamav
-  - name: incidents-registry
+  - name: incidents-testing-registry
     type: org.cloudfoundry.managed-service
     requires:
       - name: mtx-api
@@ -183,8 +183,8 @@ resources:
       service: saas-registry
       service-plan: application
       config:
-        xsappname: incidents-${org}-${space}
-        appName: incidents-${org}-${space}
+        xsappname: incidents-testing-${org}-${space}
+        appName: incidents-testing-${org}-${space}
         displayName: incidents
         description: A simple CAP project.
         category: 'Category'
@@ -195,12 +195,12 @@ resources:
           onUnSubscriptionAsync: true
           onUpdateDependenciesAsync: true
           callbackTimeoutMillis: 300000 # Increase if your deployments are taking longer than that
-  - name: incidents-db
+  - name: incidents-testing-db
     type: org.cloudfoundry.managed-service
     parameters:
       service: service-manager
       service-plan: container
-  - name: incidents-html5-runtime
+  - name: incidents-testing-html5-runtime
     type: org.cloudfoundry.managed-service
     parameters:
       service: html5-apps-repo
