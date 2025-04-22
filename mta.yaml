@@ -25,7 +25,7 @@ modules:
         properties:
           srv-url: ${default-url}
     requires:
-      - name: incidents-testing-testing-destination
+      - name: incidents-testing-destination
       - name: incidents-testing-auth
       - name: incidents-testing-attachments
       - name: incidents-testing-malware
