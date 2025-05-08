@@ -9,15 +9,13 @@
         "@sap/cds": ">=7",
         "@sap/cds-hana": "^2",
         "@sap/xssec": "^3",
-        "express": "^4",
-        "passport": "^0"
+        "express": "^4"
     },
     "devDependencies": {
         "@cap-js/cds-test": "*",
         "@cap-js/sqlite": "*",
         "@sap/cds-dk": "*",
-        "@sap/ux-specification": "^1.108.4",
-        "jest": "^29.5.0"
+        "@sap/ux-specification": "^1.108.4"
     },
     "scripts": {
         "watch": "cds watch",
