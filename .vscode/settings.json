@@ -3,7 +3,6 @@
     ".*": true,
     "node_modules": true,
     "cds-plugin.js": true,
-    "CONTRIBUTING.md": true,
     "LICENSES": true,
     "REUSE*": true
   }
