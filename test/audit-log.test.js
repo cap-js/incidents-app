@@ -4,14 +4,14 @@ describe("Integration Test for AuditLog", () => {
 
   const { copy, rm, exists, path } = cds.utils; cds.root = path.resolve(__dirname,'..')
   beforeAll (()=> copy('xmpls/data-privacy.cds').to('srv/data-privacy.cds'))
-  afterAll (() => rm('srv/data-privacy.cds'))
-
-  it('should have the srv/data-privacy.cds file in place', () => {
-    expect(exists('srv/data-privacy.cds')).to.be.true
-  })
+  afterAll (()=> rm('srv/data-privacy.cds'))
 
   const { GET, POST, PATCH , expect, axios} = cds.test()
   axios.defaults.auth = { username: 'alice' }
+
+  it('should have the copied files in place', () => {
+    expect(exists('srv/data-privacy.cds')).to.be.true
+  })
 
   let ID
   let audit; beforeAll (async () => {

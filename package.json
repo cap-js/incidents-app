@@ -1,16 +1,6 @@
 {
   "name": "@capire/incidents",
   "version": "1.0.0",
-  "calesi": {
-    "@cap-js/audit-logging": "*",
-    "@cap-js/change-tracking": "*",
-    "@cap-js/notifications": "*",
-    "@cap-js/attachments": "*",
-    "@cap-js/telemetry": "*",
-    "@sap/ams": "*",
-    "@sap/ams-dev": "*",
-    "dummy": 0
-  },
   "dependencies": {
     "@sap/cds": ">=8",
     "express": "^4"
@@ -27,34 +17,8 @@
     "start": "cds-serve",
     "test": "npx jest --silent"
   },
-  "jest": {
-    "modulePathIgnorePatterns": [
-      "<rootDir>/xmpls/"
-    ]
-  },
   "sapux": [
     "app/incidents"
   ],
-  "cds": {
-    "requires": {
-      "auth": {
-        "[development]": {
-          "users": {
-            "alice": {
-              "roles": [
-                "support",
-                "admin"
-              ]
-            },
-            "bob": {
-              "roles": [
-                "support"
-              ]
-            }
-          }
-        }
-      }
-    }
-  },
   "private": true
 }
