@@ -5,7 +5,7 @@
     {
       "source": "^/?odata/(.*)$",
       "target": "/odata/$1",
-      "destination": "incidents-srv-api",
+      "destination": "incidents-testing-srv-api",
       "authenticationType": "xsuaa",
       "csrfProtection": true
     },
