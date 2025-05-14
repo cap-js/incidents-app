@@ -61,7 +61,7 @@ modules:
       build-result: dist
       builder: custom
       commands:
-        - npm ci
+        - npm i
         - npm run build
       supported-platforms:
         []
