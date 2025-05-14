@@ -21,7 +21,7 @@
     "@cap-js/cds-test": "^0",
     "@cap-js/change-tracking": "^1.0.6",
     "@cap-js/sqlite": "^1.0.1",
-    "@sap/cds-dk": "^8",
+    "@sap/cds-dk": "9",
     "@sap/ux-specification": "^1.108.4"
   },
   "scripts": {
@@ -37,10 +37,14 @@
   "sapux": [
     "app/incidents"
   ],
+  "engines": {
+    "node": ">20"
+  },
   "cds": {
     "requires": {
       "auth": {
         "[development]": {
+          "kind":"basic",
           "users": {
             "alice": {
               "roles": [
@@ -54,8 +58,7 @@
               ]
             }
           }
-        },
-        "kind": "xsuaa"
+        }
       },
       "destinations": true,
       "html5-repo": true,
