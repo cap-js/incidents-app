@@ -1,4 +1,4 @@
-using ProcessorService as service from '../../srv/services.cds';
+using ProcessorService as service from '../../srv/processor-service.cds';
 using from './annotations.cds';
 annotate service.Incidents with @(
     /*adding email to the object page enables users to view the
