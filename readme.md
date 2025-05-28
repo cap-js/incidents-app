@@ -33,7 +33,7 @@ Run the application locally:
 cds watch
 ```
 Then open http://localhost:4004 and navigate to [/incidents/webapp](http://localhost:4004/incidents/webapp/index.html). <br>
-(login as `alice`, no password required).
+(for testing with authorization, copy the file `xmpls/authorizations.cds` into the `srv` folder. Then, login as `alice`, no password required).
 
 <details>
     <summary> Troubleshooting </summary>
