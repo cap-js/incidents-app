@@ -158,3 +158,8 @@ resources:
     parameters:
       service: malware-scanner
       service-plan: clamav
+  - name: incidents-testing-html5-runtime
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: html5-apps-repo
+      service-plan: app-runtime
