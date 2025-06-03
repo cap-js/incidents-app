@@ -1,10 +1,8 @@
-# Incident Management
+# Incident Management – CAP Reference Application
 
-Welcome to the Incident Management reference sample application for CAP and development recommendations provided by the SAP BTP Developer Guide.
+Welcome to the Incident Management reference sample application for the [SAP Cloud Applicatipon Programming Model (CAP)](https:/cap.cloud.sap).
 
-## Domain Model
-
-The application support team members to create and process incidents on behalf of registered customers. The basic domain model is depicted below.
+The application allows to create and process incidents on behalf of registered customers with the basic domain model is depicted below.
 
 ![domain drawio](xmpls/schema.drawio.svg)
 
@@ -35,7 +33,7 @@ Run the application locally:
 cds watch
 ```
 Then open http://localhost:4004 and navigate to [/incidents/webapp](http://localhost:4004/incidents/webapp/index.html). <br>
-(login as `alice`, no password required).
+(for testing with authorization, copy the file `xmpls/authorizations.cds` into the `srv` folder. Then, login as `alice`, no password required).
 
 <details>
     <summary> Troubleshooting </summary>

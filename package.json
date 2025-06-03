@@ -1,82 +1,24 @@
 {
   "name": "@capire/incidents",
   "version": "1.0.0",
-  "calesi": {
-    "@cap-js/change-tracking": "*",
-    "@cap-js/notifications": "*",
-    "@cap-js/attachments": "*",
-    "@cap-js/telemetry": "*",
-    "@sap/ams": "*",
-    "@sap/ams-dev": "*",
-    "dummy": 0
-  },
   "dependencies": {
-    "@cap-js/hana": "^1",
     "@sap/cds": ">=8",
-    "@sap/xssec": "^4",
     "express": "^4"
   },
   "devDependencies": {
-    "@cap-js/attachments": "^1.2.1",
-    "@cap-js/cds-test": "^0",
+    "@cap-js/cds-test": "*",
+    "@cap-js/audit-logging": ">=0.8.3",
     "@cap-js/change-tracking": "^1.0.6",
-    "@cap-js/sqlite": "^1.0.1",
-    "@sap/cds-dk": "^8",
-    "@sap/ux-specification": "^1.108.4"
+    "@cap-js/attachments": "^2",
+    "@cap-js/sqlite": ">=1"
   },
   "scripts": {
     "watch": "cds watch",
     "start": "cds-serve",
     "test": "npx jest --silent"
   },
-  "jest": {
-    "modulePathIgnorePatterns": [
-      "<rootDir>/xmpls/"
-    ]
-  },
   "sapux": [
     "app/incidents"
   ],
-  "engines": {
-    "node": ">20"
-  },
-  "cds": {
-    "requires": {
-      "auth": {
-        "[development]": {
-          "kind":"basic",
-          "users": {
-            "alice": {
-              "roles": [
-                "support",
-                "admin"
-              ]
-            },
-            "bob": {
-              "roles": [
-                "support"
-              ]
-            }
-          }
-        }
-      },
-      "destinations": true,
-      "html5-repo": true,
-      "workzone": true,
-      "[production]": {
-        "db": "hana",
-        "auth": {
-          "kind": "xsuaa"
-        }
-      },
-      "html5-runtime": true
-    },
-    "sql": {
-      "native_hana_associations": false
-    }
-  },
-  "attachments": {
-    "scan": true
-  },
   "private": true
 }
