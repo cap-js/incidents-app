@@ -29,6 +29,7 @@ modules:
       - name: incidents-testing-db
       - name: incidents-testing-auth
       - name: incidents-testing-attachments
+      - name: incidents-testing-malware
  
   - name: incidents-testing-db-deployer
     type: hdb

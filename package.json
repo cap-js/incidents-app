@@ -76,7 +76,7 @@
     }
   },
   "attachments": {
-    "scan": false
+    "scan": true
   },
   "private": true
 }
