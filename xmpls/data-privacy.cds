@@ -1,4 +1,4 @@
-using { sap.capire.incidents as my } from './processor-service';
+using { sap.capire.incidents as my } from './services';
 
 annotate my.Customers with @PersonalData : {
   EntitySemantics: 'DataSubject',
