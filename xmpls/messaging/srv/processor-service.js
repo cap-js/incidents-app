@@ -1,3 +1,7 @@
+/**
+* Same as Remote Service Sample. Added additional Handlers for recieving and
+* handling events/messages
+*/
 const cds = require('@sap/cds')
 
 class ProcessorService extends cds.ApplicationService {
@@ -8,8 +12,29 @@ class ProcessorService extends cds.ApplicationService {
     this.on('READ', 'Customers', (req) => this.onCustomerRead(req));
     this.on(['CREATE','UPDATE'], 'Incidents', (req, next) => this.onCustomerCache(req, next));
     this.S4bupa = await cds.connect.to('API_BUSINESS_PARTNER');
-    this.remoteService = await cds.connect.to('RemoteService'); // REVISIT: What is this for?
+    this.remoteService = await cds.connect.to("RemoteService"); // REVISIT: What is this for?
+
+    // Added Handlers for Eventing on top of remote service sample
+    this.messaging = await cds.connect.to('messaging');
+    this.messaging.on('sap.s4.beh.businesspartner.v1.BusinessPartner.Changed.v1', async ({ event, data }) => await this.onBusinessPartnerChanged(event, data))
     return super.init();
+  }
+
+  async onBusinessPartnerChanged(event, data){
+    const {Customers} = this.entities;
+    const {BusinessPartnerAddress} = this.remoteService.entities;
+    console.log('<< received', event, data)
+    const Id = data.BusinessPartner;
+    const customer =  await this.S4bupa.run(SELECT.one(BusinessPartnerAddress, address => {
+      address('*'),
+      address.email(emails => {
+        emails('*')})
+      }).where({BusinessPartner: Id}));
+    if(customer){
+      customer.email = customer.email[0]?.email
+      const result= await cds.run(UPDATE(Customers).where({ID: customer.ID}).set({email:customer.email}));
+      console.log("result",result);
+    }
   }
 
   async onCustomerCache(req, next) {
@@ -48,9 +73,7 @@ class ProcessorService extends cds.ApplicationService {
 
   async onCustomerRead(req) {
     console.log('>> delegating to S4 service...', req.query);
-    const top = parseInt(req._queryOptions?.$top) || 100;
-    const skip = parseInt(req._queryOptions?.$skip) || 0;
-
+    const { limit } = req.query.SELECT
     const { BusinessPartner } = this.remoteService.entities;
 
     // Expands are required as the runtime does not support path expressions for remote services
@@ -62,7 +85,7 @@ class ProcessorService extends cds.ApplicationService {
               emails('email');
             });
         })
-    }).limit(top, skip));
+    }).limit(limit));
 
     result = result.map((bp) => ({
       ID: bp.ID,
@@ -78,21 +101,14 @@ class ProcessorService extends cds.ApplicationService {
 
 
   changeUrgencyDueToSubject(data) {
-    if (data) {
-      const incidents = Array.isArray(data) ? data : [data];
-      incidents.forEach((incident) => {
-        if (incident.title?.toLowerCase().includes("urgent")) {
-          incident.urgency = { code: "H", descr: "High" };
-        }
-      });
-    }
+    let urgent = data.title?.match(/urgent/i)
+    if (urgent) data.urgency_code = 'H'
   }
 
   /** Custom Validation */
   async onUpdate (req) {
-    const { status_code } = await SELECT.one(req.subject, i => i.status_code).where({ID: req.data.ID});
-    if (status_code === 'C')
-      return req.reject(`Can't modify a closed incident`);
+    let closed = await SELECT.one(1) .from (req.subject) .where `status.code = 'C'`
+    if (closed) req.reject `Can't modify a closed incident!`
   }
 }
 module.exports = { ProcessorService }
