@@ -29,7 +29,7 @@ module.exports = class ProcessorService extends cds.ApplicationService {
      * Send a notification using a pre-defined template when an incident is resolved.
      */
     this.after ('UPDATE', Incidents, async incident => {
-      if (incident.status_code === 'C') {
+      if (incident.status_code === 'R') {
         let customer = await customer4 (incident)
         await alert.notify ('IncidentResolved', {
           recipients: [ customer.id ],
