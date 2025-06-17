@@ -1,6 +1,6 @@
 # Incident Management – CAP Reference Application
 
-Welcome to the Incident Management reference sample application for the [SAP Cloud Applicatipon Programming Model (CAP)](https:/cap.cloud.sap).
+Welcome to the Incident Management reference sample application for the [SAP Cloud Application Programming Model (CAP)](https:/cap.cloud.sap).
 
 The application allows to create and process incidents on behalf of registered customers with the basic domain model is depicted below.
 
