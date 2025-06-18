@@ -58,5 +58,4 @@ Overwrite existing files.
 
 ## Messaging
 
-Copy all files from the `messaging` folder into the main project.
-Overwrite existing files.
+Start messaging with `cds w xmpls/messaging` 
