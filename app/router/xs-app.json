@@ -1,4 +1,5 @@
 {
+  "welcomeFile": "cp.portal/site",
   "routes": [
     {
       "source": "^(.*)$",
