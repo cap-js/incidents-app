@@ -100,7 +100,7 @@ resources:
     parameters:
       config:
         tenant-mode: dedicated
-        xsappname: sdmincidents
+        xsappname: sdmincidents-${org}-${space}
       path: ./xs-security.json
       service: xsuaa
       service-keys:
