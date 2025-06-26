@@ -180,3 +180,6 @@ annotate service.Incidents.conversation with @(
             Label : '{i18n>Message}',
         },]
 );
+annotate service.Incidents.attachments with {
+  customProperty1 @Common.ValueListWithFixedValues;
+}
