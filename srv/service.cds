@@ -9,9 +9,6 @@ service ProcessorService {
   entity Incidents as projection on my.Incidents;
   entity Customers @readonly as projection on my.Customers;
 }
-extend my.Incidents with{
-attachments:Composition of  many Attachments ;
-}
 
 extend my.Incidents with { attachments: Composition of many Attachments }
 
