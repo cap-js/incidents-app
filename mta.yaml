@@ -18,7 +18,7 @@ modules:
     parameters:
       buildpack: nodejs_buildpack
     properties:
-        REPOSITORY_ID: 8bd6c07a-b206-40f3-9cad-3b3da6edb089
+        REPOSITORY_ID: 2a1d4d1c-7bcf-40ea-b202-f24bb0ca6e5b
     build-parameters:
       builder: npm
   - name: incidents-db-deployer
