@@ -20,17 +20,17 @@ class ProcessorService extends cds.ApplicationService {
     const newCustomerId = req.data.customer_ID;
     const result = await next();
     const { BusinessPartner } = this.remoteService.entities;
-    if (newCustomerId && (newCustomerId !== "") && ((req.event == "CREATE") || (req.event == "UPDATE"))) {
+    if (newCustomerId && newCustomerId !== "") {
       console.log('>> CREATE or UPDATE customer!');
 
       // Expands are required as the runtime does not support path expressions for remote services
       const customer = await this.S4bupa.run(SELECT.one(BusinessPartner, bp => {
-        bp('*'),
+        bp('*');
           bp.addresses(address => {
-            address('email', 'phoneNumber'),
+            address('email', 'phoneNumber');
               address.email(emails => {
                 emails('email')
-              }),
+              });
               address.phoneNumber(phoneNumber => {
                 phoneNumber('phone')
               })
@@ -51,25 +51,33 @@ class ProcessorService extends cds.ApplicationService {
 
   async onCustomerRead(req) {
     console.log('>> delegating to S4 service...', req.query);
-    const { limit } = req.query.SELECT
+    let { limit, one } = req.query.SELECT
+    if(!limit) limit = { rows: { val: 55 }, offset: { val: 0 } } //default limit to 55 rows
 
     const { BusinessPartner } = this.remoteService.entities;
+    const query = SELECT.from(BusinessPartner, bp => {
+      bp('*');
+      bp.addresses(address => {
+        address('email');
+        address.email(emails => {
+          emails('email');
+        });
+      });
+    }).limit(limit)
 
+    if(one){
+      // support for single entity read
+      query.where({ ID: req.data.ID });
+    }
     // Expands are required as the runtime does not support path expressions for remote services
-    let result = await this.S4bupa.run(SELECT.from(BusinessPartner, bp => {
-      bp('*'),
-        bp.addresses(address => {
-          address('email'),
-            address.email(emails => {
-              emails('email');
-            });
-        })
-    }).limit(limit));
+    let result = await this.S4bupa.run(query);
 
     result = result.map((bp) => ({
       ID: bp.ID,
       name: bp.name,
-      email: bp.addresses[0]?.email[0]?.email
+      email: (bp.addresses[0]?.email[0]?.email || ''),
+      firstName: bp.firstName,
+      lastName: bp.lastName,
     }));
 
     // Explicitly set $count so the values show up in the value help in the UI
