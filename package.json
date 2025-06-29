@@ -36,7 +36,7 @@
     "app/incidents"
   ],
   "engines": {
-    "node": ">20"
+    "node": "^22"
   },
   "cds": {
     "requires": {
