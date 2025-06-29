@@ -11,6 +11,7 @@
     "dummy": 0
   },
   "dependencies": {
+   "@cap-js/hana": "^1",
    "@cap-js/attachments": "^1",
     "@sap/cds": ">=8",
     "@sap/xssec": "^4",
