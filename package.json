@@ -12,7 +12,7 @@
   },
   "dependencies": {
    "@cap-js/hana": "^1",
-    "@sap/cds": ">=8",
+    "@sap/cds": "9.0.6",
     "@sap/xssec": "^4",
     "express": "^4"
   },
