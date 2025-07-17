@@ -18,7 +18,7 @@
     "express": "^4"
   },
   "devDependencies": {
-    "@cap-js/attachments": "git+https://github.com/cap-js/attachments.git#feature/object-store-sm-credentials-validation",
+    "@cap-js/attachments": "^1.2.1",
     "@cap-js/cds-test": "^0",
     "@cap-js/change-tracking": "^1.0.6",
     "@cap-js/sqlite": "^1.0.1",
