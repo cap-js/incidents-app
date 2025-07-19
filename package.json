@@ -15,7 +15,8 @@
   "scripts": {
     "watch": "cds watch",
     "start": "cds-serve",
-    "test": "npx jest --silent"
+    "jest": "npx jest --silent",
+    "test": "chest"
   },
   "sapux": [
     "app/incidents"
