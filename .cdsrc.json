@@ -1,0 +1,14 @@
+{
+  "requires": {
+    "[pg]": {
+      "impl": "@cap-js/postgres",
+      "credentials": {
+        "host": "localhost",
+        "port": 5432,
+        "user": "postgres",
+        "password": "postgres",
+        "database": "postgres"
+      }
+    }
+  }
+}
