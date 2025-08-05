@@ -5,10 +5,6 @@ description: "A simple CAP project."
 parameters:
   enable-parallel-deployments: true
   deploy_mode: html5-repo
-  workzoneServicePlan: local-entry-point
-  workzoneServiceName: build-workzone-standard
-  lepExposureId: ga.service
-  workzoneServiceProviderId: ga-${org}-${space}
 build-parameters:
   before-all:
     - builder: custom
