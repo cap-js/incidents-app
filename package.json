@@ -41,6 +41,9 @@
   ],
   "cds": {
     "requires": {
+      "[local-multitenancy]": {
+        "multitenancy": true
+      },
       "auth": {
         "[development]": {
           "users": {
