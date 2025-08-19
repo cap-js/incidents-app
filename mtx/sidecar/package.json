@@ -2,14 +2,13 @@
   "name": "incidents-mtx",
   "dependencies": {
     "@cap-js/hana": "^1",
+    "@cap-js/attachments": "git+https://github.com/cap-js/attachments#fix/non-draft_mtls_upload",
     "@sap/cds": "^8",
     "@sap/cds-mtxs": "^2",
-    "@sap/xsenv": "^5.5.0",
-    "@sap/xssec": "^4",
+    "@sap/xsenv": "^5.6.1",
     "express": "^4"
   },
   "devDependencies": {
-     "@cap-js/attachments": "^1.2.1",
     "@cap-js/sqlite": "^1"
   },
   "scripts": {
