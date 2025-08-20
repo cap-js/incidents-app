@@ -46,6 +46,7 @@ modules:
       - name: incidents-testing-html5-repo-host
         parameters:
           content-target: true
+      - name: srv-api
     build-parameters:
       build-result: app/
       requires:
