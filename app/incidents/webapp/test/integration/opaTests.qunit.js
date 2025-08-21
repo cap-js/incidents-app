@@ -3,10 +3,9 @@ sap.ui.require(
         'sap/fe/test/JourneyRunner',
         'ns/incidents/test/integration/FirstJourney',
 		'ns/incidents/test/integration/pages/IncidentsList',
-		'ns/incidents/test/integration/pages/IncidentsObjectPage',
-		'ns/incidents/test/integration/pages/ConversationsObjectPage'
+		'ns/incidents/test/integration/pages/IncidentsObjectPage'
     ],
-    function(JourneyRunner, opaJourney, IncidentsList, IncidentsObjectPage, ConversationsObjectPage) {
+    function(JourneyRunner, opaJourney, IncidentsList, IncidentsObjectPage) {
         'use strict';
         var JourneyRunner = new JourneyRunner({
             // start index.html in web folder
@@ -18,8 +17,7 @@ sap.ui.require(
             {
                 pages: { 
 					onTheIncidentsList: IncidentsList,
-					onTheIncidentsObjectPage: IncidentsObjectPage,
-					onTheConversationsObjectPage: ConversationsObjectPage
+					onTheIncidentsObjectPage: IncidentsObjectPage
                 }
             },
             opaJourney.run

@@ -1,9 +1,11 @@
 {
-  "files.exclude": {
-    ".*": true,
-    "node_modules": true,
-    "cds-plugin.js": true,
-    "LICENSES": true,
-    "REUSE*": true
-  }
+  // uncomment entries once all libraries have been installed via 'npm install'
+  "eslint.validate": [
+    // "cds",
+    // "csn",
+    // "csv",
+    // "csv (semicolon)",
+    // "tab",
+    // "tsv"
+  ]
 }

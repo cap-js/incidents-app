@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html>
+<html lang="en">
 <!-- Copyright (c) 2015 SAP AG, All Rights Reserved -->
 <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -37,15 +37,16 @@
                 fiori2: {
                     componentData: {
                         config: {
-                            search: "hidden"
+                            search: "hidden",
+                            enableSearch: false
                         }
                     }
                 }
             },
             applications: {
                 "nsincidents-tile": {
-                    title: "Incident-Management",
-                    description: "A Fiori application.",
+                    title: "incident-management",
+                    description: "An SAP Fiori application.",
                     additionalInformation: "SAPUI5.Component=ns.incidents",
                     applicationType: "URL",
                     url: "../"
@@ -54,10 +55,10 @@
         };
     </script>
 
-    <script src="https://sapui5.hana.ondemand.com/1.120.0/test-resources/sap/ushell/bootstrap/sandbox.js" id="sap-ushell-bootstrap"></script>
-    <!-- Bootstrap the UI5 core library -->
+    <script src="https://sapui5.hana.ondemand.com/1.139.0/test-resources/sap/ushell/bootstrap/sandbox.js" id="sap-ushell-bootstrap"></script>
+    <!-- Bootstrap the UI5 core library. 'data-sap-ui-frameOptions="allow"'' is a NON-SECURE setting for test environments -->
     <script id="sap-ui-bootstrap"
-        src="https://sapui5.hana.ondemand.com/1.120.0/resources/sap-ui-core.js"
+        src="https://sapui5.hana.ondemand.com/1.139.0/resources/sap-ui-core.js"
         data-sap-ui-libs=""
         data-sap-ui-async="true"
         data-sap-ui-preload="async"
@@ -65,7 +66,13 @@
         data-sap-ui-compatVersion="edge"
         data-sap-ui-language="en"
         data-sap-ui-resourceroots='{"ns.incidents": "../"}'
-        data-sap-ui-frameOptions="allow"> // NON-SECURE setting for testing environment
+        data-sap-ui-frameOptions="allow"
+        data-sap-ui-flexibilityServices='[{"connector": "LocalStorageConnector"}]'>
+    </script>
+    <script>
+        sap.ui.getCore().attachInit(function () {
+            sap.ushell.Container.createRenderer().placeAt("content");
+        });
     </script>
 </head>
 
