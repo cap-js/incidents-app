@@ -62,5 +62,8 @@
       }
     }
   },
+  "odata": {
+    "containment": true
+  },
   "private": true
 }
