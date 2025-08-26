@@ -60,10 +60,10 @@
           "repositoryId": "2a1d4d1c-7bcf-40ea-b202-f24bb0ca6e5b"
         }
       }
+    },
+    "odata": {
+      "containment": true
     }
-  },
-  "odata": {
-    "containment": true
   },
   "private": true
 }
