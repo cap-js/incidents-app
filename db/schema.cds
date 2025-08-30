@@ -1,30 +1,7 @@
 using { cuid, managed, sap.common.CodeList } from '@sap/cds/common';
+using { sap.capire.incidents.Customers } from './dp-mashup';
 
 namespace sap.capire.incidents;
-
-/**
- * Customers using products sold by our company.
- * Customers can create support Incidents.
- */
-entity Customers : managed {
-  key ID         : String;
-  firstName      : String;
-  lastName       : String;
-  name           : String = trim(firstName ||' '|| lastName);
-  email          : EMailAddress;
-  phone          : PhoneNumber;
-  creditCardNo   : String(16) @assert.format: '^[1-9]\d{15}$';
-  addresses      : Composition of many Addresses on addresses.customer = $self;
-  incidents      : Association to many Incidents on incidents.customer = $self;
-}
-
-entity Addresses : cuid, managed {
-  customer       : Association to Customers;
-  city           : String;
-  postCode       : String;
-  streetAddress  : String;
-}
-
 
 /**
  * Incidents created by Customers.
@@ -61,6 +38,3 @@ entity Urgency : CodeList {
     low    = 'L';
   };
 }
-
-type EMailAddress : String;
-type PhoneNumber  : String;

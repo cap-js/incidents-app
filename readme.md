@@ -1,11 +1,22 @@
 # Incident Management – CAP Reference Application
 
+Version of the CAP Incidents sample app for demonstrating Dataproduct consumption.
+
 Welcome to the Incident Management reference sample application for the [SAP Cloud Application Programming Model (CAP)](https:/cap.cloud.sap).
 
 The application allows to create and process incidents on behalf of registered customers with the basic domain model is depicted below.
 
 ![domain drawio](xmpls/schema.drawio.svg)
 
+
+## DP Consumption
+
+```sh
+cds-import --from sap-s4com-Customer-v1.json -s sap.s4com:dataProduct:Customer:v1
+npm install
+cds add data
+
+```
 
 
 ## Setup
@@ -50,9 +61,6 @@ Run enclosed tests with:
 npm test
 ```
 
-## Add plugins
-
-If you want to use the Incidents App with CAP plugins like Change Tracking, Attachment Handling etc. have a look at the [readme file in the xmpls folder](./xmpls/readme.md).
 
 ## Deploy
 

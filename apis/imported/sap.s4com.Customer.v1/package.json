@@ -1,0 +1,13 @@
+{
+  "name": "sap-s4com-customer-v1",
+  "version": "1.0.0",
+  "xxx-cds": {
+    "requires": {
+      "sap.s4com.Customer.v1": {
+        "kind": "data.product",
+        "model": "sap-s4com-customer-v1",
+        "ordId": "sap.s4com:dataProduct:Customer:v1"
+      }
+    }
+  }
+}
