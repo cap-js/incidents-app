@@ -6,7 +6,7 @@ Welcome to the Incident Management reference sample application for the [SAP Clo
 
 The application allows to create and process incidents on behalf of registered customers with the basic domain model is depicted below.
 
-![domain drawio](xmpls/schema.drawio.svg)
+![domain drawio](./schema.drawio.svg)
 
 
 ## DP Consumption
