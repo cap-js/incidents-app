@@ -43,7 +43,7 @@ annotate service.Incidents with @(
   ]},
   UI.FieldGroup #CustomerInfo : { Data : [
     { Value : customer_ID,      Label : 'Name'    },
-    { Value : customer.address, Label : 'Address' },
+    { Value : address,          Label : 'Address' },
     { Value : customer.country, Label : 'Country' },
   ]},
   UI.FieldGroup #i18nDetails : { Data : [
