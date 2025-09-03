@@ -24,7 +24,7 @@ annotate service.Incidents with {
 
 annotate service.Incidents with @UI.LineItem : [
   { Value : title,              Label : '{i18n>Title}'    },
-  { Value : customer.name,      Label : '{i18n>Customer}' },
+  { Value : customer.name,      /*Label : '{i18n>Customer}'*/ },
   { Value : status.descr,       Label : '{i18n>Status}',  Criticality : status.criticality   },
   { Value : urgency.descr,      Label : '{i18n>Urgency}'  },
 ];
@@ -44,7 +44,7 @@ annotate service.Incidents with @(
   UI.FieldGroup #CustomerInfo : { Data : [
     { Value : customer_ID,      Label : 'Name'    },
     { Value : address,          Label : 'Address' },
-    { Value : customer.country, Label : 'Country' },
+    { Value : customer.country, /*Label : 'Country'*/ },
   ]},
   UI.FieldGroup #i18nDetails : { Data : [
     { Value : status_code,      Criticality : status.criticality  },

@@ -4,7 +4,7 @@
   "dependencies": {
     "@sap/cds": ">=8",
     "express": "^4",
-    "sap-s4com-customer-v1": "file:C:\\SAPDevelop\\node\\cap\\incidents-app\\apis\\imported\\sap.s4com.Customer.v1"
+    "sap-s4com-customer-v1": "file:./apis/imported/sap-s4com-customer-v1"
   },
   "devDependencies": {
     "@cap-js/cds-test": "*",

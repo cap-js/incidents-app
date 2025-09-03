@@ -1,6 +1,7 @@
 @cds.dp.ordId : 'sap.s4com:dataProduct:Customer:v1'
 @cds.external : true
 @data.product : true
+@protocol : 'none'
 service sap.s4com.Customer.v1 {
   entity Customer {
     key Customer : String(10);
@@ -228,6 +229,7 @@ service sap.s4com.Customer.v1 {
     DunningRecipient : String(10);
     LegDunningProcedureOn : Date;
     IsActiveEntity : Boolean;
+    @cds.java.name : 'toCustomer'
     _Customer : Association[1..1] to Customer on Customer = _Customer.Customer;
     _CustomerDefaultDunning : Association to one CustomerDunning on Customer = _CustomerDefaultDunning.Customer and CompanyCode = _CustomerDefaultDunning.CompanyCode and _CustomerDefaultDunning.DunningArea = '';
     _CustomerDunning : Association to many CustomerDunning on Customer = _CustomerDunning.Customer and CompanyCode = _CustomerDunning.CompanyCode;
@@ -244,8 +246,10 @@ service sap.s4com.Customer.v1 {
     DunningRecipient : String(10);
     LegDunningProcedureOn : Date;
     DunningClerk : String(2);
+    @cds.java.name : 'toCustomer'
     _Customer : Association[1..1] to Customer on Customer = _Customer.Customer;
     _CustomerCompany : Association[1..1] to CustomerCompanyCode on Customer = _CustomerCompany.Customer and CompanyCode = _CustomerCompany.CompanyCode;
+    @cds.java.name : 'toDunningRecipient'
     _DunningRecipient : Association[1..1] to Customer on DunningRecipient = _DunningRecipient.Customer;
   };
 
@@ -328,6 +332,7 @@ service sap.s4com.Customer.v1 {
     RetailAdditionalCustomerGrp8 : String(3);
     RetailAdditionalCustomerGrp9 : String(3);
     RetailAdditionalCustomerGrp10 : String(3);
+    @cds.java.name : 'toCustomer'
     _Customer : Association[1..1] to Customer on Customer = _Customer.Customer;
   };
 
@@ -341,6 +346,7 @@ service sap.s4com.Customer.v1 {
     CustomerTaxClassification : String(1);
     AuthorizationGroup : String(4);
     IsBusinessPurposeCompleted : Boolean;
+    @cds.java.name : 'toCustomer'
     _Customer : Association[1..1] to Customer on Customer = _Customer.Customer;
     _CustomerSalesArea : Association[1..1] to CustomerSalesArea on Customer = _CustomerSalesArea.Customer and SalesOrganization = _CustomerSalesArea.SalesOrganization and DistributionChannel = _CustomerSalesArea.DistributionChannel and Division = _CustomerSalesArea.Division;
   };
@@ -379,6 +385,7 @@ service sap.s4com.Customer.v1 {
     SundayMorningClosingTime : String(6);
     SundayAfternoonOpeningTime : String(6);
     SundayAfternoonClosingTime : String(6);
+    @cds.java.name : 'toCustomer'
     _Customer : Association[1..1] to Customer on Customer = _Customer.Customer;
   };
 
@@ -396,6 +403,7 @@ service sap.s4com.Customer.v1 {
     ExemptionDateBegin : Date;
     ExemptionDateEnd : Date;
     ExemptionReason : String(2);
+    @cds.java.name : 'toCustomer'
     _Customer : Association[1..1] to Customer on Customer = _Customer.Customer;
     _CustomerCompany : Association[1..1] to CustomerCompanyCode on Customer = _CustomerCompany.Customer and CompanyCode = _CustomerCompany.CompanyCode;
   };
