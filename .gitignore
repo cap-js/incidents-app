@@ -32,3 +32,4 @@ mta_archives/
 
 # @cap-js/cds-typer
 @cds-models
+app/incidents/dist/
