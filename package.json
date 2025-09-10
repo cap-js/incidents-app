@@ -12,13 +12,13 @@
   },
   "dependencies": {
     "@cap-js/hana": "^1",
-    "@cap-js/attachments": "git+https://github.com/cap-js/attachments#fix/non-draft_mtls_upload",
     "@sap/cds": ">=8",
     "@sap/cds-mtxs": "^2",
     "@sap/xssec": "^4",
     "express": "^4"
   },
   "devDependencies": {
+    "@cap-js/attachments": "^2.2.0",
     "@cap-js/cds-test": "^0",
     "@cap-js/change-tracking": "^1.0.6",
     "@cap-js/sqlite": "^1.0.1",
