@@ -17,7 +17,7 @@
     "express": "^4"
   },
   "devDependencies": {
-    "@cap-js/attachments": "^1.2.1",
+    "@cap-js/attachments": "^2.2.0",
     "@cap-js/cds-test": "^0",
     "@cap-js/change-tracking": "^1.0.6",
     "@cap-js/sqlite": "^2",
