@@ -11,23 +11,42 @@ build-parameters:
       commands:
         - npm ci
         - npx cds build --production
+        - mkdir -p resources
 modules:
   - name: incident-management-srv
     type: nodejs
     path: gen/srv
     parameters:
-      instances: 1
       buildpack: nodejs_buildpack
+      readiness-health-check-type: http
+      readiness-health-check-http-endpoint: /health
+      routes:
+        - route: "${default-url}"
+        - route: "${default-host}.cert.${default-domain}"
+    properties:
+      AMS_DCL_ROOT: ams/dcl
     build-parameters:
-      builder: npm-ci
+      builder: npm
     provides:
       - name: srv-api # required by consumers of CAP services (e.g. approuter)
         properties:
           srv-url: ${default-url}
+          srv-cert-url: '${protocol}://${default-host}.cert.${default-domain}'
     requires:
-      - name: incident-management-auth
       - name: incident-management-db
       - name: incident-management-destination
+      - name: incidents-ias-ga
+        parameters:
+          config:
+            credential-type: X509_GENERATED
+            app-identifier: srv
+      - name: incidents-event-broker-ga
+        parameters:
+          config:
+            authentication-type: X509_IAS
+      # - name: incident-management-auth
+    deployed-after:
+      - incident-management-ams-policies-deployer
 
   - name: incident-management-db-deployer
     type: hdb
@@ -37,43 +56,38 @@ modules:
     requires:
       - name: incident-management-db
 
-  - name: incident-management-app-deployer
-    type: com.sap.application.content
-    path: gen
-    requires:
-      - name: incident-management-auth
-      - name: srv-api
-      - name: incident-management-html5-repo-host
-        parameters:
-          content-target: true
-          config:
-            HTML5Runtime_enabled: true
-    build-parameters:
-      build-result: app/
-      requires:
-        - name: incidentmanagementincidents
-          artifacts:
-            - incidents.zip
-          target-path: app/
+  - name: incident-management-ams-policies-deployer
+    type: javascript.nodejs
+    path: gen/policies
     parameters:
-      config:
-        HTML5Runtime_enabled: true
-        init_data:
-          instance:
-            existing_destinations_policy: update
-            destinations:
-              - Name: srv-api
-                URL: ~{srv-api/srv-url}
-                Authentication: NoAuthentication
-                Type: HTTP
-                ProxyType: Internet
-                HTML5.ForwardAuthToken: true
-                HTML5.DynamicDestination: true
-              - Name: ui5
-                URL: https://ui5.sap.com
-                Authentication: NoAuthentication
-                Type: HTTP
-                ProxyType: Internet
+      buildpack: nodejs_buildpack
+      no-route: true
+      no-start: true
+      tasks:
+        - name: deploy-dcl
+          command: npm start
+          memory: 512M
+    requires:
+      - name: incidents-ias-ga
+        parameters:
+          config:
+            credential-type: X509_GENERATED
+            app-identifier: ams-policy-deployer
+
+  # - name: incident-management-app-deployer
+  #   type: com.sap.application.content
+  #   path: .
+  #   requires:
+  #     - name: incident-management-html5-repo-host
+  #       parameters:
+  #         content-target: true
+  #   build-parameters:
+  #     build-result: resources/
+  #     requires:
+  #       - name: incidentmanagementincidents
+  #         artifacts:
+  #           - incidents.zip
+  #         target-path: resources/
 
   - name: incidentmanagementincidents
     type: html5
@@ -90,10 +104,6 @@ modules:
   - name: incident-management-destinations
     type: com.sap.application.content
     requires:
-      - name: incident-management-auth
-        parameters:
-          service-key:
-            name: incident-management-auth-key
       - name: incident-management-html5-repo-host
         parameters:
           service-key:
@@ -112,37 +122,90 @@ modules:
             - Name: incident-management-html5-repository
               ServiceInstanceName: incident-management-html5-repo-host
               ServiceKeyName: incident-management-html5-repo-host-key
-              sap.cloud.service: incidentmanagement.service
-            - Name: incident-management-auth
-              Authentication: OAuth2UserTokenExchange
-              ServiceInstanceName: incident-management-auth
-              ServiceKeyName: incident-management-auth-key
-              sap.cloud.service: incidentmanagement.service
+              sap.cloud.service: incidentmanagementg3.service
 
+  - name: incident-management-app-deployer
+    type: com.sap.application.content
+    path: gen
+    requires:
+      - name: incidents-ias-ga
+      - name: incident-management-destination
+      - name: srv-api
+      - name: incident-management-html5-repo-host
+        parameters:
+          content-target: true
+          config:
+            HTML5Runtime_enabled: true
+    build-parameters:
+      build-result: app/
+      requires:
+        - name: incidentmanagementincidents
+          artifacts:
+            - incidents.zip
+          target-path: app/
+    # parameters:
+    #   config:
+    #     HTML5Runtime_enabled: true
+    #     init_data:
+    #       instance:
+    #         existing_destinations_policy: update
+    #         destinations:
+    #           - Name: incident-management-srv-api
+    #             URL: ~{srv-api/srv-url}
+    #             Authentication: NoAuthentication
+    #             Type: HTTP
+    #             ProxyType: Internet
+    #             HTML5.IASDependencyName: incidents-api
+    #           - Name: ui5
+    #             URL: https://ui5.sap.com
+    #             Authentication: NoAuthentication
+    #             Type: HTTP
+    #             ProxyType: Internet
 resources:
-  - name: incident-management-auth
+  - name: incidents-ias-ga
     type: org.cloudfoundry.managed-service
+    processed-after:
+      # for consumed-services (cf. below), incidents-event-broker-ga must already exist
+      # -> ensure incidents-ias is created after incidents-event-broker-ga
+      - incidents-event-broker-ga
+    requires:
+      - name: srv-api
     parameters:
-      service: xsuaa
+      service: identity
       service-plan: application
-      path: ./xs-security.json
       config:
-        xsappname: incident-management-${org}-${space}
-        tenant-mode: dedicated
-        role-collections:
-          - name: 'support (incident-management ${org}-${space})'
-            description: 'generated'
-            role-template-references:
-              - '$XSAPPNAME.support'
-          - name: 'admin (incident-management ${org}-${space})'
-            description: 'generated'
-            role-template-references:
-              - '$XSAPPNAME.admin'
+        authorization:
+          enabled: true
+        provided-apis:
+          - name: incidents-api-ga
+            description: api exposed by incident mgmt app
+        display-name: incidents-api-ga #> any value, e.g., reuse MTA ID
+        consumed-services:
+          - service-instance-name: incidents-event-broker-ga
+        home-url: ~{srv-api/srv-url}
+        xsuaa-cross-consumption: true
   - name: incident-management-db
     type: com.sap.xs.hdi-container
     parameters:
       service: hana
       service-plan: hdi-shared
+  - name: incident-management-html5-repo-host
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: html5-apps-repo
+      service-plan: app-host
+  - name: incidents-event-broker-ga
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: event-broker
+      service-plan: event-connectivity
+      config:
+        # unique identifier for this event broker instance
+        # should start with own namespace (i.e., "foo.bar") and may not be longer than 15 characters
+        systemNamespace: cap.incidents1
+        webhookUrl: ~{srv-api/srv-url}/-/cds/event-broker/webhook
+    requires:
+      - name: srv-api
   - name: incident-management-destination
     type: org.cloudfoundry.managed-service
     parameters:
@@ -154,13 +217,19 @@ resources:
           instance:
             existing_destinations_policy: update
             destinations:
-              - Name: srv-api
+              - Name: incident-management-srv-api
                 URL: ~{srv-api/srv-url}
                 Authentication: NoAuthentication
+                HTML5.IASDependencyName: incidents-api-ga
                 Type: HTTP
                 ProxyType: Internet
                 HTML5.ForwardAuthToken: true
                 HTML5.DynamicDestination: true
+              - Name: ui5
+                URL: https://ui5.sap.com
+                Authentication: NoAuthentication
+                Type: HTTP
+                ProxyType: Internet
     requires:
       - name: srv-api
         group: destinations
@@ -168,12 +237,6 @@ resources:
           name: srv-api # must be used in xs-app.json as well
           url: ~{srv-url}
           forwardAuthToken: true
-
-  - name: incident-management-html5-repo-host
-    type: org.cloudfoundry.managed-service
-    parameters:
-      service: html5-apps-repo
-      service-plan: app-host
   - name: incident-management-html5-runtime
     type: org.cloudfoundry.managed-service
     parameters:

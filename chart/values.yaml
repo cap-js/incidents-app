@@ -1,0 +1,128 @@
+# yaml-language-server: $schema=./values.schema.json
+
+global:
+  domain: c-146b042.kyma.ondemand.com
+  imagePullSecret:
+    name: docker-registry
+  image:
+    registry: shankarigr
+    tag: event
+srv:
+  bindings:
+    destination:
+      serviceInstanceName: destination
+    db:
+      serviceInstanceName: hana
+    eventbroker:
+      serviceInstanceName: eventbroker
+      parameters:
+        authentication-type: X509_IAS
+    auth:
+      serviceInstanceName: identity
+      parameters:
+        credential-type: X509_GENERATED
+        app-identifier: srv
+  image:
+    repository: incident-management-srv
+  resources:
+    limits:
+      ephemeral-storage: 250M
+      memory: 250M
+    requests:
+      ephemeral-storage: 250M
+      cpu: 250m
+      memory: 250M
+  health:
+    liveness:
+      path: /health
+    readiness:
+      path: /health
+  env:
+    AMS_DCL_ROOT: ams/dcl
+
+ams-policies-deployer:
+  image:
+    repository: incident-management-ams-policies-deployer
+  bindings:
+    identity:
+      serviceInstanceName: identity
+      parameters:
+        credential-type: X509_GENERATED
+        app-identifier: ams-policy-deployer
+destination:
+  serviceOfferingName: destination
+  servicePlanName: lite
+  parameters:
+    version: 1.0.0
+    HTML5Runtime_enabled: true
+hana-deployer:
+  image:
+    repository: incident-management-hana-deployer
+  bindings:
+    hana:
+      serviceInstanceName: hana
+  resources:
+    limits:
+      cpu: 250m
+      memory: 250M
+    requests:
+      cpu: 250m
+      memory: 250M
+hana:
+  serviceOfferingName: hana
+  servicePlanName: hdi-shared
+html5-apps-repo-host:
+  serviceOfferingName: html5-apps-repo
+  servicePlanName: app-host
+html5-apps-deployer:
+  env:
+    IAS_DEPENDENCY_NAME: incidents-api-kyma
+    SAP_CLOUD_SERVICE: incidentmanagementk.service
+  image:
+    repository: incident-management-html5-deployer
+    tag: 'event3'
+  bindings:
+    destination:
+      serviceInstanceName: destination
+    html5-apps-repo:
+      serviceInstanceName: html5-apps-repo-host
+  resources:
+    limits:
+      cpu: 250m
+      memory: 250M
+    requests:
+      cpu: 250m
+      memory: 250M
+  envFrom:
+    - configMapRef:
+        name: "{{ .Release.Name }}-html5-apps-deployer-configmap"
+backendDestinations:
+  incident-management-srv-api:
+    service: srv
+
+identity:
+  serviceOfferingName: identity
+  servicePlanName: application
+  parameters:
+    authorization:
+      enabled: true
+    display-name: incident-ias-eventk
+    provided-apis:
+      - name: incidents-api-kyma
+        description: api exposed by incident mgmt kyma app
+    consumed-services:
+      - service-instance-name: incident-management-eventbroker
+    home-url: http://incident-management-srv-grs.c-146b042.kyma.ondemand.com
+    xsuaa-cross-consumption: true
+    oauth2-configuration:
+      redirect-uris:
+        - https://*.c-146b042.kyma.ondemand.com/**
+
+eventbroker:
+  serviceOfferingName: event-broker
+  servicePlanName: event-connectivity
+  parameters:
+    systemNamespace: capk.incidents
+    webhookUrl: >-
+      https://incident-management-srv-grs.c-146b042.kyma.ondemand.com/-/cds/event-broker/webhook
+

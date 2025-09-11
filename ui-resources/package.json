@@ -1,0 +1,24 @@
+{
+    "name": "incident-management",
+    "version": "0.0.1",
+    "description": "A Fiori application.",
+    "keywords": [
+        "ui5",
+        "openui5",
+        "sapui5"
+    ],
+    "scripts": {
+        "start": "node node_modules/@sap/html5-app-deployer/index.js",
+        "build:ui5": "npm run build --prefix ../app/incidents --if-present",
+        "copyzips": "copyfiles -f ../app/*/dist/*.zip ./resources/",
+        "package": "run-s build:ui5 copyzips"
+    },
+    "dependencies": { 
+        "@sap/html5-app-deployer": "^6.2.0" 
+    },
+    "devDependencies": {
+        "copyfiles": "^2.4.1",
+        "npm-run-all": "^4.1.5"
+    }
+}
+

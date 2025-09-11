@@ -6,34 +6,58 @@
   "license": "UNLICENSED",
   "private": true,
   "dependencies": {
-    "@sap/cds": "^9",
-    "express": "^4",
+    "@cap-js/event-broker": "^0.2.0",
     "@cap-js/hana": "^2",
-    "@sap/xssec": "^4"
-  },
-  "engines": {
-    "node": ">=20"
+    "@sap-cloud-sdk/connectivity": "^4",
+    "@sap-cloud-sdk/http-client": "^4",
+    "@sap-cloud-sdk/resilience": "^4",
+    "@sap-cloud-sdk/util": "^4",
+    "@sap/ams": "^3",
+    "@sap/xssec": "^4",
+    "express": "^4"
   },
   "devDependencies": {
-    "@cap-js/cds-test": "^0.4.0",
-    "@cap-js/cds-types": "^0.13.0",
+    "@cap-js/cds-types": "latest",
     "@cap-js/sqlite": "^2",
-    "@sap/cds-dk": ">=8"
+    "@sap/ams-dev": "latest",
+    "@sap/ux-specification": "^1.124.8",
+    "axios": "^1.7.9",
+    "chai": "^4.5.0",
+    "chai-as-promised": "^7.1.2",
+    "chai-subset": "^1.6.0",
+    "jest": "^29.7.0"
   },
   "scripts": {
-    "test": "npx jest tests/test.js",
     "start": "cds-serve",
-    "watch-incidents": "cds watch --open incidents/webapp/index.html?sap-ui-xx-viewCache=false"
+    "watch-incidents": "cds watch --open incidents/webapp/index.html?sap-ui-xx-viewCache=false",
+    "test": "jest tests/test.js"
   },
   "cds": {
+    "log": {
+      "levels": {
+        "remote": "debug",
+        "messaging": "debug"
+      }
+    },
     "requires": {
+      "ias": {
+        "vcap": {
+          "label": "identity"
+        }
+      },
+      "messaging": {
+        "kind": "local-messaging",
+        "[production]": {
+          "kind": "event-broker"
+        }
+      },
       "[development]": {
         "auth": {
           "kind": "mocked",
           "users": {
             "alice": {
-              "roles": [
-                "support"
+              "policies": [
+                "cap.support"
               ]
             },
             "bob": {
@@ -45,12 +69,31 @@
         }
       },
       "[production]": {
-        "db": "hana",
-        "auth": "xsuaa"
+        "auth": {
+          "kind": "ias"
+        },
+        "db": "hana"
       },
+      "html5-repo": true,
       "destinations": true,
-      "html5-runtime": true,
-      "workzone": true
+      "workzone": true,
+      "API_BUSINESS_PARTNER": {
+        "kind": "odata-v2",
+        "model": "srv/external/API_BUSINESS_PARTNER",
+        "[production]": {
+          "credentials": {
+            "destination": "incident-management-s4-hana-cloud",
+            "path": "/sap/opu/odata/sap/API_BUSINESS_PARTNER"
+          },
+          "destinationOptions": {
+            "iasToXsuaaTokenExchange": false
+          }
+        }
+      },
+      "html5-runtime": true
+    },
+    "sql": {
+      "native_hana_associations": false
     }
   },
   "sapux": [

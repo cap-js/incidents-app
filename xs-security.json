@@ -10,6 +10,11 @@
     }
   ],
   "attributes": [],
+  "oauth2-configuration": {
+    "redirect-uris": [
+      "https://*.cfapps.eu10-004.hana.ondemand.com/**"
+    ]
+  },
   "role-templates": [
     {
       "name": "support",
