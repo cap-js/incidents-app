@@ -1,36 +1,21 @@
 {
+  "xsappname": "incident-management-ukrs01",
+  "tenant-mode": "dedicated",
+  "description": "Security profile of called application",
   "scopes": [
     {
-      "name": "$XSAPPNAME.support",
-      "description": "support"
-    },
-    {
-      "name": "$XSAPPNAME.admin",
-      "description": "admin"
+      "name": "uaa.user",
+      "description": "UAA"
     }
   ],
-  "attributes": [],
-  "oauth2-configuration": {
-    "redirect-uris": [
-      "https://*.cfapps.eu10-004.hana.ondemand.com/**"
-    ]
-  },
   "role-templates": [
     {
-      "name": "support",
-      "description": "generated",
+      "name": "Token_Exchange",
+      "description": "UAA",
       "scope-references": [
-        "$XSAPPNAME.support"
-      ],
-      "attribute-references": []
-    },
-    {
-      "name": "admin",
-      "description": "generated",
-      "scope-references": [
-        "$XSAPPNAME.admin"
-      ],
-      "attribute-references": []
+        "uaa.user"
+      ]
     }
-  ]
+  ],
+  "attributes": []
 }

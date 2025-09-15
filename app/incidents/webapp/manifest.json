@@ -1,7 +1,7 @@
 {
   "_version": "1.59.0",
   "sap.app": {
-    "id": "ns.incidentsg",
+    "id": "ukrs01.incidents",
     "type": "application",
     "i18n": "i18n/i18n.properties",
     "applicationVersion": {
@@ -12,12 +12,12 @@
     "resources": "resources.json",
     "sourceTemplate": {
       "id": "@sap/generator-fiori:lrop",
-      "version": "1.14.3",
-      "toolsId": "2b9ef034-c86b-4516-89a9-3ee7fb6cbb8d"
+      "version": "1.14.4",
+      "toolsId": "ccc9828b-6d0a-4d78-95c0-6117ec7c61e1"
     },
     "dataSources": {
       "mainService": {
-        "uri": "odata/v4/processor/",
+        "uri": "/odata/v4/processor/",
         "type": "OData",
         "settings": {
           "annotations": [],
@@ -30,6 +30,7 @@
         "incidents-display": {
           "semanticObject": "incidents",
           "action": "display",
+          "title": "{{flpTitle}}",
           "signature": {
             "parameters": {},
             "additionalParameters": "allowed"
@@ -57,7 +58,7 @@
   "sap.ui5": {
     "flexEnabled": true,
     "dependencies": {
-      "minUI5Version": "1.132.1",
+      "minUI5Version": "1.127.1",
       "libs": {
         "sap.m": {},
         "sap.ui.core": {},
@@ -73,7 +74,7 @@
       "i18n": {
         "type": "sap.ui.model.resource.ResourceModel",
         "settings": {
-          "bundleName": "ns.incidentsg.i18n.i18n"
+          "bundleName": "ukrs01.incidents.i18n.i18n"
         }
       },
       "": {
@@ -129,7 +130,8 @@
                     "type": "ResponsiveTable"
                   }
                 }
-              }
+              },
+              "initialLoad": "Enabled"
             }
           }
         },
@@ -153,6 +155,6 @@
   },
   "sap.cloud": {
     "public": true,
-    "service": "incidentmanagementg3.service"
+    "service": "incidents"
   }
 }

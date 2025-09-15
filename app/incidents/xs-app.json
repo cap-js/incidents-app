@@ -3,12 +3,19 @@
   "authenticationMethod": "route",
   "routes": [
     {
-      "source": "^/?odata/(.*)$",
+      "source": "^/odata/(.*)$",
       "target": "/odata/$1",
       "destination": "incident-management-srv-api",
-      "authenticationType": "ias",
-      "csrfProtection": true
+      "authenticationType": "xsuaa",
+      "csrfProtection": false
     },
+    {
+     "source": "^/fesr$", 
+     "target": "/fesr", 
+     "destination": "incident-management-srv-api", 
+     "csrfProtection": false, 
+     "authenticationType": "none" 
+   }, 
     {
       "source": "^/resources/(.*)$",
       "target": "/resources/$1",
@@ -25,7 +32,7 @@
       "source": "^(.*)$",
       "target": "$1",
       "service": "html5-apps-repo-rt",
-      "authenticationType": "ias"
+      "authenticationType": "xsuaa"
     }
   ]
 }

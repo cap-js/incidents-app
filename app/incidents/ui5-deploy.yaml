@@ -1,7 +1,7 @@
 # yaml-language-server: $schema=https://sap.github.io/ui5-tooling/schema/ui5.yaml.json
-specVersion: '3.1'
+specVersion: '2.4'
 metadata:
-  name: ns.incidentsg
+  name: ukrs01.incidents
 type: application
 resources:
   configuration:
@@ -12,9 +12,14 @@ builder:
       - "/test/**"
       - "/localService/**"
   customTasks:
-    - name: ui5-task-zipper
-      afterTask: generateVersionInfo
-      configuration:
-        archiveName: incidents
-        additionalFiles:
-          - xs-app.json
+  - name: webide-extension-task-updateManifestJson
+    afterTask: replaceVersion
+    configuration:
+      appFolder: webapp
+      destDir: dist
+  - name: ui5-task-zipper
+    afterTask: generateCachebusterInfo
+    configuration:
+      archiveName: ukrs01incidents
+      additionalFiles:
+      - xs-app.json

@@ -2,7 +2,7 @@
 
 specVersion: "3.1"
 metadata:
-  name: ns.incidentsg
+  name: ukrs01.incidents
 type: application
 server:
   customMiddleware:

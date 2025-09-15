@@ -1,4 +1,4 @@
-using { User, cuid, managed, sap.common.CodeList } from '@sap/cds/common';
+using { cuid, managed, sap.common.CodeList } from '@sap/cds/common';
 namespace sap.capire.incidents; 
 
 /**
@@ -9,7 +9,6 @@ customer     : Association to Customers;
 title        : String  @title : 'Title';
 urgency        : Association to Urgency default 'M';
 status         : Association to Status default 'N';
-test : String;
 conversation  : Composition of many {
     key ID    : UUID;
     timestamp : type of managed:createdAt;
@@ -25,7 +24,7 @@ entity Customers : managed {
 key ID        : String;
 firstName     : String;
 lastName      : String;
-name          : String = firstName ||' '|| lastName;
+name : String = trim(firstName ||' '|| lastName);
 email         : EMailAddress;
 phone         : PhoneNumber;
 incidents     : Association to many Incidents on incidents.customer = $self;

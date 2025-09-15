@@ -1,4 +1,4 @@
-using { API_BUSINESS_PARTNER as S4 } from './external/API_BUSINESS_PARTNER';
+using { OP_API_BUSINESS_PARTNER_SRV as S4 } from './external/OP_API_BUSINESS_PARTNER_SRV';
 
 service RemoteService {
   entity BusinessPartner as projection on S4.A_BusinessPartner {

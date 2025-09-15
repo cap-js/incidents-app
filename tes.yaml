@@ -1,6 +1,0 @@
-eventbroker:
-  serviceOfferingName: event-broker
-  servicePlanName: event-connectivity
-  parameters:
-    systemNamespace: capk.incidents
-    webhookUrl: http://incident-management-srv.<namespace>.<cluster>.kyma.ondemand.com/-/cds/event-broker/webhook
