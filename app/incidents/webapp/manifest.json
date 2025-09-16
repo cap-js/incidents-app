@@ -163,6 +163,13 @@
                       "name": "Inline"
                     }
                   }
+                },
+                "attachments/@com.sap.vocabularies.UI.v1.LineItem": {
+                  "tableSettings": {
+                      "type": "ResponsiveTable",
+                      "selectionMode": "Auto",
+                      "rowPress": ".extension.ns.incidents.controller.custom.onRowPress"
+                  }
                 }
               }
             }
@@ -183,7 +190,11 @@
     },
     "extends": {
       "extensions": {
-        "sap.ui.controllerExtensions": {}
+        "sap.ui.controllerExtensions": {
+          "sap.fe.templates.ObjectPage.ObjectPageController#ns.incidents::IncidentsObjectPage": {
+            "controllerName": "ns.incidents.controller.custom"
+          }
+        }
       }
     }
   },
