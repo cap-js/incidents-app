@@ -408,4 +408,3 @@ service sap.s4com.Customer.v1 {
     _CustomerCompany : Association[1..1] to CustomerCompanyCode on Customer = _CustomerCompany.Customer and CompanyCode = _CustomerCompany.CompanyCode;
   };
 };
-

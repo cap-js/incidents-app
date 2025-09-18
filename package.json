@@ -2,6 +2,7 @@
   "name": "@capire/incidents",
   "version": "1.0.0",
   "dependencies": {
+    "@cap-js/hana": "^2",
     "@sap/cds": ">=8",
     "express": "^4",
     "sap-s4com-customer-v1": "file:./apis/imported/sap-s4com-customer-v1"
@@ -22,5 +23,6 @@
   "sapux": [
     "app/incidents"
   ],
-  "private": true
+  "private": true,
+  "cds": {}
 }

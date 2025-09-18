@@ -12,9 +12,9 @@ namespace sap.capire.incidents;
 entity Customers as projection on dpCust.Customer {
   key Customer as ID,
   CustomerName as name,
-  Country as country,
-  CityName as city,
-  PostalCode as zip,
-  StreetName as street
+  Country      as country,
+  CityName     as city,
+  PostalCode   as zip,
+  StreetName   as street
 }
 
