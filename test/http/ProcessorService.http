@@ -1,0 +1,221 @@
+@server=http://localhost:4004
+@username=alice
+@password=
+
+
+### Incidents
+# @name Incidents_GET
+GET {{server}}/odata/v4/processor/Incidents
+Authorization: Basic {{username}}:{{password}}
+
+
+### Incidents Drafts GET
+# @name Incidents_Drafts_GET
+GET {{server}}/odata/v4/processor/Incidents?$filter=(IsActiveEntity eq false)
+Authorization: Basic {{username}}:{{password}}
+
+
+### Incidents Draft POST
+# @name Incidents_Draft_POST
+POST {{server}}/odata/v4/processor/Incidents
+Content-Type: application/json
+Authorization: Basic {{username}}:{{password}}
+
+{
+  "customer": {
+    "ID": "Customers-9444249"
+  },
+  "title": "title-6661531",
+  "urgency": {
+    "code": "L"
+  },
+  "status": {
+    "code": "A"
+  },
+  "conversation": [
+    {
+      "ID": "20590768-0912-4314-b534-7372d6becee8",
+      "timestamp": "2007-03-23T18:30:00.000Z",
+      "author": "author.c9bxs@example.net",
+      "message": "message-20590768"
+    },
+    {
+      "ID": "20590769-0c78-4a84-af4d-91b60a230c0a",
+      "timestamp": "2001-07-26T18:30:00.000Z",
+      "author": "author.c9bxt@example.net",
+      "message": "message-20590769"
+    }
+  ],
+  "createdAt": "2000-10-29T18:30:00.000Z",
+  "createdBy": "createdBy.3ys2j@example.org",
+  "modifiedAt": "2021-12-04T18:30:00.000Z",
+  "modifiedBy": "modifiedBy.3ys2j@example.net"
+}
+
+
+### Result from POST request above
+@draftID={{Incidents_Draft_POST.response.body.$.ID}}
+
+
+### Incidents Draft PATCH
+# @name Incidents_Draft_Patch
+PATCH {{server}}/odata/v4/processor/Incidents(ID={{draftID}},IsActiveEntity=false)
+Content-Type: application/json
+Authorization: Basic {{username}}:{{password}}
+
+{
+  "customer": {
+    "ID": "Customers-9444249"
+  },
+  "title": "title-6661531",
+  "urgency": {
+    "code": "L"
+  },
+  "status": {
+    "code": "A"
+  },
+  "conversation": [
+    {
+      "ID": "20590768-0912-4314-b534-7372d6becee8",
+      "timestamp": "2007-03-23T18:30:00.000Z",
+      "author": "author.c9bxs@example.net",
+      "message": "message-20590768"
+    },
+    {
+      "ID": "20590769-0c78-4a84-af4d-91b60a230c0a",
+      "timestamp": "2001-07-26T18:30:00.000Z",
+      "author": "author.c9bxt@example.net",
+      "message": "message-20590769"
+    }
+  ],
+  "createdAt": "2000-10-29T18:30:00.000Z",
+  "createdBy": "createdBy.3ys2j@example.org",
+  "modifiedAt": "2021-12-04T18:30:00.000Z",
+  "modifiedBy": "modifiedBy.3ys2j@example.net"
+}
+
+
+### Incidents Draft Prepare
+# @name Incidents_Draft_Prepare
+POST {{server}}/odata/v4/processor/Incidents(ID={{draftID}},IsActiveEntity=false)/ProcessorService.draftPrepare
+Content-Type: application/json
+Authorization: Basic {{username}}:{{password}}
+
+{}
+
+
+### Incidents Draft Activate
+# @name Incidents_Draft_Activate
+POST {{server}}/odata/v4/processor/Incidents(ID={{draftID}},IsActiveEntity=false)/ProcessorService.draftActivate
+Content-Type: application/json
+Authorization: Basic {{username}}:{{password}}
+
+{}
+
+
+### Customers
+# @name Customers_GET
+GET {{server}}/odata/v4/processor/Customers
+Authorization: Basic {{username}}:{{password}}
+
+
+### Urgency
+# @name Urgency_GET
+GET {{server}}/odata/v4/processor/Urgency
+Authorization: Basic {{username}}:{{password}}
+
+
+### Status
+# @name Status_GET
+GET {{server}}/odata/v4/processor/Status
+Authorization: Basic {{username}}:{{password}}
+
+
+### Incidents.conversation
+# @name Incidentsconversation_GET
+GET {{server}}/odata/v4/processor/Incidents.conversation
+Authorization: Basic {{username}}:{{password}}
+
+
+### Incidents.conversation
+# @name Incidentsconversation_POST
+POST {{server}}/odata/v4/processor/Incidents.conversation
+Content-Type: application/json
+Authorization: Basic {{username}}:{{password}}
+
+{
+  "ID": "20590768-0912-4314-b534-7372d6becee8",
+  "timestamp": "2007-03-23T18:30:00.000Z",
+  "author": "author.c9bxs@example.net",
+  "message": "message-20590768"
+}
+
+
+### Incidents.conversation
+# @name Incidentsconversation_PATCH
+PATCH {{server}}/odata/v4/processor/Incidents.conversation(up_=[object Object],ID=20590768-0912-4314-b534-7372d6becee8)
+Content-Type: application/json
+Authorization: Basic {{username}}:{{password}}
+
+{
+  "ID": "20590768-0912-4314-b534-7372d6becee8",
+  "timestamp": "2007-03-23T18:30:00.000Z",
+  "author": "author.c9bxs@example.net",
+  "message": "message-20590768"
+}
+
+
+### Incidents.conversation
+# @name Incidentsconversation_DELETE
+DELETE {{server}}/odata/v4/processor/Incidents.conversation(up_=[object Object],ID=20590768-0912-4314-b534-7372d6becee8)
+Content-Type: application/json
+Authorization: Basic {{username}}:{{password}}
+
+
+### Addresses
+# @name Addresses_GET
+GET {{server}}/odata/v4/processor/Addresses
+Authorization: Basic {{username}}:{{password}}
+
+
+### Addresses
+# @name Addresses_POST
+POST {{server}}/odata/v4/processor/Addresses
+Content-Type: application/json
+Authorization: Basic {{username}}:{{password}}
+
+{
+  "ID": "28192012-20ae-4dbb-95cd-952300048ec0",
+  "city": "city-28192012",
+  "postCode": "postCode-28192012",
+  "streetAddress": "streetAddress-28192012",
+  "createdAt": "2012-07-16T18:30:00.000Z",
+  "createdBy": "createdBy.gs93g@example.net",
+  "modifiedAt": "2023-01-06T18:30:00.000Z",
+  "modifiedBy": "modifiedBy.gs93g@example.com"
+}
+
+
+### Addresses
+# @name Addresses_PATCH
+PATCH {{server}}/odata/v4/processor/Addresses/28192012-20ae-4dbb-95cd-952300048ec0
+Content-Type: application/json
+Authorization: Basic {{username}}:{{password}}
+
+{
+  "ID": "28192012-20ae-4dbb-95cd-952300048ec0",
+  "city": "city-28192012",
+  "postCode": "postCode-28192012",
+  "streetAddress": "streetAddress-28192012",
+  "createdAt": "2012-07-16T18:30:00.000Z",
+  "createdBy": "createdBy.gs93g@example.net",
+  "modifiedAt": "2023-01-06T18:30:00.000Z",
+  "modifiedBy": "modifiedBy.gs93g@example.com"
+}
+
+
+### Addresses
+# @name Addresses_DELETE
+DELETE {{server}}/odata/v4/processor/Addresses/28192012-20ae-4dbb-95cd-952300048ec0
+Content-Type: application/json
+Authorization: Basic {{username}}:{{password}}

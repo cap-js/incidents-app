@@ -1,0 +1,225 @@
+@server=http://localhost:4004
+@username=alice
+@password=
+
+
+### BusinessPartner
+# @name BusinessPartner_GET
+GET {{server}}/odata/v4/remote/BusinessPartner
+Authorization: Basic {{username}}:{{password}}
+
+
+### BusinessPartner
+# @name BusinessPartner_POST
+POST {{server}}/odata/v4/remote/BusinessPartner
+Content-Type: application/json
+Authorization: Basic {{username}}:{{password}}
+
+{
+  "ID": "er-1340964",
+  "firstName": "firstName-1340964",
+  "lastName": "lastName-1340964",
+  "name": "name-1340964",
+  "addresses": [
+    {
+      "addressId": "ss-4773226",
+      "email": [
+        {
+          "email": "email-28645762"
+        }
+      ],
+      "phoneNumber": [
+        {
+          "phone": "phone-6802427"
+        }
+      ]
+    },
+    {
+      "addressId": "ss-4773227",
+      "email": [
+        {
+          "email": "email-25562517"
+        }
+      ],
+      "phoneNumber": [
+        {
+          "phone": "phone-18409254"
+        }
+      ]
+    }
+  ]
+}
+
+
+### BusinessPartner
+# @name BusinessPartner_PATCH
+PATCH {{server}}/odata/v4/remote/BusinessPartner/er-1340964
+Content-Type: application/json
+Authorization: Basic {{username}}:{{password}}
+
+{
+  "ID": "er-1340964",
+  "firstName": "firstName-1340964",
+  "lastName": "lastName-1340964",
+  "name": "name-1340964",
+  "addresses": [
+    {
+      "addressId": "ss-4773226",
+      "email": [
+        {
+          "email": "email-28645762"
+        }
+      ],
+      "phoneNumber": [
+        {
+          "phone": "phone-6802427"
+        }
+      ]
+    },
+    {
+      "addressId": "ss-4773227",
+      "email": [
+        {
+          "email": "email-25562517"
+        }
+      ],
+      "phoneNumber": [
+        {
+          "phone": "phone-18409254"
+        }
+      ]
+    }
+  ]
+}
+
+
+### BusinessPartner
+# @name BusinessPartner_DELETE
+DELETE {{server}}/odata/v4/remote/BusinessPartner/er-1340964
+Content-Type: application/json
+Authorization: Basic {{username}}:{{password}}
+
+
+### BusinessPartnerAddress
+# @name BusinessPartnerAddress_GET
+GET {{server}}/odata/v4/remote/BusinessPartnerAddress
+Authorization: Basic {{username}}:{{password}}
+
+
+### BusinessPartnerAddress
+# @name BusinessPartnerAddress_POST
+POST {{server}}/odata/v4/remote/BusinessPartnerAddress
+Content-Type: application/json
+Authorization: Basic {{username}}:{{password}}
+
+{
+  "addressId": "ss-4773226",
+  "email": [
+    {
+      "email": "email-28645762"
+    }
+  ],
+  "phoneNumber": [
+    {
+      "phone": "phone-6802427"
+    }
+  ]
+}
+
+
+### BusinessPartnerAddress
+# @name BusinessPartnerAddress_PATCH
+PATCH {{server}}/odata/v4/remote/BusinessPartnerAddress(ID='er-1340964',addressId='ss-4773226')
+Content-Type: application/json
+Authorization: Basic {{username}}:{{password}}
+
+{
+  "addressId": "ss-4773226",
+  "email": [
+    {
+      "email": "email-28645762"
+    }
+  ],
+  "phoneNumber": [
+    {
+      "phone": "phone-6802427"
+    }
+  ]
+}
+
+
+### BusinessPartnerAddress
+# @name BusinessPartnerAddress_DELETE
+DELETE {{server}}/odata/v4/remote/BusinessPartnerAddress(ID='er-1340964',addressId='ss-4773226')
+Content-Type: application/json
+Authorization: Basic {{username}}:{{password}}
+
+
+### EmailAddress
+# @name EmailAddress_GET
+GET {{server}}/odata/v4/remote/EmailAddress
+Authorization: Basic {{username}}:{{password}}
+
+
+### EmailAddress
+# @name EmailAddress_POST
+POST {{server}}/odata/v4/remote/EmailAddress
+Content-Type: application/json
+Authorization: Basic {{username}}:{{password}}
+
+{
+  "email": "email-28645762"
+}
+
+
+### EmailAddress
+# @name EmailAddress_PATCH
+PATCH {{server}}/odata/v4/remote/EmailAddress/ss-4773226
+Content-Type: application/json
+Authorization: Basic {{username}}:{{password}}
+
+{
+  "email": "email-28645762"
+}
+
+
+### EmailAddress
+# @name EmailAddress_DELETE
+DELETE {{server}}/odata/v4/remote/EmailAddress/ss-4773226
+Content-Type: application/json
+Authorization: Basic {{username}}:{{password}}
+
+
+### PhoneNumber
+# @name PhoneNumber_GET
+GET {{server}}/odata/v4/remote/PhoneNumber
+Authorization: Basic {{username}}:{{password}}
+
+
+### PhoneNumber
+# @name PhoneNumber_POST
+POST {{server}}/odata/v4/remote/PhoneNumber
+Content-Type: application/json
+Authorization: Basic {{username}}:{{password}}
+
+{
+  "phone": "phone-6802427"
+}
+
+
+### PhoneNumber
+# @name PhoneNumber_PATCH
+PATCH {{server}}/odata/v4/remote/PhoneNumber/ss-4773226
+Content-Type: application/json
+Authorization: Basic {{username}}:{{password}}
+
+{
+  "phone": "phone-6802427"
+}
+
+
+### PhoneNumber
+# @name PhoneNumber_DELETE
+DELETE {{server}}/odata/v4/remote/PhoneNumber/ss-4773226
+Content-Type: application/json
+Authorization: Basic {{username}}:{{password}}
