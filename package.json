@@ -31,7 +31,7 @@
     "@sap/opentelemetry-exporter-for-sap-cloud-logging": "^0.4.0"
   },
   "devDependencies": {
-    "@cap-js/sqlite": "^1.8.0",
+    "@cap-js/sqlite": "latest",
     "@sap/ux-specification": "^1.120.17",
     "rimraf": "^5.0.5"
   },
