@@ -25,8 +25,8 @@
     "@sap/xssec": "^4",
     "express": "^4",
     "hdb": "^0.19.12",
-    "@sap/fesr-to-otel-js": "^1.5.17",
-    "@sap/xotel-agent-ext-js": "^1.5.29",
+    "@sap/fesr-to-otel-js": "https://73555000100200018064.npmsrv.cdn.repositories.cloud.sap/@sap/fesr-to-otel-js/-/fesr-to-otel-js-1.5.13.tgz",
+    "@sap/xotel-agent-ext-js": "https://73555000100200018064.npmsrv.cdn.repositories.cloud.sap/@sap/xotel-agent-ext-js/-/xotel-agent-ext-js-1.5.22.tgz",
     "cf-nodejs-logging-support": "7.5.0-beta.0",
     "@sap/opentelemetry-exporter-for-sap-cloud-logging": "^0.4.0"
   },
