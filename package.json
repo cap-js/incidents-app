@@ -16,7 +16,8 @@
     "watch": "cds watch",
     "start": "cds-serve",
     "jest": "npx jest --silent",
-    "test": "chest"
+    "test": "chest",
+    "in-cap-dev": "cd node_modules && rm -fr @sap/cds* @cap-js/db-service @cap-js/sqlite"
   },
   "sapux": [
     "app/incidents"
