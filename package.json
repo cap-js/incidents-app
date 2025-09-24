@@ -10,6 +10,7 @@
     "@cap-js/audit-logging": ">=0.8.3",
     "@cap-js/change-tracking": "^1.0.6",
     "@cap-js/attachments": "^2",
+    "@cap-js/print": "file:../print",
     "@cap-js/sqlite": ">=1"
   },
   "scripts": {
