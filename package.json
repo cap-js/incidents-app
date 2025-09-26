@@ -6,7 +6,7 @@
   "license": "UNLICENSED",
   "private": true,
   "dependencies": {
-    "@cap-js/telemetry": "^1.5.3",
+    "@cap-js/telemetry": "latest",
     "@grpc/grpc-js": "^1.12.6",
     "@opentelemetry/api": "1.9.0",
     "@opentelemetry/api-logs": "0.57.1",
@@ -16,7 +16,7 @@
     "@opentelemetry/exporter-trace-otlp-grpc": "0.57.1",
     "@opentelemetry/exporter-trace-otlp-proto": "0.57.1",
     "@opentelemetry/sdk-logs": "0.57.1",
-    "@sap/cds": "8.7.2",
+    "@sap/cds": "9",
     "@opentelemetry/host-metrics": "^0.36",
     "@sap-cloud-sdk/connectivity": "^4",
     "@sap-cloud-sdk/http-client": "^4",
@@ -26,7 +26,7 @@
     "express": "^4",
     "hdb": "^0.19.12",
     "@sap/fesr-to-otel-js": "https://73555000100200018064.npmsrv.cdn.repositories.cloud.sap/@sap/fesr-to-otel-js/-/fesr-to-otel-js-1.5.13.tgz",
-    "@sap/xotel-agent-ext-js": "https://73555000100200018064.npmsrv.cdn.repositories.cloud.sap/@sap/xotel-agent-ext-js/-/xotel-agent-ext-js-1.5.22.tgz",
+    "@sap/xotel-agent-ext-js": "https://73555000100200018064.npmsrv.cdn.repositories.cloud.sap/@sap/xotel-agent-ext-js/-/xotel-agent-ext-js-1.5.30.tgz",
     "cf-nodejs-logging-support": "7.5.0-beta.0",
     "@sap/opentelemetry-exporter-for-sap-cloud-logging": "^0.4.0"
   },
