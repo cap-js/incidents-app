@@ -15,23 +15,24 @@
     "@opentelemetry/exporter-metrics-otlp-proto": "0.57.1",
     "@opentelemetry/exporter-trace-otlp-grpc": "0.57.1",
     "@opentelemetry/exporter-trace-otlp-proto": "0.57.1",
-    "@opentelemetry/sdk-logs": "0.57.1",
-    "@sap/cds": "9",
     "@opentelemetry/host-metrics": "^0.36",
+    "@opentelemetry/sdk-logs": "0.57.1",
     "@sap-cloud-sdk/connectivity": "^4",
     "@sap-cloud-sdk/http-client": "^4",
     "@sap-cloud-sdk/resilience": "^4",
     "@sap-cloud-sdk/util": "^4",
-    "@sap/xssec": "^4",
-    "express": "^4",
-    "hdb": "^0.19.12",
+    "@sap/cds": "9",
     "@sap/fesr-to-otel-js": "https://73555000100200018064.npmsrv.cdn.repositories.cloud.sap/@sap/fesr-to-otel-js/-/fesr-to-otel-js-1.5.13.tgz",
+    "@sap/opentelemetry-exporter-for-sap-cloud-logging": "^0.4.0",
     "@sap/xotel-agent-ext-js": "https://73555000100200018064.npmsrv.cdn.repositories.cloud.sap/@sap/xotel-agent-ext-js/-/xotel-agent-ext-js-1.5.30.tgz",
+    "@sap/xssec": "^4",
     "cf-nodejs-logging-support": "7.5.0-beta.0",
-    "@sap/opentelemetry-exporter-for-sap-cloud-logging": "^0.4.0"
+    "express": "^4",
+    "hdb": "^0.19.12"
   },
   "devDependencies": {
     "@cap-js/sqlite": "latest",
+    "@sap/cds-dk": "^9.3.2",
     "@sap/ux-specification": "^1.120.17",
     "rimraf": "^5.0.5"
   },
@@ -58,7 +59,7 @@
       "OP_API_BUSINESS_PARTNER_SRV": {
         "kind": "odata-v2",
         "model": "srv/external/OP_API_BUSINESS_PARTNER_SRV",
-         "[production]": {
+        "[production]": {
           "credentials": {
             "destination": "incidents-api-access",
             "path": "/sap/opu/odata/sap/API_BUSINESS_PARTNER"
