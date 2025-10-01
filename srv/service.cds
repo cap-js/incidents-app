@@ -8,6 +8,16 @@ using {sap.common.CodeList} from '@sap/cds/common';
 service ProcessorService {
   entity Incidents as projection on my.Incidents;
   entity Customers @readonly as projection on my.Customers;
+  entity Incidents.attachments as projection on my.Incidents.attachments
+  actions {
+    @(Common.SideEffects : {TargetEntities: ['']},)
+    action createLink(
+      in:many $self,
+      @mandatory @Common.Label:'Name' name: String @UI.Placeholder: 'Enter a name for the link',
+      @mandatory @assert.format:'^(https?:\/\/)(([a-zA-Z0-9\-]+\.)+[a-zA-Z]{2,}|localhost)(:\d{2,5})?(\/[^\s]*)?$' @Common.Label:'URL' url: String @UI.Placeholder: 'Example: https://www.example.com'
+    );     
+    action openAttachment() returns { value: String; };
+  }
 }
 
 extend my.Incidents with { attachments: Composition of many Attachments }
