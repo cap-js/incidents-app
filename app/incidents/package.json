@@ -11,5 +11,7 @@
     "scripts": {
         "deploy-config": "npx -p @sap/ux-ui5-tooling fiori add deploy-config cf"
     },
-    "devDependencies": { }
+    "devDependencies": {
+        "ui5-middleware-simpleproxy": "^3.5.1"
+    }
 }

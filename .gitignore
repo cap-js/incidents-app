@@ -39,5 +39,8 @@ mta_archives/
 app/*/dist
 resources/
 
+# Downloaded libraries
+app/incidents/webapp/lib/
+
 # VitePress
 _docs/.vitepress/cache

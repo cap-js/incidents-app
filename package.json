@@ -3,23 +3,34 @@
   "version": "1.0.0",
   "dependencies": {
     "@sap/cds": ">=8",
-    "express": "^4"
+    "express": "^4",
+    "@ux-ai/cap-reuse": "*"
   },
   "devDependencies": {
     "@cap-js/cds-test": "*",
     "@cap-js/audit-logging": ">=0.8.3",
     "@cap-js/change-tracking": "^1.0.6",
     "@cap-js/attachments": "^2",
-    "@cap-js/sqlite": ">=1"
+    "@cap-js/sqlite": ">=1",
+    "concurrently": "^9.1.2"
   },
   "scripts": {
     "watch": "cds watch",
     "start": "cds-serve",
     "jest": "npx jest --silent",
-    "test": "chest"
+    "test": "chest",
+    "serve-hybrid": "concurrently --names \"CAP,UI5\" --prefix name \"cds bind -2 aicore && cds-tsx watch --profile hybrid\" \"cd app/incidents && npx ui5 serve --open test/flpSandbox.html\"",
+    "fetch:fioriaireuselib": "npm run download:fioriaireuselib && npm run extract:fioriaireuselib",
+    "download:fioriaireuselib": "mkdir -p temp && curl -f -L -o temp/fioriai-reuse.zip \"https://int.repositories.cloud.sap/artifactory/build-snapshots/com/sap/fiori/ux.eng.fioriai.reuse/2602.0.0-SNAPSHOT/ux.eng.fioriai.reuse-2602.0.0-SNAPSHOT-static-abap.zip\"",
+    "extract:fioriaireuselib": "mkdir -p app/incidents/webapp/lib/ux/eng/fioriai/reuse && unzip -o temp/fioriai-reuse.zip -d app/incidents/webapp/lib/ux/eng/fioriai/reuse && rm -rf temp",
+    "clean:fioriaireuselib": "rm -rf app/incidents/webapp/lib/ux/eng/fioriai/reuse temp",
+    "postinstall": "npm run fetch:fioriaireuselib"
   },
   "sapux": [
     "app/incidents"
+  ],
+  "workspaces": [
+    "cap-reuse"
   ],
   "private": true
 }

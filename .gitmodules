@@ -1,0 +1,3 @@
+[submodule "cap-reuse"]
+	path = cap-reuse
+	url = https://github.tools.sap/ux-ai/cap-reuse
