@@ -10,7 +10,7 @@ service ProcessorService {
   entity Customers @readonly as projection on my.Customers;
   entity Incidents.attachments as projection on my.Incidents.attachments
   actions {
-    @(Common.SideEffects : {TargetProperties: ['']},)
+    @(Common.SideEffects : {TargetEntities: ['']},)
     action createLink(
       in:many $self,
       @mandatory @Common.Label:'Name' name: String @UI.Placeholder: 'Enter a name for the link',
