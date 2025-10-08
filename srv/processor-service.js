@@ -31,8 +31,8 @@ class ProcessorService extends cds.ApplicationService {
       try {
         // Send the incident's PDF to the print service
         await printer.print({
-          qname: req.data.qnameID, //todo: allow user to select queue
-          numberOfCopies: req.data.copies, //todo: allow user to select number of copies
+          qname: req.data.qnameID, 
+          numberOfCopies: req.data.copies,
           docsToPrint: [{
             fileName: incident.fileName,
             content: incident.file.toString('base64'),
