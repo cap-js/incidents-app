@@ -2,43 +2,9 @@ const cds = require('@sap/cds')
 
 class ProcessorService extends cds.ApplicationService {
 
-  async populateDummyPDFs(Incidents) {
-    // Dummy method to populate an actual PDF file into each incident record
-    // In a real app, you would e.g. generate a PDF based on incident data
-    // or print a PDF that is connected to the incident (e.g. a report that
-    // is stored in a document management system)
-    const path = require('path')
-    const fs = require('fs')
-
-    // Load the template PDF file
-    const pdfPath = path.join(__dirname, '../xmpls', 'SolarPanelReport.pdf')
-    const templatePDF = fs.readFileSync(pdfPath)
-    console.log(`📄 Template PDF loaded: ${templatePDF.length} bytes`)
-
-    // Get all existing incidents and update them with PDF data
-    const incidents = await SELECT.from(Incidents)
-    
-    for (const incident of incidents) {
-      // Update each incident with its own PDF file
-      await UPDATE(Incidents)
-        .set({
-          file: templatePDF,
-          fileName: `Incident_${incident.ID}_Report.pdf`
-        })
-        .where({ ID: incident.ID })
-      
-      console.log(`Stored PDF for incident ${incident.ID}: Incident_${incident.ID}_Report.pdf`)
-    }
-    
-    console.log(`Populated ${incidents.length} incidents with PDF files`)
-  }
-
   async init() {
 
     const { Incidents } = this.entities
-    
-    // Populate PDFs in the database during initialization
-    await this.populateDummyPDFs(Incidents);
 
     // Connect to print service once during initialization
     const printer = await cds.connect.to('print');
@@ -48,7 +14,7 @@ class ProcessorService extends cds.ApplicationService {
       // Get the incident with its stored PDF file - explicitly include file field
       // This is not automatically included in queries because it's a BLOB
 
-      if(!req.data.qnameID || !req.data.copies) 
+     if(!req.data.qnameID || !req.data.copies) 
         return req.error(400, 'Please provide qnameID and copies in the request body')
 
       const incident = await SELECT.one.from(req.subject).columns(['ID', 'title', 'fileName', 'file'])

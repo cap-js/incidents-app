@@ -19,7 +19,9 @@ extend service.Incidents with actions {
             Label: 'Print Queues',
         }
         qnameID: String,
-        copies: Integer
+        @UI.ParameterDefaultValue : 1
+        copies: Integer 
+
     );
 }
 
