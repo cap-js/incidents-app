@@ -1,10 +1,35 @@
 using ProcessorService as service from '../srv/processor-service';
 using { sap.capire.incidents as my } from '../db/schema';
+using {sap.print as sp} from '@cap-js/print';
 using from './incidents/annotations';
 
 // Extend the service to add the print action
 extend service.Incidents with actions {
-  action printIncidentFile();
+  @print
+  action printIncidentFile(
+        @print.queue: {
+            SourceEntity: 'Queues'
+        }
+        @Common: {
+            ValueListWithFixedValues,
+            ValueList: {
+                $Type: 'Common.ValueListType',
+                CollectionPath: 'Queues',
+                Parameters: [{
+                    $Type: 'Common.ValueListParameterInOut',
+                    LocalDataProperty: qnameID,
+                    ValueListProperty: 'ID'
+                }]
+            },
+            Label: 'Print Queues',
+        }
+        qnameID: String,
+        @Common: {
+            Label: 'Copies',
+            DefaultValue: 1
+        } 
+        copies: Integer
+    );
 }
 
 // UI annotations for the print functionality
