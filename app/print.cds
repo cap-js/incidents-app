@@ -1,15 +1,10 @@
 using ProcessorService as service from '../srv/processor-service';
 using { sap.capire.incidents as my } from '../db/schema';
-using {sap.print as sp} from '@cap-js/print';
 using from './incidents/annotations';
 
 // Extend the service to add the print action
 extend service.Incidents with actions {
-  @print
   action printIncidentFile(
-        @print.queue: {
-            SourceEntity: 'Queues'
-        }
         @Common: {
             ValueListWithFixedValues,
             ValueList: {
@@ -24,10 +19,6 @@ extend service.Incidents with actions {
             Label: 'Print Queues',
         }
         qnameID: String,
-        @Common: {
-            Label: 'Copies',
-            DefaultValue: 1
-        } 
         copies: Integer
     );
 }
@@ -37,7 +28,7 @@ annotate service.Incidents with @(
   UI.Identification : [
     {
       $Type : 'UI.DataFieldForAction',
-      Action : 'service.printIncidentFile',
+      Action : 'ProcessorService.printIncidentFile',
       Label : '{i18n>Print}',
       IconUrl : 'sap-icon://print'
     }

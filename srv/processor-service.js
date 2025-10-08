@@ -47,6 +47,10 @@ class ProcessorService extends cds.ApplicationService {
     this.on('printIncidentFile', Incidents, async (req) => {
       // Get the incident with its stored PDF file - explicitly include file field
       // This is not automatically included in queries because it's a BLOB
+
+      if(!req.data.qnameID || !req.data.copies) 
+        return req.error(400, 'Please provide qnameID and copies in the request body')
+
       const incident = await SELECT.one.from(req.subject).columns(['ID', 'title', 'fileName', 'file'])
       
       if (!incident) {
@@ -61,8 +65,8 @@ class ProcessorService extends cds.ApplicationService {
       try {
         // Send the incident's PDF to the print service
         await printer.print({
-          qname: 'CONSOLE_DEFAULT', //todo: allow user to select queue
-          numberOfCopies: 1, //todo: allow user to select number of copies
+          qname: req.data.qnameID, //todo: allow user to select queue
+          numberOfCopies: req.data.copies, //todo: allow user to select number of copies
           docsToPrint: [{
             fileName: incident.fileName,
             content: incident.file.toString('base64'),
