@@ -211,6 +211,15 @@ annotate service.Incidents.attachments with @UI: {
         }
       ]
     },
+    {
+      @UI.Hidden: {$edmJson:{$If:[{$Eq:[{$Path: 'IsActiveEntity' },true]},true,{$If:[{$Ne:[{$Path:'mimeType'},'application/internet-shortcut']},true,false]}]}},
+      $Type : 'UI.DataFieldForAction',
+      Label : 'Edit Link',
+      Action: 'ProcessorService.editLink', // -> Ensure the service name is correct
+      Inline: true,
+      IconUrl: 'sap-icon://edit',
+      @HTML5.CssDefaults: {width: '4%'}
+    },
   ]
 }
 {
