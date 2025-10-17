@@ -15,8 +15,8 @@ Assumed you prepared for CAP development as documented in capire's *[Initial Set
 Clone the repository and install dependencies:
 
 ```sh
-git clone https://github.com/cap-js/incidents-app
-cd incidents-app
+git clone https://github.com/capire/incidents
+cd incidents
 ```
 
 ```sh
