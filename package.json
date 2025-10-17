@@ -1,6 +1,9 @@
 {
   "name": "@capire/incidents",
   "version": "1.0.0",
+  "engines": {
+    "node": ">=20"
+  },
   "dependencies": {
     "@sap/cds": ">=8",
     "express": "^4"
