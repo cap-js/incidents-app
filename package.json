@@ -15,6 +15,7 @@
   },
   "scripts": {
     "watch": "cds watch",
+    "watch:hybrid": "cds watch --profile hybrid",
     "start": "cds-serve",
     "jest": "npx jest --silent",
     "test": "chest"
