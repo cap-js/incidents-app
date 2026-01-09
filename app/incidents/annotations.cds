@@ -185,7 +185,7 @@ annotate service.Incidents.conversation with @(
 //
 //  Attachments Details
 //
-annotate service.Incidents.attachments with @UI: {
+annotate service.Incidents.references with @UI: {
   HeaderInfo: {
         $Type         : 'UI.HeaderInfoType',
         TypeName      : '{i18n>Attachment}',
@@ -236,6 +236,6 @@ annotate service.Incidents.attachments with @UI: {
   repositoryId @UI.Hidden;
 }
 
-annotate service.Incidents.attachments with {
+annotate service.Incidents.references with {
   customProperty1 @Common.ValueListWithFixedValues;
 }
