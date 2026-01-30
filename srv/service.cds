@@ -8,6 +8,8 @@ using {sap.common.CodeList} from '@sap/cds/common';
 service ProcessorService {
   entity Incidents as projection on my.Incidents;
   entity Customers @readonly as projection on my.Customers;
+  entity Projects as projection on my.Projects; // Non-draft entity
+  entity Projects.references as projection on my.Projects.references;
   entity Incidents.references as projection on my.Incidents.references
   actions {
     @(Common.SideEffects : {TargetEntities: ['']},)
@@ -25,6 +27,7 @@ service ProcessorService {
 }
 
 extend my.Incidents with { references: Composition of many Attachments }
+extend my.Projects with { references: Composition of many Attachments }
 
 extend Attachments with {
     customProperty1 : Association to WDIRSCodeList
