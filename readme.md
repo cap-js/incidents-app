@@ -6,8 +6,6 @@ The application allows to create and process incidents on behalf of registered c
 
 ![domain drawio](xmpls/schema.drawio.svg)
 
-
-
 ## Setup
 
 Assumed you prepared for CAP development as documented in capire's *[Initial Setup](https://cap.cloud.sap/docs/get-started/#setup)* section, ...
@@ -23,8 +21,6 @@ cd incidents
 npm install
 ```
 
-
-
 ## Run
 
 Run the application locally:
@@ -39,20 +35,6 @@ Then open http://localhost:4004 and navigate to [/incidents/webapp](http://local
     <summary> Troubleshooting </summary>
   If you get a 403 Forbidden Error and the logon popup doesn't show, try to open a browser in an incognito mode or clear the browser cache.
 </details>
-
-
-
-## Test
-
-Run enclosed tests with:
-
-```sh
-npm test
-```
-
-## Add plugins
-
-If you want to use the Incidents App with CAP plugins like Change Tracking, Attachment Handling etc. have a look at the [readme file in the xmpls folder](./xmpls/readme.md).
 
 ## Deploy
 
