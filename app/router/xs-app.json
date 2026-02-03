@@ -1,0 +1,22 @@
+{
+  "welcomeFile": "/nsincidents/index.html",
+  "authenticationMethod": "route",
+  "routes": [
+    {
+      "source": "^/-/cds/.*",
+      "destination": "mtx-api",
+      "authenticationType": "none"
+    },
+    {
+      "source": "^/odata/v4/processor/(.*)$",
+      "destination": "srv-api",
+      "authenticationType": "xsuaa"
+    },
+    {
+      "source": "^/nsincidents/(.*)$",
+      "target": "$1",
+      "service": "html5-apps-repo-rt",
+      "authenticationType": "xsuaa"
+    }
+  ]
+}

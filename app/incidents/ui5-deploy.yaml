@@ -1,6 +1,7 @@
-specVersion: "2.5"
+# yaml-language-server: $schema=https://sap.github.io/ui5-tooling/schema/ui5.yaml.json
+specVersion: '3.1'
 metadata:
-  name: ns.incidents
+  name: incidents
 type: application
 resources:
   configuration:
@@ -15,6 +16,5 @@ builder:
       afterTask: generateVersionInfo
       configuration:
         archiveName: incidents
-        relativePaths: true
         additionalFiles:
           - xs-app.json

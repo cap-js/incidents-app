@@ -1,0 +1,27 @@
+{
+  "name": "incidents-mtx",
+  "dependencies": {
+    "@cap-js/hana": "^2",
+    "@sap/cds": "^9",
+    "@sap/cds-mtxs": "^3",
+    "@sap/xssec": "^4",
+    "express": "^4"
+  },
+  "devDependencies": {
+    "@cap-js/sqlite": "^2"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "start": "cds-serve"
+  },
+  "cds": {
+    "profile": "mtx-sidecar",
+    "requires": {
+      "audit-log": true,
+      "html5-runtime": true,
+      "destinations": true
+    }
+  }
+}

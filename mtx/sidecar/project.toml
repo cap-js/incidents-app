@@ -1,0 +1,24 @@
+[project]
+id = "incidents"
+name = "MTXS Sidecar for incidents"
+version = "1.0.0"
+
+[[build.buildpacks]]
+id = "paketo-buildpacks/nodejs"
+uri = "docker.io/paketobuildpacks/nodejs"
+
+[[build.buildpacks]]
+id = "mtxs-buildpacks/node-entrypoint"
+version = "1.0.0"
+
+[build.buildpacks.script]
+api = "0.9"
+inline = """
+set -e
+cat >> "$1/launch.toml" <<EOF
+[[processes]]
+type = "node"
+command = ["node"]
+default = false
+EOF
+"""

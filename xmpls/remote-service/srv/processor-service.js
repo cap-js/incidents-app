@@ -27,6 +27,7 @@ class ProcessorService extends cds.ApplicationService {
       const customer = await this.S4bupa.run(SELECT.one(BusinessPartner, bp => {
         bp('*');
           bp.addresses(address => {
+            address('email', 'phoneNumber');
               address.email(emails => {
                 emails('email')
               });
