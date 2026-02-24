@@ -164,7 +164,7 @@
                     }
                   }
                 },
-                "attachments/@com.sap.vocabularies.UI.v1.LineItem": {
+                "references/@com.sap.vocabularies.UI.v1.LineItem": {
                   "tableSettings": {
                       "type": "ResponsiveTable",
                       "selectionMode": "Auto",
