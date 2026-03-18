@@ -1,30 +1,24 @@
 serviceInstances:
   saasRegistry:
     parameters:
-      xsappname: incidentapp
-      appName: incidentapp
-      displayName: incidentapp
+      xsappname: incident-app
+      appName: incident-app
+      displayName: incident-app
       description: Sample incident app.
       appUrls:
-        getDependencies: "https://<<SubdomainOfProviderSubaccount>>.incidentapp.<<SHOOT_DOMAIN>>/callback/v1.0/dependencies"
+        getDependencies: "https://<<SubdomainOfProviderSubaccount>>.incident-app.<<SHOOT_DOMAIN>>/callback/v1.0/dependencies"
         # NOTE: this should forward the call to the CAP Operator subscription server
         onSubscription: "https://cap-op.<<SHOOT_DOMAIN>>/provision/tenants/{tenantId}"
 
   xsuaa:
     parameters:
-      xsappname: incidentapp
-      oauth2-configuration:
-        redirect-uris:
-        - "https://*incidentapp.<<SHOOT_DOMAIN>>/**"
-        - "https://*iasalt.<<SHOOT_DOMAIN>>/**"
+      xsappname: incident-app
 
 app:
     domains:
-        # -- primary domain to expose application routes (usually a subdomain of the cluster domain). Ensure this is under 62 chars.
-        primary: incidentapp.<<SHOOT_DOMAIN>>
-        # -- Customer specific domains for which dns entries are created (these can be stable and transferred between clusters)
-        secondary:
-        - iasalt.<<SHOOT_DOMAIN>>
+        # -- primary domain to expose application routes
+        primary: incident-app.<<SHOOT_DOMAIN>>
+        additionalDomainRefs: []
     # -- Labels used to identify the istio ingress-gateway component and its corresponding namespace. Ensure that they match the value under
     # -- label section of deployment istio-ingressgateway in the corresponding istio namespace. If not adopt accordingly
     istioIngressGatewayLabels:
@@ -51,12 +45,6 @@ workloads:
         value: production
       - name: CDS_CONFIG
         value: '{"requires":{"cds.xt.DeploymentService":{"hdi": { "create": {"database_id": "<<HanaInstanceId>>"} }}}}'
-
-  appRouter:
-    deploymentDefinition:
-      env:
-      - name: TENANT_HOST_PATTERN
-        value: ^(.*).(incidentapp.<<SHOOT_DOMAIN>>|iasalt.<<SHOOT_DOMAIN>>)
 
   tenantJob:
     jobDefinition:

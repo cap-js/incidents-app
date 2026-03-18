@@ -5,6 +5,16 @@ serviceInstances:
     servicePlanName: lite
     parameters:
       HTML5Runtime_enabled: true
+  html5RepoRuntime:
+    name: incidents-html5-repo-runtime
+    serviceOfferingName: html5-apps-repo
+    servicePlanName: app-runtime
+    parameters: {}
+  html5RepoHost:
+    name: incidents-html5-repo-host
+    serviceOfferingName: html5-apps-repo
+    servicePlanName: app-host
+    parameters: {}
   xsuaa:
     name: incidents-uaa
     serviceOfferingName: xsuaa
@@ -27,6 +37,8 @@ serviceInstances:
       displayName: (incidents)
       description: (A simple CAP project.)
       appUrls:
+        getDependencies: ""
+        onSubscription: ""
         callbackTimeoutMillis: 300000
         onSubscriptionAsync: true
         onUnSubscriptionAsync: true
@@ -36,12 +48,23 @@ serviceInstances:
     serviceOfferingName: service-manager
     servicePlanName: container
     parameters: {}
-
 serviceBindings:
   destination:
     name: incidents-destination-bind
     serviceInstanceName: incidents-destination
     secretName: incidents-destination-bind-secret
+    secretKey: credentials
+    parameters: {}
+  html5RepoRuntime:
+    name: incidents-html5-repo-runtime-bind
+    serviceInstanceName: incidents-html5-repo-runtime
+    secretName: incidents-html5-repo-runtime-bind-secret
+    secretKey: credentials
+    parameters: {}
+  html5RepoHost:
+    name: incidents-html5-repo-host-bind
+    serviceInstanceName: incidents-html5-repo-host
+    secretName: incidents-html5-repo-host-bind-secret
     secretKey: credentials
     parameters: {}
   xsuaa:
@@ -62,23 +85,19 @@ serviceBindings:
     secretName: incidents-service-manager-bind-secret
     secretKey: credentials
     parameters: {}
-
 app:
   domains:
     primary: null
-    secondary: []
+    additionalDomainRefs: []
   istioIngressGatewayLabels:
     istio: ingressgateway
     app: istio-ingressgateway
-
 btp:
   globalAccountId: null
   provider:
     subdomain: null
     tenantId: null
-
 imagePullSecrets: []
-
 workloads:
   appRouter:
     name: app-router
@@ -86,8 +105,9 @@ workloads:
       sme.sap.com/app-type: incidents
     consumedBTPServices:
       - incidents-uaa-bind
-      - incidents-destination-bind
       - incidents-saas-registry-bind
+      - incidents-destination-bind
+      - incidents-html5-repo-runtime-bind
     deploymentDefinition:
       type: Router
       image: null
@@ -105,27 +125,35 @@ workloads:
     deploymentDefinition:
       type: CAP
       image: null
+  contentDeploy:
+    name: content-deploy
+    labels:
+      sme.sap.com/app-type: incidents
+    consumedBTPServices:
+      - incidents-uaa-bind
+      - incidents-html5-repo-host-bind
+    jobDefinition:
+      type: Content
+      image: null
   tenantJob:
     name: tenant-job
     labels:
       sme.sap.com/app-type: incidents
     consumedBTPServices:
-    - incidents-uaa-bind
-    - incidents-service-manager-bind
-    - incidents-saas-registry-bind
+      - incidents-uaa-bind
+      - incidents-saas-registry-bind
+      - incidents-service-manager-bind
     jobDefinition:
       type: TenantOperation
       image: null
-  customOp:
+  custom-op:
     name: custom-op
-    labels:
-      sme.sap.com/app-type: incidents
     consumedBTPServices:
-    - incidents-uaa-bind
+      - incidents-uaa-bind
     jobDefinition:
       type: CustomTenantOperation
-      image: "docker/whalesay"
-      command: ["cowsay", "$(CAPOP_TENANT_OPERATION)", "tenant", "$(CAPOP_TENANT_SUBDOMAIN)"]
+      image: busybox:latest
+      command: ["sh", "-c", "exit 0"]
 
 tenantOperations:
   provisioning:
@@ -134,4 +162,3 @@ tenantOperations:
   upgrade:
   - workloadName: custom-op
   - workloadName: tenant-job
-  - workloadName: custom-op

@@ -1,0 +1,43 @@
+{{- range $serviceName, $serviceSpec := .Values.serviceBindings }}
+---
+apiVersion: services.cloud.sap.com/v1
+kind: ServiceBinding
+metadata:
+  name: {{ $serviceSpec.name }}
+spec:
+  serviceInstanceName: {{ $serviceSpec.serviceInstanceName }}
+  secretName: {{ $serviceSpec.secretName }}
+
+  {{- if $serviceSpec.externalName }}
+  externalName: {{ $serviceSpec.externalName }}
+  {{- end }}
+
+  {{- if $serviceSpec.serviceInstanceNamespace }}
+  serviceInstanceNamespace: {{ $serviceSpec.serviceInstanceNamespace }}
+  {{- end }}
+
+  {{- if $serviceSpec.secretKey }}
+  secretKey: {{ $serviceSpec.secretKey }}
+  {{- end }}
+
+  {{- if $serviceSpec.secretRootKey }}
+  secretRootKey: {{ $serviceSpec.secretRootKey }}
+  {{- end }}
+
+  {{- if $serviceSpec.parameters }}
+  parameters: {{ $serviceSpec.parameters | toYaml | nindent 4 }}
+  {{- end }}
+
+  {{- if $serviceSpec.parametersFrom }}
+  parametersFrom: {{ $serviceSpec.parametersFrom | toYaml | nindent 4 }}
+  {{- end }}
+
+  {{- if $serviceSpec.userInfo }}
+  userInfo: {{ $serviceSpec.userInfo | toYaml | nindent 4 }}
+  {{- end }}
+
+  {{- if $serviceSpec.credentialsRotationPolicy }}
+  credentialsRotationPolicy: {{ $serviceSpec.credentialsRotationPolicy | toYaml | nindent 4 }}
+  {{- end }}
+
+{{- end }}

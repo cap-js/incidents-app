@@ -1,0 +1,61 @@
+{{- range $serviceName, $serviceSpec := .Values.serviceInstances }}
+---
+apiVersion: services.cloud.sap.com/v1
+kind: ServiceInstance
+metadata:
+  name: {{ $serviceSpec.name }}
+spec:
+  serviceOfferingName: {{ $serviceSpec.serviceOfferingName }}
+  servicePlanName: {{ $serviceSpec.servicePlanName}}
+
+  {{- if $serviceSpec.dataCenter }}
+  dataCenter: {{ $serviceSpec.dataCenter }}
+  {{- end }}
+
+  {{- if $serviceSpec.servicePlanID }}
+  servicePlanID: {{ $serviceSpec.servicePlanID }}
+  {{- end }}
+
+  {{- if $serviceSpec.externalName }}
+  externalName: {{ $serviceSpec.externalName }}
+  {{- end }}
+
+  {{- if $serviceSpec.shared }}
+  shared: {{ $serviceSpec.shared }}
+  {{- end }}
+
+  {{- if $serviceSpec.customTags }}
+  customTags: {{ $serviceSpec.customTags | toYaml | nindent 4 }}
+  {{- end }}
+
+  {{- if $serviceSpec.userInfo }}
+  userInfo: {{ $serviceSpec.userInfo | toYaml | nindent 4 }}
+  {{- end }}
+
+  {{- if $serviceSpec.btpAccessCredentialsSecret }}
+  btpAccessCredentialsSecret: {{ $serviceSpec.btpAccessCredentialsSecret }}
+  {{- end }}
+
+  {{- if or $serviceSpec.parameters $serviceSpec.jsonParameters }}
+  {{- $parameters := $serviceSpec.parameters | default (dict) }}
+  {{- $jsonParameters := $serviceSpec.jsonParameters | default "{}" }}
+
+  {{- if or (eq $serviceSpec.serviceOfferingName "xsuaa") (eq $serviceSpec.serviceOfferingName "identity") }}
+    {{- $missingRedirects := or
+          (not (get (get $parameters "oauth2-configuration" | default (dict)) "redirect-uris"))
+          (eq (len (get (get $parameters "oauth2-configuration" | default (dict)) "redirect-uris")) 0)
+    -}}
+
+    {{- if $missingRedirects }}
+      {{- $redirectUris := include "redirectUris" (dict "serviceOfferingName" $serviceSpec.serviceOfferingName "context" $) | fromJson }}
+      {{- $oauth2Cfg := merge $redirectUris (get $parameters "oauth2-configuration" | default (dict)) }}
+      {{- $_ := set $parameters "oauth2-configuration" $oauth2Cfg }}
+    {{- end }}
+  {{- end }}
+  parameters: {{- $jsonParameters | fromJson | merge $parameters | toYaml | nindent 4 }}
+  {{- end }}
+
+  {{- if $serviceSpec.parametersFrom }}
+  parametersFrom: {{ tpl ($serviceSpec.parametersFrom | toYaml) $ | nindent 4}}
+  {{- end }}
+{{- end }}

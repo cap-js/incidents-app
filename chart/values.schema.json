@@ -350,6 +350,12 @@
                 "restartPolicy": {
                     "type": "string"
                 },
+                "restartPolicyRules": {
+                    "items": {
+                        "$ref": "#/$defs/ContainerRestartRule"
+                    },
+                    "type": "array"
+                },
                 "securityContext": {
                     "$ref": "#/$defs/SecurityContext"
                 },
@@ -432,6 +438,33 @@
             ],
             "type": "object"
         },
+        "ContainerRestartRule": {
+            "additionalProperties": false,
+            "properties": {
+                "action": {
+                    "type": "string"
+                },
+                "exitCodes": {
+                    "$ref": "#/$defs/ContainerRestartRuleOnExitCodes"
+                }
+            },
+            "type": "object"
+        },
+        "ContainerRestartRuleOnExitCodes": {
+            "additionalProperties": false,
+            "properties": {
+                "operator": {
+                    "type": "string"
+                },
+                "values": {
+                    "items": {
+                        "type": "integer"
+                    },
+                    "type": "array"
+                }
+            },
+            "type": "object"
+        },
         "CredentialsRotationPolicy": {
             "additionalProperties": false,
             "properties": {
@@ -450,11 +483,32 @@
             ],
             "type": "object"
         },
+        "DeletionRules": {
+            "additionalProperties": false,
+            "properties": {
+                "expression": {
+                    "type": "string"
+                },
+                "metrics": {
+                    "items": {
+                        "$ref": "#/$defs/MetricRule"
+                    },
+                    "type": "array"
+                }
+            },
+            "type": "object"
+        },
         "DeploymentDetails": {
             "additionalProperties": false,
             "properties": {
                 "affinity": {
                     "$ref": "#/$defs/Affinity"
+                },
+                "args": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
                 },
                 "command": {
                     "items": {
@@ -483,6 +537,9 @@
                 "livenessProbe": {
                     "$ref": "#/$defs/Probe"
                 },
+                "monitoring": {
+                    "$ref": "#/$defs/WorkloadMonitoring"
+                },
                 "nodeName": {
                     "type": "string"
                 },
@@ -491,6 +548,9 @@
                         "type": "string"
                     },
                     "type": "object"
+                },
+                "podDisruptionBudget": {
+                    "$ref": "#/$defs/PodDisruptionBudgetSpec"
                 },
                 "podSecurityContext": {
                     "$ref": "#/$defs/PodSecurityContext"
@@ -512,6 +572,9 @@
                 },
                 "resources": {
                     "$ref": "#/$defs/ResourceRequirements"
+                },
+                "restartPolicy": {
+                    "type": "string"
                 },
                 "securityContext": {
                     "$ref": "#/$defs/SecurityContext"
@@ -553,22 +616,38 @@
             ],
             "type": "object"
         },
+        "DomainRef": {
+            "additionalProperties": false,
+            "properties": {
+                "kind": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "kind",
+                "name"
+            ],
+            "type": "object"
+        },
         "Domains": {
             "additionalProperties": false,
             "properties": {
-                "primary": {
-                    "type": "string"
-                },
-                "secondary": {
+                "additionalDomainRefs": {
                     "items": {
-                        "type": "string"
+                        "$ref": "#/$defs/DomainRef"
                     },
                     "type": "array"
+                },
+                "primary": {
+                    "type": "string"
                 }
             },
             "required": [
                 "primary",
-                "secondary"
+                "additionalDomainRefs"
             ],
             "type": "object"
         },
@@ -674,6 +753,9 @@
                 "fieldRef": {
                     "$ref": "#/$defs/ObjectFieldSelector"
                 },
+                "fileKeyRef": {
+                    "$ref": "#/$defs/FileKeySelector"
+                },
                 "resourceFieldRef": {
                     "$ref": "#/$defs/ResourceFieldSelector"
                 },
@@ -740,6 +822,29 @@
         "FieldsV1": {
             "additionalProperties": false,
             "properties": {},
+            "type": "object"
+        },
+        "FileKeySelector": {
+            "additionalProperties": false,
+            "properties": {
+                "key": {
+                    "type": "string"
+                },
+                "optional": {
+                    "type": "boolean"
+                },
+                "path": {
+                    "type": "string"
+                },
+                "volumeName": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "volumeName",
+                "path",
+                "key"
+            ],
             "type": "object"
         },
         "FlexVolumeSource": {
@@ -960,6 +1065,18 @@
             ],
             "type": "object"
         },
+        "ImageVolumeSource": {
+            "additionalProperties": false,
+            "properties": {
+                "pullPolicy": {
+                    "type": "string"
+                },
+                "reference": {
+                    "type": "string"
+                }
+            },
+            "type": "object"
+        },
         "IntOrString": {
             "additionalProperties": false,
             "properties": {
@@ -983,8 +1100,17 @@
         "JobDetails": {
             "additionalProperties": false,
             "properties": {
+                "activeDeadlineSeconds": {
+                    "type": "integer"
+                },
                 "affinity": {
                     "$ref": "#/$defs/Affinity"
+                },
+                "args": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
                 },
                 "backoffLimit": {
                     "type": "integer"
@@ -1030,6 +1156,9 @@
                 },
                 "resources": {
                     "$ref": "#/$defs/ResourceRequirements"
+                },
+                "restartPolicy": {
+                    "type": "string"
                 },
                 "securityContext": {
                     "$ref": "#/$defs/SecurityContext"
@@ -1141,6 +1270,9 @@
                 },
                 "preStop": {
                     "$ref": "#/$defs/LifecycleHandler"
+                },
+                "stopSignal": {
+                    "type": "string"
                 }
             },
             "type": "object"
@@ -1197,6 +1329,51 @@
                     "$ref": "#/$defs/Time"
                 }
             },
+            "type": "object"
+        },
+        "MetricRule": {
+            "additionalProperties": false,
+            "properties": {
+                "calculationPeriod": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "thresholdValue": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "name",
+                "type",
+                "calculationPeriod",
+                "thresholdValue"
+            ],
+            "type": "object"
+        },
+        "MonitoringConfig": {
+            "additionalProperties": false,
+            "properties": {
+                "interval": {
+                    "type": "string"
+                },
+                "path": {
+                    "type": "string"
+                },
+                "port": {
+                    "type": "string"
+                },
+                "scrapeTimeout": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "port"
+            ],
             "type": "object"
         },
         "NFSVolumeSource": {
@@ -1406,6 +1583,9 @@
                     "$ref": "#/$defs/SecretKeyReference"
                 }
             },
+            "required": [
+                "secretKeyRef"
+            ],
             "type": "object"
         },
         "PersistentVolumeClaimSpec": {
@@ -1561,6 +1741,48 @@
             },
             "type": "object"
         },
+        "PodCertificateProjection": {
+            "additionalProperties": false,
+            "properties": {
+                "certificateChainPath": {
+                    "type": "string"
+                },
+                "credentialBundlePath": {
+                    "type": "string"
+                },
+                "keyPath": {
+                    "type": "string"
+                },
+                "keyType": {
+                    "type": "string"
+                },
+                "maxExpirationSeconds": {
+                    "type": "integer"
+                },
+                "signerName": {
+                    "type": "string"
+                }
+            },
+            "type": "object"
+        },
+        "PodDisruptionBudgetSpec": {
+            "additionalProperties": false,
+            "properties": {
+                "maxUnavailable": {
+                    "$ref": "#/$defs/IntOrString"
+                },
+                "minAvailable": {
+                    "$ref": "#/$defs/IntOrString"
+                },
+                "selector": {
+                    "$ref": "#/$defs/LabelSelector"
+                },
+                "unhealthyPodEvictionPolicy": {
+                    "type": "string"
+                }
+            },
+            "type": "object"
+        },
         "PodSecurityContext": {
             "additionalProperties": false,
             "properties": {
@@ -1582,6 +1804,9 @@
                 "runAsUser": {
                     "type": "integer"
                 },
+                "seLinuxChangePolicy": {
+                    "type": "string"
+                },
                 "seLinuxOptions": {
                     "$ref": "#/$defs/SELinuxOptions"
                 },
@@ -1593,6 +1818,9 @@
                         "type": "integer"
                     },
                     "type": "array"
+                },
+                "supplementalGroupsPolicy": {
+                    "type": "string"
                 },
                 "sysctls": {
                     "items": {
@@ -1798,6 +2026,9 @@
             "properties": {
                 "name": {
                     "type": "string"
+                },
+                "request": {
+                    "type": "string"
                 }
             },
             "required": [
@@ -1845,6 +2076,25 @@
                     "$ref": "#/$defs/ResourceList"
                 }
             },
+            "type": "object"
+        },
+        "Route": {
+            "additionalProperties": false,
+            "properties": {
+                "path": {
+                    "type": "string"
+                },
+                "port": {
+                    "type": "integer"
+                },
+                "workloadName": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "workloadName",
+                "port"
+            ],
             "type": "object"
         },
         "SELinuxOptions": {
@@ -2063,6 +2313,25 @@
             },
             "required": [
                 "path"
+            ],
+            "type": "object"
+        },
+        "ServiceExposure": {
+            "additionalProperties": false,
+            "properties": {
+                "routes": {
+                    "items": {
+                        "$ref": "#/$defs/Route"
+                    },
+                    "type": "array"
+                },
+                "subDomain": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "subDomain",
+                "routes"
             ],
             "type": "object"
         },
@@ -2354,6 +2623,9 @@
                 "hostPath": {
                     "$ref": "#/$defs/HostPathVolumeSource"
                 },
+                "image": {
+                    "$ref": "#/$defs/ImageVolumeSource"
+                },
                 "iscsi": {
                     "$ref": "#/$defs/ISCSIVolumeSource"
                 },
@@ -2457,6 +2729,9 @@
                 },
                 "downwardAPI": {
                     "$ref": "#/$defs/DownwardAPIProjection"
+                },
+                "podCertificate": {
+                    "$ref": "#/$defs/PodCertificateProjection"
                 },
                 "secret": {
                     "$ref": "#/$defs/SecretProjection"
@@ -2571,6 +2846,18 @@
             ],
             "type": "object"
         },
+        "WorkloadMonitoring": {
+            "additionalProperties": false,
+            "properties": {
+                "deletionRules": {
+                    "$ref": "#/$defs/DeletionRules"
+                },
+                "scrapeConfig": {
+                    "$ref": "#/$defs/MonitoringConfig"
+                }
+            },
+            "type": "object"
+        },
         "app": {
             "additionalProperties": false,
             "properties": {
@@ -2632,6 +2919,12 @@
                         "$ref": "#/$defs/serviceBindingExt"
                     },
                     "type": "object"
+                },
+                "serviceExposures": {
+                    "items": {
+                        "$ref": "#/$defs/ServiceExposure"
+                    },
+                    "type": "array"
                 },
                 "serviceInstances": {
                     "additionalProperties": {
@@ -2771,6 +3064,9 @@
                 },
                 "userInfo": {
                     "$ref": "#/$defs/UserInfo"
+                },
+                "watchParametersFromChanges": {
+                    "type": "boolean"
                 }
             },
             "required": [

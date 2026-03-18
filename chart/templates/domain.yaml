@@ -1,0 +1,12 @@
+apiVersion: sme.sap.com/v1alpha1
+kind: Domain
+metadata:
+  name: {{ include "domainName" $ }}
+spec:
+  dnsMode: Wildcard
+  domain: {{ .Values.app.domains.primary }}
+  ingressSelector:
+  {{- range $k, $v := $.Values.app.istioIngressGatewayLabels }}
+    {{ $k }}: {{ $v | default "invalidValue" }}
+  {{- end }}
+  tlsMode: Simple

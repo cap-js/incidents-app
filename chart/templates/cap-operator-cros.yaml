@@ -1,0 +1,100 @@
+---
+apiVersion: sme.sap.com/v1alpha1
+kind: CAPApplication
+metadata:
+  name: {{ include "appName" $ }}
+spec:
+  domainRefs:
+  - kind: Domain
+    name: {{ include "domainName" $ }}
+  {{- range .Values.app.domains.additionalDomainRefs }}
+  - kind: {{ .kind }}
+    name: {{ .name }}
+  {{- end }}
+  btpAppName: {{ include "appName" $ }}
+  globalAccountId: {{ .Values.btp.globalAccountId }}
+  provider:
+    subDomain: {{ .Values.btp.provider.subdomain }}
+    tenantId: {{ .Values.btp.provider.tenantId }}
+  btp:
+    services:
+    {{- $serviceInstances := .Values.serviceInstances }}
+    {{- range $k, $v := .Values.serviceBindings }}
+    {{- $serviceInstance := dict }}
+    {{- range $sik, $siv := $serviceInstances }}
+      {{- if eq $siv.name $v.serviceInstanceName }}
+        {{- $serviceInstance = $siv }}
+      {{- end }}
+    {{- end }}
+    {{- if hasKey $serviceInstance "serviceOfferingName" }}
+    - class: {{ get $serviceInstance "serviceOfferingName" | default "invalidValue" }}
+      {{- if $v.externalName }}
+      name: {{ $v.externalName | default "invalidValue" }}
+      {{- else }}
+      name: {{ $v.name | default "invalidValue" }}
+      {{- end }}
+      secret: {{ $v.secretName | default "invalidValue" }}
+    {{- end }}
+    {{- end }}
+---
+apiVersion: sme.sap.com/v1alpha1
+kind: CAPApplicationVersion
+metadata:
+  annotations:
+    helm.sh/hook: post-install,post-upgrade
+    helm.sh/resource-policy: keep
+  name: {{ include "capApplicationVersionName" $ }}
+spec:
+  capApplicationInstance: {{ include "appName" $ }}
+  version: "{{ .Release.Revision }}"
+  registrySecrets:
+  {{- range .Values.imagePullSecrets }}
+  - {{ . }}
+  {{- end }}
+  workloads:
+  {{- range $k, $v := .Values.workloads }}
+  - name: {{ $v.name }}
+
+    {{- if $v.labels }}
+    labels: {{- toYaml $v.labels | trim | nindent 6 }}
+    {{- end }}
+
+    {{- if $v.annotations }}
+    annotations: {{- toYaml $v.annotations | trim | nindent 6 }}
+    {{- end }}
+
+    {{- if $v.consumedBTPServices }}
+    consumedBTPServices: {{- toYaml $v.consumedBTPServices | trim | nindent 4 }}
+    {{- end }}
+
+    {{- if and $v.deploymentDefinition (eq $v.deploymentDefinition.type "Router") }}
+    {{- $thp := include "tenantHostPattern" $ }}
+    {{- $tphEnv := list (dict "name" "TENANT_HOST_PATTERN" "value" $thp) }}
+    {{- $baseEnv := get $v.deploymentDefinition "env" | default (list) }}
+    {{- $exists := false }}
+    {{- range $baseVar := $baseEnv }}
+    {{- if eq $baseVar.name "TENANT_HOST_PATTERN" }}
+    {{- $exists = true }}
+    {{- end }}
+    {{- end }}
+    {{- if not $exists }}
+    {{- $baseEnv = concat $baseEnv $tphEnv }}
+    {{- end }}
+    {{- $modified := merge (dict "env" $baseEnv) $v.deploymentDefinition }}
+    deploymentDefinition: {{- toYaml $modified | trim | nindent 6 }}
+    {{- else if $v.deploymentDefinition }}
+    deploymentDefinition: {{- toYaml $v.deploymentDefinition | trim | nindent 6 }}
+    {{- end }}
+
+    {{- if $v.jobDefinition }}
+    jobDefinition: {{- toYaml $v.jobDefinition | trim | nindent 6 }}
+    {{- end }}
+  {{- end }}
+
+  {{- if .Values.tenantOperations }}
+  tenantOperations: {{- toYaml .Values.tenantOperations | trim | nindent 4 }}
+  {{- end }}
+
+  {{- if .Values.contentJobs }}
+  contentJobs: {{- toYaml .Values.contentJobs | trim | nindent 4 }}
+  {{- end }}
