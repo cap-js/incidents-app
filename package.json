@@ -3,14 +3,13 @@
   "version": "1.0.0",
   "license": "SEE LICENSE IN LICENSE",
   "dependencies": {
+    "@cap-js/hana": "^2",
     "@sap/cds": ">=8",
     "@sap/cds-mtxs": "^3",
     "@sap/xssec": "^4",
-    "express": "^4",
-    "@cap-js/hana": "^2"
+    "express": "^4"
   },
   "devDependencies": {
-    "@cap-js/cap-operator-plugin": "^0.12.0",
     "@cap-js/cds-test": "*",
     "@cap-js/sqlite": ">=1"
   },
