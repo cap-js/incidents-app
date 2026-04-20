@@ -62,5 +62,15 @@ entity Urgency : CodeList {
   };
 }
 
+/**
+ * Projects entity without draft support for non-draft attachments
+ */
+entity Projects : cuid, managed {
+  name           : String @title: 'Project Name';
+  description    : String @title: 'Description';
+  status         : String @title: 'Status';
+  customer       : Association to Customers;
+}
+
 type EMailAddress : String;
 type PhoneNumber  : String;
