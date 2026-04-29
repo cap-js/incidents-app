@@ -438,6 +438,26 @@
             ],
             "type": "object"
         },
+        "ContainerResourceMetricSource": {
+            "additionalProperties": false,
+            "properties": {
+                "container": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "target": {
+                    "$ref": "#/$defs/MetricTarget"
+                }
+            },
+            "required": [
+                "name",
+                "target",
+                "container"
+            ],
+            "type": "object"
+        },
         "ContainerRestartRule": {
             "additionalProperties": false,
             "properties": {
@@ -483,6 +503,25 @@
             ],
             "type": "object"
         },
+        "CrossVersionObjectReference": {
+            "additionalProperties": false,
+            "properties": {
+                "apiVersion": {
+                    "type": "string"
+                },
+                "kind": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "kind",
+                "name"
+            ],
+            "type": "object"
+        },
         "DeletionRules": {
             "additionalProperties": false,
             "properties": {
@@ -521,6 +560,9 @@
                         "$ref": "#/$defs/EnvVar"
                     },
                     "type": "array"
+                },
+                "horizontalPodAutoscaler": {
+                    "$ref": "#/$defs/HorizontalPodAutoscalerSpec"
                 },
                 "image": {
                     "type": "string"
@@ -581,6 +623,9 @@
                 },
                 "serviceAccountName": {
                     "type": "string"
+                },
+                "stickiness": {
+                    "$ref": "#/$defs/Stickiness"
                 },
                 "tolerations": {
                     "items": {
@@ -699,6 +744,18 @@
             },
             "type": "object"
         },
+        "Duration": {
+            "additionalProperties": false,
+            "properties": {
+                "Duration": {
+                    "$ref": "#/$defs/Duration"
+                }
+            },
+            "required": [
+                "Duration"
+            ],
+            "type": "object"
+        },
         "EmptyDirVolumeSource": {
             "additionalProperties": false,
             "properties": {
@@ -784,6 +841,22 @@
                     "type": "array"
                 }
             },
+            "type": "object"
+        },
+        "ExternalMetricSource": {
+            "additionalProperties": false,
+            "properties": {
+                "metric": {
+                    "$ref": "#/$defs/MetricIdentifier"
+                },
+                "target": {
+                    "$ref": "#/$defs/MetricTarget"
+                }
+            },
+            "required": [
+                "metric",
+                "target"
+            ],
             "type": "object"
         },
         "ExtraValue": {
@@ -960,6 +1033,68 @@
             ],
             "type": "object"
         },
+        "HPAScalingPolicy": {
+            "additionalProperties": false,
+            "properties": {
+                "periodSeconds": {
+                    "type": "integer"
+                },
+                "type": {
+                    "type": "string"
+                },
+                "value": {
+                    "type": "integer"
+                }
+            },
+            "required": [
+                "type",
+                "value",
+                "periodSeconds"
+            ],
+            "type": "object"
+        },
+        "HPAScalingRules": {
+            "additionalProperties": false,
+            "properties": {
+                "policies": {
+                    "items": {
+                        "$ref": "#/$defs/HPAScalingPolicy"
+                    },
+                    "type": "array"
+                },
+                "selectPolicy": {
+                    "type": "string"
+                },
+                "stabilizationWindowSeconds": {
+                    "type": "integer"
+                },
+                "tolerance": {
+                    "$ref": "#/$defs/Quantity"
+                }
+            },
+            "type": "object"
+        },
+        "HTTPCookie": {
+            "additionalProperties": false,
+            "properties": {
+                "attributes": {
+                    "items": {
+                        "$ref": "#/$defs/NameValue"
+                    },
+                    "type": "array"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "path": {
+                    "type": "string"
+                },
+                "ttl": {
+                    "$ref": "#/$defs/Duration"
+                }
+            },
+            "type": "object"
+        },
         "HTTPGetAction": {
             "additionalProperties": false,
             "properties": {
@@ -1000,6 +1135,42 @@
             "required": [
                 "name",
                 "value"
+            ],
+            "type": "object"
+        },
+        "HorizontalPodAutoscalerBehavior": {
+            "additionalProperties": false,
+            "properties": {
+                "scaleDown": {
+                    "$ref": "#/$defs/HPAScalingRules"
+                },
+                "scaleUp": {
+                    "$ref": "#/$defs/HPAScalingRules"
+                }
+            },
+            "type": "object"
+        },
+        "HorizontalPodAutoscalerSpec": {
+            "additionalProperties": false,
+            "properties": {
+                "behavior": {
+                    "$ref": "#/$defs/HorizontalPodAutoscalerBehavior"
+                },
+                "maxReplicas": {
+                    "type": "integer"
+                },
+                "metrics": {
+                    "items": {
+                        "$ref": "#/$defs/MetricSpec"
+                    },
+                    "type": "array"
+                },
+                "minReplicas": {
+                    "type": "integer"
+                }
+            },
+            "required": [
+                "maxReplicas"
             ],
             "type": "object"
         },
@@ -1331,6 +1502,21 @@
             },
             "type": "object"
         },
+        "MetricIdentifier": {
+            "additionalProperties": false,
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "selector": {
+                    "$ref": "#/$defs/LabelSelector"
+                }
+            },
+            "required": [
+                "name"
+            ],
+            "type": "object"
+        },
         "MetricRule": {
             "additionalProperties": false,
             "properties": {
@@ -1352,6 +1538,54 @@
                 "type",
                 "calculationPeriod",
                 "thresholdValue"
+            ],
+            "type": "object"
+        },
+        "MetricSpec": {
+            "additionalProperties": false,
+            "properties": {
+                "containerResource": {
+                    "$ref": "#/$defs/ContainerResourceMetricSource"
+                },
+                "external": {
+                    "$ref": "#/$defs/ExternalMetricSource"
+                },
+                "object": {
+                    "$ref": "#/$defs/ObjectMetricSource"
+                },
+                "pods": {
+                    "$ref": "#/$defs/PodsMetricSource"
+                },
+                "resource": {
+                    "$ref": "#/$defs/ResourceMetricSource"
+                },
+                "type": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "type"
+            ],
+            "type": "object"
+        },
+        "MetricTarget": {
+            "additionalProperties": false,
+            "properties": {
+                "averageUtilization": {
+                    "type": "integer"
+                },
+                "averageValue": {
+                    "$ref": "#/$defs/Quantity"
+                },
+                "type": {
+                    "type": "string"
+                },
+                "value": {
+                    "$ref": "#/$defs/Quantity"
+                }
+            },
+            "required": [
+                "type"
             ],
             "type": "object"
         },
@@ -1392,6 +1626,22 @@
             "required": [
                 "server",
                 "path"
+            ],
+            "type": "object"
+        },
+        "NameValue": {
+            "additionalProperties": false,
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "value": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "name",
+                "value"
             ],
             "type": "object"
         },
@@ -1544,6 +1794,26 @@
                     "type": "string"
                 }
             },
+            "type": "object"
+        },
+        "ObjectMetricSource": {
+            "additionalProperties": false,
+            "properties": {
+                "describedObject": {
+                    "$ref": "#/$defs/CrossVersionObjectReference"
+                },
+                "metric": {
+                    "$ref": "#/$defs/MetricIdentifier"
+                },
+                "target": {
+                    "$ref": "#/$defs/MetricTarget"
+                }
+            },
+            "required": [
+                "describedObject",
+                "target",
+                "metric"
+            ],
             "type": "object"
         },
         "OwnerReference": {
@@ -1761,6 +2031,12 @@
                 },
                 "signerName": {
                     "type": "string"
+                },
+                "userAnnotations": {
+                    "additionalProperties": {
+                        "type": "string"
+                    },
+                    "type": "object"
                 }
             },
             "type": "object"
@@ -1832,6 +2108,22 @@
                     "$ref": "#/$defs/WindowsSecurityContextOptions"
                 }
             },
+            "type": "object"
+        },
+        "PodsMetricSource": {
+            "additionalProperties": false,
+            "properties": {
+                "metric": {
+                    "$ref": "#/$defs/MetricIdentifier"
+                },
+                "target": {
+                    "$ref": "#/$defs/MetricTarget"
+                }
+            },
+            "required": [
+                "metric",
+                "target"
+            ],
             "type": "object"
         },
         "Ports": {
@@ -2058,6 +2350,22 @@
             "additionalProperties": {
                 "$ref": "#/$defs/Quantity"
             },
+            "type": "object"
+        },
+        "ResourceMetricSource": {
+            "additionalProperties": false,
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "target": {
+                    "$ref": "#/$defs/MetricTarget"
+                }
+            },
+            "required": [
+                "name",
+                "target"
+            ],
             "type": "object"
         },
         "ResourceRequirements": {
@@ -2345,6 +2653,33 @@
             "required": [
                 "seconds"
             ],
+            "type": "object"
+        },
+        "Stickiness": {
+            "additionalProperties": false,
+            "properties": {
+                "hash": {
+                    "$ref": "#/$defs/StickinessHash"
+                }
+            },
+            "type": "object"
+        },
+        "StickinessHash": {
+            "additionalProperties": false,
+            "properties": {
+                "httpCookie": {
+                    "$ref": "#/$defs/HTTPCookie"
+                },
+                "httpHeaderName": {
+                    "type": "string"
+                },
+                "httpQueryParameterName": {
+                    "type": "string"
+                },
+                "useSourceIp": {
+                    "type": "boolean"
+                }
+            },
             "type": "object"
         },
         "StorageOSVolumeSource": {
@@ -2869,6 +3204,12 @@
                         "type": "string"
                     },
                     "type": "object"
+                },
+                "version": {
+                    "type": "string"
+                },
+                "enableCleanupMonitoring": {
+                    "type": "boolean"
                 }
             },
             "required": [
@@ -2880,15 +3221,15 @@
         "btp": {
             "additionalProperties": false,
             "properties": {
-                "globalAccountId": {
-                    "type": "string"
-                },
                 "provider": {
                     "$ref": "#/$defs/provider"
+                },
+                "providerSubaccountId": {
+                    "type": "string"
                 }
             },
             "required": [
-                "globalAccountId",
+                "providerSubaccountId",
                 "provider"
             ],
             "type": "object"

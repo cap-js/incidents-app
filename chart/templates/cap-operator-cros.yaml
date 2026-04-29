@@ -12,7 +12,7 @@ spec:
     name: {{ .name }}
   {{- end }}
   btpAppName: {{ include "appName" $ }}
-  globalAccountId: {{ .Values.btp.globalAccountId }}
+  providerSubaccountId: {{ .Values.btp.providerSubaccountId }}
   provider:
     subDomain: {{ .Values.btp.provider.subdomain }}
     tenantId: {{ .Values.btp.provider.tenantId }}

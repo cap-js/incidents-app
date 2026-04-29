@@ -93,10 +93,10 @@ app:
     istio: ingressgateway
     app: istio-ingressgateway
 btp:
-  globalAccountId: null
   provider:
     subdomain: null
     tenantId: null
+  providerSubaccountId: null
 imagePullSecrets: []
 workloads:
   appRouter:
@@ -153,12 +153,14 @@ workloads:
     jobDefinition:
       type: CustomTenantOperation
       image: busybox:latest
-      command: ["sh", "-c", "exit 0"]
-
+      command:
+        - sh
+        - -c
+        - exit 0
 tenantOperations:
   provisioning:
-  - workloadName: custom-op
-  - workloadName: tenant-job
+    - workloadName: custom-op
+    - workloadName: tenant-job
   upgrade:
-  - workloadName: custom-op
-  - workloadName: tenant-job
+    - workloadName: custom-op
+    - workloadName: tenant-job

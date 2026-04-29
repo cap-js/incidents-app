@@ -27,12 +27,12 @@ app:
 
 btp:
     # -- BTP Global account identifier where the application is hosted
-    globalAccountId: <<GlobalAccountId>> # mandatory let helm fail if not provided
     provider:
         # -- Subdomain of the provider sub-account where application services are created
         subdomain: <<SubdomainOfProviderSubaccount>> # mandatory let helm fail if not provided
         # -- Tenant identifier for the provider sub-account (usually a guid)
         tenantId: <<TenantIdentifierforProviderSubaccount>> # mandatory let helm fail if not provided
+    providerSubaccountId: <<ProviderSubaccountId>> # mandatory let helm fail if not provided
 
 imagePullSecrets:
   - regcred
