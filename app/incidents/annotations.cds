@@ -220,6 +220,18 @@ annotate service.Incidents.references with @UI: {
       IconUrl: 'sap-icon://edit',
       @HTML5.CssDefaults: {width: '4%'}
     },
+    {
+      $Type : 'UI.DataFieldForAction',
+      Label : 'Lock',
+      Action: 'ProcessorService.lockAttachment',
+      ![@UI.Hidden]: {$edmJson: {$Eq: [{$Path: 'IsActiveEntity'}, true]}},
+    },
+    {
+      $Type : 'UI.DataFieldForAction',
+      Label : 'Unlock',
+      Action: 'ProcessorService.unlockAttachment',
+      ![@UI.Hidden]: {$edmJson: {$Eq: [{$Path: 'IsActiveEntity'}, true]}},
+    },
   ]
 }
 {

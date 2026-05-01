@@ -23,6 +23,10 @@ service ProcessorService {
       @Common.Label:'URL' url: String @UI.Placeholder: 'Example: https://www.example.com'
     );
     action openAttachment() returns { value: String; };
+    @(Common.SideEffects : {TargetEntities: ['']},)
+    action lockAttachment();
+    @(Common.SideEffects : {TargetEntities: ['']},)
+    action unlockAttachment();
   }
 }
 
