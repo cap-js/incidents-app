@@ -19,7 +19,7 @@ modules:
       buildpack: nodejs_buildpack
     properties:
         #REPOSITORY_ID: ${REPOSITORY_ID}
-        REPOSITORY_ID: "2a1d4d1c-7bcf-40ea-b202-f24bb0ca6e5c"
+        REPOSITORY_ID: 2a1d4d1c-7bcf-40ea-b202-f24bb0ca6e5c
     build-parameters:
       builder: npm
   - name: incidents-db-deployer
@@ -101,7 +101,7 @@ resources:
     parameters:
       config:
         tenant-mode: dedicated
-        xsappname: sdmincidents-${org}-${space}
+        xsappname: sdmincidents
       path: ./xs-security.json
       service: xsuaa
       service-keys:
