@@ -1,5 +1,5 @@
 {
-  "xsappname": "sdmincidents-${org}-${space}",
+  "xsappname": "sdmincidents",
   "tenant-mode": "dedicated",
   "description": "Security profile of called application",
   "scopes": [
