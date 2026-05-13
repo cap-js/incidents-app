@@ -4,7 +4,7 @@ using {sap.common.CodeList} from '@sap/cds/common';
 /**
  * Service used by support personell, i.e. the incidents' 'processors'.
  */
-@requires:'authenticated-user'
+@requires:['authenticated-user','system-user']
 service ProcessorService {
   entity Incidents as projection on my.Incidents;
   entity Customers @readonly as projection on my.Customers;
