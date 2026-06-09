@@ -10,7 +10,7 @@ The application allows to create and process incidents on behalf of registered c
 
 ## Setup
 
-Assumed you prepared for CAP development as documented in capire's *[Initial Setup](https://cap.cloud.sap/docs/get-started/#setup)* section, ...
+Assumed you prepared for CAP development as documented in capire's *[Initial Setup](https://cap.cloud.sap/docs/get-started)* section, ...
 
 Clone the repository and install dependencies:
 
