@@ -10,6 +10,7 @@
     "express": "^4"
   },
   "devDependencies": {
+    "@sap/cds-dk": ">=8",
     "@cap-js/cds-test": "*",
     "@cap-js/sqlite": ">=1"
   },
