@@ -19,6 +19,8 @@
     "@cap-js/hana": "^2"
   },
   "devDependencies": {
+    "@sap/cds-dk": ">=8",
+    "@cap-js/cds-test": "*",
     "@cap-js/sqlite": ">=1",
     "@sap/ux-specification": "^1.108.4",
     "axios": "^1.4.0",
