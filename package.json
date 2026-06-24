@@ -50,6 +50,9 @@
   "sapux": [
     "app/incidents"
   ],
+  "engines": {
+    "node": ">=20 <22"
+  },
   "cds": {
     "requires": {
       "auth": {
