@@ -4,15 +4,15 @@
   "license": "SEE LICENSE IN LICENSE",
   "dependencies": {
     "@cap-js/hana": "^2",
-    "@sap/cds": ">=8",
+    "@sap/cds": "^9",
     "@sap/cds-mtxs": "^3",
     "@sap/xssec": "^4",
     "express": "^4"
   },
   "devDependencies": {
-    "@sap/cds-dk": ">=8",
     "@cap-js/cds-test": "*",
-    "@cap-js/sqlite": ">=1"
+    "@cap-js/sqlite": "^2",
+    "@sap/cds-dk": "^9"
   },
   "scripts": {
     "watch": "cds watch",
