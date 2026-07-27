@@ -14,6 +14,13 @@
       "grant-as-authority-to-apps": [
         "$XSAPPNAME(application,sap-provisioning,tenant-onboarding)"
       ]
+    },
+    {
+      "name": "$XSAPPNAME.Callback",
+      "description": "Subscription via SaaS Registry for CAP Operator",
+      "grant-as-authority-to-apps": [
+        "$XSAPPNAME(application,sap-provisioning,tenant-onboarding)"
+      ]
     }
   ],
   "attributes": [],

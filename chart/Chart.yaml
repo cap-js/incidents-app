@@ -1,4 +1,4 @@
-apiVersion: v1
+apiVersion: v2
 name: incidents
 description: Helm chart to deploy incidents using CAP Operator
 type: application

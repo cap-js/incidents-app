@@ -15,24 +15,18 @@ serviceInstances:
       xsappname: incident-app
 
 app:
-    domains:
-        # -- primary domain to expose application routes
-        primary: incident-app.<<SHOOT_DOMAIN>>
-        additionalDomainRefs: []
-    # -- Labels used to identify the istio ingress-gateway component and its corresponding namespace. Ensure that they match the value under
-    # -- label section of deployment istio-ingressgateway in the corresponding istio namespace. If not adopt accordingly
-    istioIngressGatewayLabels:
-        istio: ingressgateway
-        app: istio-ingressgateway
+  domains:
+    # -- primary domain to expose application routes
+    primary: incident-app.<<SHOOT_DOMAIN>>
+    additionalDomainRefs: []
+  # -- Labels used to identify the istio ingress-gateway component and its corresponding namespace. Ensure that they match the value under
+  # -- label section of deployment istio-ingressgateway in the corresponding istio namespace. If not adopt accordingly
+  istioIngressGatewayLabels:
+    istio: ingressgateway
+    app: istio-ingressgateway
 
 btp:
-    # -- BTP Global account identifier where the application is hosted
-    provider:
-        # -- Subdomain of the provider sub-account where application services are created
-        subdomain: <<SubdomainOfProviderSubaccount>> # mandatory let helm fail if not provided
-        # -- Tenant identifier for the provider sub-account (usually a guid)
-        tenantId: <<TenantIdentifierforProviderSubaccount>> # mandatory let helm fail if not provided
-    providerSubaccountId: <<ProviderSubaccountId>> # mandatory let helm fail if not provided
+  providerSubaccountId: <<ProviderSubaccountId>> # mandatory let helm fail if not provided
 
 imagePullSecrets:
   - regcred

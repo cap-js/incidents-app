@@ -1,5 +1,5 @@
 {{- define "capApplicationVersionName" -}}
-{{ printf "%s-%d" (include "appName" $) (.Release.Revision) }}
+{{ printf "%s-%v" (include "appName" $) (.Values.app.version | default .Release.Revision) }}
 {{- end -}}
 
 {{- define "domainName" -}}

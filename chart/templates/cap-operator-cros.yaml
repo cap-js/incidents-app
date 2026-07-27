@@ -3,6 +3,8 @@ apiVersion: sme.sap.com/v1alpha1
 kind: CAPApplication
 metadata:
   name: {{ include "appName" $ }}
+  annotations:
+    sme.sap.com/enable-cleanup-monitoring: "{{ .Values.app.enableCleanupMonitoring }}"
 spec:
   domainRefs:
   - kind: Domain
@@ -13,9 +15,9 @@ spec:
   {{- end }}
   btpAppName: {{ include "appName" $ }}
   providerSubaccountId: {{ .Values.btp.providerSubaccountId }}
-  provider:
-    subDomain: {{ .Values.btp.provider.subdomain }}
-    tenantId: {{ .Values.btp.provider.tenantId }}
+  {{- if .Values.app.rolloutOnCredentialUpdate }}
+  rolloutOnCredentialUpdate: {{ .Values.app.rolloutOnCredentialUpdate }}
+  {{- end }}
   btp:
     services:
     {{- $serviceInstances := .Values.serviceInstances }}
@@ -34,6 +36,9 @@ spec:
       name: {{ $v.name | default "invalidValue" }}
       {{- end }}
       secret: {{ $v.secretName | default "invalidValue" }}
+      {{- if hasKey $serviceInstance "subscriptionDependency" }}
+      subscriptionDependency: {{ get $serviceInstance "subscriptionDependency" }}
+      {{- end }}
     {{- end }}
     {{- end }}
 ---
@@ -46,10 +51,14 @@ metadata:
   name: {{ include "capApplicationVersionName" $ }}
 spec:
   capApplicationInstance: {{ include "appName" $ }}
-  version: "{{ .Release.Revision }}"
+  version: "{{ .Values.app.version | default .Release.Revision }}"
+  {{- if .Values.imagePullSecrets }}
   registrySecrets:
   {{- range .Values.imagePullSecrets }}
   - {{ . }}
+  {{- end }}
+  {{- else }}
+  registrySecrets: []
   {{- end }}
   workloads:
   {{- range $k, $v := .Values.workloads }}
@@ -87,7 +96,8 @@ spec:
     {{- end }}
 
     {{- if $v.jobDefinition }}
-    jobDefinition: {{- toYaml $v.jobDefinition | trim | nindent 6 }}
+    {{- $jobDef := merge $v.jobDefinition (dict "ttlSecondsAfterFinished" 300) }}
+    jobDefinition: {{- toYaml $jobDef | trim | nindent 6 }}
     {{- end }}
   {{- end }}
 
@@ -97,4 +107,8 @@ spec:
 
   {{- if .Values.contentJobs }}
   contentJobs: {{- toYaml .Values.contentJobs | trim | nindent 4 }}
+  {{- end }}
+
+  {{- if .Values.serviceExposures }}
+  serviceExposures: {{- toYaml .Values.serviceExposures | trim | nindent 4 }}
   {{- end }}

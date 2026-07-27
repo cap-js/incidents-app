@@ -93,9 +93,6 @@ app:
     istio: ingressgateway
     app: istio-ingressgateway
 btp:
-  provider:
-    subdomain: null
-    tenantId: null
   providerSubaccountId: null
 imagePullSecrets: []
 workloads:

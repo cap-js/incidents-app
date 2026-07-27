@@ -26,7 +26,7 @@
     "chai": "^4.3.7",
     "chai-as-promised": "^7.1.1",
     "chai-subset": "^1.6.0",
-    "@cap-js/cap-operator-plugin": "^0.15.0"
+    "@cap-js/cap-operator-plugin": "^0.18.0"
   },
   "scripts": {
     "watch": "cds watch",
