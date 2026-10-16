@@ -43,6 +43,7 @@ class ProcessorService extends cds.ApplicationService {
     })
 
     await this.schedule('summarize').every('10s')
+    this.emit('summarize')
     this.on('summarize', async () => {
       const incidents = await SELECT.from(Incidents)
         .columns `ID, title, modifiedAt, createdAt, conversation { message }`
@@ -68,7 +69,16 @@ class ProcessorService extends cds.ApplicationService {
         });
         const summary = response.getContent()
 
-        await UPDATE(Incidents, ID).with({ summarizedAt: modifiedAt || createdAt, modifiedAt, summary })
+        const { expr } = cds.ql
+        const source = expr('INCIDENTSAI')
+        await UPDATE(Incidents, ID).with({
+          summarizedAt: modifiedAt || createdAt,
+          modifiedAt,
+          summary,
+          embedding: expr`vector_embedding(
+            summary,
+            'DOCUMENT', 'text-embedding-3-small', ${source}
+          )`})
         LOG.debug('peristed summary:', summary)
       }
     })

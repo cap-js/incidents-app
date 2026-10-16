@@ -69,10 +69,7 @@ type PhoneNumber  : String;
 // ----------
 
 extend Incidents with {
-  embedding : Vector = vector_embedding(
-    summary,
-    'DOCUMENT', 'SAP_GXY.20250407'
-  ) stored;
+  embedding : Vector;
 
   summary : String(2000);
   summarizedAt : Timestamp;
