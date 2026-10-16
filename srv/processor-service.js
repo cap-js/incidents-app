@@ -77,10 +77,23 @@ class ProcessorService extends cds.ApplicationService {
           summary,
           embedding: expr`vector_embedding(
             summary,
-            'DOCUMENT', 'text-embedding-3-small', ${source}
+            'DOCUMENT', 'SAP_GXY.20250407'
           )`})
         LOG.debug('peristed summary:', summary)
       }
+    })
+
+    this.on('search', async req => {
+      const { query } = req.data
+      const { expr } = cds.ql
+      const source = expr('INCIDENTSAI')
+      const queryEmbedding = expr`vector_embedding(${query}, 'QUERY', 'SAP_GXY.20250407')`
+      const { Incidents } = cds.entities('sap.capire.incidents')
+      return await SELECT.from(Incidents)
+        .columns `ID, title, summary, cosine_similarity(embedding, ${queryEmbedding}) as score`
+        .where `embedding is not null`
+        .orderBy `score desc`
+        .limit(5)
     })
 
     return super.init()

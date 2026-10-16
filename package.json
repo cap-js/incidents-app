@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "dependencies": {
     "@cap-js/hana": "^3",
+    "@cap-js/mcp": "^1.5.0",
     "@sap-ai-sdk/orchestration": "^2.16.0",
     "@sap/cds": ">=9",
     "@sap/xssec": "^4"
