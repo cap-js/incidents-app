@@ -2,3 +2,19 @@ specVersion: "2.5"
 metadata:
   name: ns.incidents
 type: application
+resources:
+  configuration:
+    propertiesFileSourceEncoding: UTF-8
+builder:
+  resources:
+    excludes:
+      - "/test/**"
+      - "/localService/**"
+  customTasks:
+    - name: ui5-task-zipper
+      afterTask: generateVersionInfo
+      configuration:
+        archiveName: incidents
+        relativePaths: true
+        additionalFiles:
+          - xs-app.json

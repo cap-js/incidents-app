@@ -9,7 +9,12 @@
     ],
     "main": "webapp/index.html",
     "scripts": {
-        "deploy-config": "npx -p @sap/ux-ui5-tooling fiori add deploy-config cf"
+        "deploy-config": "npx -p @sap/ux-ui5-tooling fiori add deploy-config cf",
+        "build": "ui5 build preload --clean-dest",
+        "start": "ui5 serve"
     },
-    "devDependencies": { }
+    "devDependencies": {
+        "@ui5/cli": "^4",
+        "ui5-task-zipper": "^3"
+    }
 }

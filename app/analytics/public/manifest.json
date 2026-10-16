@@ -1,0 +1,13 @@
+{
+  "_version": "1.49.0",
+  "sap.app": {
+    "id": "incidents.analytics",
+    "applicationVersion": {
+      "version": "1.0.0"
+    },
+    "type": "application",
+    "title": "",
+    "description": "A simple CAP project.",
+    "i18n": "i18n/i18n.properties"
+  }
+}
